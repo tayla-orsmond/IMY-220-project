@@ -38,19 +38,19 @@
         </div><!--End splash screen -->
         <!-- Features parallax scroll -->
         <div class="container features d-flex flex-column">
-            <div class="feature d-flex p-3 mb-5">
+            <div class="feature d-flex p-3">
                 <p class="display-2 fw-bold">Create your own <i>folio</i></p>
                 <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="..." class="img-fluid"/>
             </div>
-            <div class="feature d-flex p-3 my-5">
+            <div class="feature d-flex p-3">
                 <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="..." class="img-fluid"/>
                 <p class="display-2 fw-bold">Discover others' events</p>
             </div>
-            <div class="feature d-flex p-3 my-5">
+            <div class="feature d-flex p-3">
                 <p class="display-2 fw-bold">Follow your favourite creators</p>
                 <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="..." class="img-fluid"/>
             </div>
-            <div class="feature d-flex p-3 my-5">
+            <div class="feature d-flex p-3">
                 <img src="https://images.unsplash.com/photo-1545989253-02cc26577f88?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="..." class="img-fluid"/>
                 <p class="display-2 fw-bold">Join in the culture</p>
             </div>

@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-floating flex-fill">
                             <input type="email" class="form-control border-0 border-bottom" id="email" name="email" placeholder="jean@example.com" required>
-                            <label for="email">email</label>
+                            <label for="email">email address</label>
                             <div class="valid-feedback">
                                 Looks good!
                             </div>

@@ -23,7 +23,7 @@
          -->
 
         <?php 
-            include_once 'php/components/header.php';
+            require_once 'php/components/header.php';
         ?>
         <!-- Splash screen component -->
         <div class="container-fluid ps-5 splash-outer">
@@ -60,13 +60,13 @@
         <div class="container my-5 p-5">
             <h1 class="display-1 text-center">artfolio.</h1>
             <div class="d-flex justify-content-center">
-                <a class="btn btn-light mx-2" aria-current="page" href="php/components/signup.php">Sign up</a>
-                <a class="btn btn-light mx-2" aria-current="page" href="php/components/login.php">Log in</a>
+                <a class="btn btn-light mx-2" aria-current="page" href="php/signup.php">Sign up</a>
+                <a class="btn btn-light mx-2" aria-current="page" href="php/login.php">Log in</a>
             </div>
         </div><!--End logo component-->
         <div class="spacer"></div><!-- Spacer helper div defined in global.css -->
         <?php 
-            include_once 'php/components/footer.php';
+            require_once 'php/components/footer.php';
         ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
         <script src="js/scroll.js"></script>

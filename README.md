@@ -1,6 +1,5 @@
 # artfolio.
-## IMY 220 | Events Website
----
+IMY 220 | Events Website
 ## About:
 This is a website for my second-year module, IMY-220. The goal was to create an events site for uploading and viewing user's events (with a theme of your choice). The theme for this site is art and pop-culture based events. 
 

@@ -1,0 +1,22 @@
+/* Tayla Orsmond u21467456 */
+/*  
+ * Global styles
+ * to be referenced by all stylesheets
+ */
+/* FONTS */
+
+/* VARIABLES */
+:root{
+    --main: black;
+    --acc1: rgb(243, 243, 77);
+    --acc2: rgb(12, 116, 208);
+    --acc3: rgb(208, 15, 12);
+}
+/* BODY */
+body{
+    overflow-x: hidden;
+}
+/* SPACER */
+.spacer{
+    height: 50vh;
+}

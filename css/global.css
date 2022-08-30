@@ -8,9 +8,13 @@
 /* VARIABLES */
 :root{
     --main: black;
+    --dark: #333;
+    --light: #fff;
     --acc1: rgb(243, 243, 77);
     --acc2: rgb(12, 116, 208);
     --acc3: rgb(208, 15, 12);
+    scrollbar-color: var(--dark) transparent;
+    scrollbar-width: thin;
 }
 /* BODY */
 body{
@@ -19,4 +23,20 @@ body{
 /* SPACER */
 .spacer{
     height: 50vh;
+}
+/* CARD */
+div[class*="card"]{
+    cursor: pointer;
+}
+/* SCROLLBAR */
+::-webkit-scrollbar{
+    width: 0.8rem;
+    height: 0.8rem;
+}
+::-webkit-scrollbar-track{
+    background: transparent;
+}
+::-webkit-scrollbar-thumb{
+    background: var(--dark);
+    border-radius: 10px;
 }

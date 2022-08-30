@@ -15,9 +15,9 @@
     <body>
         <!-- Tayla Orsmond u21467456 -->
         <!-- Splash page:
-                Available to user if not logged in
-                Available to user if logged in
-                Available to user if logged in and admin
+            Available to user if not logged in
+            Available to user if logged in
+            Available to user if logged in and admin
             Give background info on website
             Entice users to sign up / log in
          -->

@@ -8,6 +8,7 @@
 
         <title>artfolio | Home</title>
         <link rel="stylesheet" href="../css/global.css">
+        <link rel="stylesheet" href="../css/events.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
     </head>
@@ -33,10 +34,10 @@
                     <nav class="d-flex justify-content-between align-items-center px-3">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="."><span class="h5">your folios.</span></a>
+                                <a class="nav-link active" aria-current="page" href="#"><span class="h5">your folios.</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="."><span class="h5">global folios.</span></a>
+                                <a class="nav-link" aria-current="page" href="#"><span class="h5">global folios.</span></a>
                             </li>
                         </ul>
                         <form>
@@ -48,12 +49,128 @@
                     </nav>
                 </div>
             </div>
-            <div class="row border">
-                <div class="col-6">
-                    <div class="card"></div>
+            <div class="row p-3 border" id="event-area">
+                <div class="col-4">
+                    <div class="card text-bg-dark" id="event-primary">
+                        <img src="https://images.unsplash.com/photo-1549887534-1541e9326642?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80" class="card-img" alt="...">
+                        <div class="card-img-overlay d-flex flex-column justify-content-between">
+                            <div class="card-header">Featured</div>
+                            <div>
+                                <h5 class="card-title">New age art festival</h5>
+                                <p class="card-text h6">Fairview Walk | 26 November 2022</p>
+                                <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero facilis iure dolore earum enim soluta, itaque molestias perferendis impedit exercitationem?</p>
+                                <div class="d-flex justify-content-center">
+                                    <a href="." class="btn btn-dark">#newage</a>
+                                    <a href="." class="btn btn-dark">#festival</a>
+                                    <a href="." class="btn btn-dark">#live</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <div class="card"></div>
+                <div class="col-8 event-area-outer">
+                    <div class="align-items-center event-area-inner">
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="align-items-center event-area-inner">
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                        <div class="card event-card">
+                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Artpop Celebration</h5>
+                                <p class="card-text">Pirate's Sports Club</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

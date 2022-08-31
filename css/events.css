@@ -17,3 +17,14 @@
     grid-auto-columns: 36%;
     gap: 1rem;
 }
+.event-card{
+    flex-basis: 24%;
+}
+div[class~="carousel-item"]{
+    height: 25rem;
+}
+div[class~="carousel-item"] img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

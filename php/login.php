@@ -24,10 +24,10 @@
         ?>
         <div class="container">
             <div class="d-flex justify-content-around flex-wrap border">
-                <form action="components/loginHandler.php" method="post" class="d-flex flex-column flex-fill p-5">
+                <form action="components/login-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control border-0 border-bottom" id="username" name="username" placeholder="Jean-Honoré Fragonard" required>
-                        <label for="username">username or email address</label>
+                        <input type="email" class="form-control border-0 border-bottom" id="email" name="email" placeholder="Jean-Honoré-Fragonard@gmail.com" required>
+                        <label for="email">Email address</label>
                         <div class="valid-feedback">
                             Looks good!
                         </div>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <p>Don't have an account? <a href="signup.php">Sign up</a>.</p>
-                    <button type="submit" class="btn submit-btn align-self-end"><span class="h1">log in.</span></button>
+                    <button type="submit" class="btn submit-btn align-self-end" name="login"><span class="h1">log in.</span></button>
                 </form>
                 <img src="https://images.unsplash.com/photo-1561839561-b13bcfe95249?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=379&q=80" alt="login" class="img-fluid">
             </div>

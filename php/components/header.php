@@ -13,13 +13,16 @@
         </button>
         <div class="collapse navbar-collapse justify-content-md-end" id="navbarSupportedContent">
             <?php
-                $loggedin = true;
-                if (isset($_SESSION['loggedin'])) {
-                    $loggedin = $_SESSION['loggedin'];
-                    $uid = $_SESSION['uid'];
+                $logged_in = false;
+                if (isset($_SESSION['logged_in'])) {
+                    $logged_in = $_SESSION['logged_in'];
+                    $user_display_name = $_SESSION['user_display_name'];
                 }
-                if ($loggedin) {
+                if ($logged_in) {
                     echo '<ul class="navbar-nav me-2 mb-2 mb-lg-0">
+                            <li class="nav-item mx-2">
+                                Hello ' . $user_display_name . '
+                            </li>
                             <li class="nav-item mx-2">
                                 <a class="nav-link" aria-current="page" href="/php/home.php">home.</a>
                             </li>

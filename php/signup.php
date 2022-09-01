@@ -24,7 +24,7 @@
         ?>
         <div class="container">
             <div class="d-flex justify-content-around flex-wrap border">
-                <form action="components/signupHandler.php" method="post" class="d-flex flex-column flex-fill p-5">
+                <form action="components/signup-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
                     <div class="d-flex flex-wrap justify-content-between mb-3">
                         <div class="form-floating flex-fill me-3">
                             <input type="text" class="form-control border-0 border-bottom" id="username" name="username" placeholder="Jean-Honoré Fragonard" required>

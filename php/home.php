@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 </div><!--End Primary event-->
-                <div class="col-8 event-area-outer"><!--EVENT AREA OUTER (holder for event rows + scrollable container)-->
+                <div class="col-8 scroller"><!--EVENT AREA OUTER (holder for event rows + scrollable container)-->
                     <div id="ea-1" class="align-items-center event-area-inner"><!--EVENT AREA INNER 1 (where the 1st row of events are loaded-->
                         <div class="card event-card">
                             <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
@@ -176,5 +176,6 @@
         <?php 
             require_once 'components/footer.php';
         ?>
+        <script src="../js/scroll.js"></script>
     </body>
 </html>

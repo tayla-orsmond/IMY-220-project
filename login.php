@@ -20,7 +20,7 @@
             If the user is logged in, they will be redirected to the home page.
              -->
         <?php 
-            require_once 'components/header.php';
+            require_once 'php/header.php';
         ?>
         <div class="container">
             <?php
@@ -58,7 +58,7 @@
             </div>
         </div>
         <?php 
-            require_once 'components/footer.php';
+            require_once 'php/footer.php';
         ?>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
         <script src="js/login.js"></script>

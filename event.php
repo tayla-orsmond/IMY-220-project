@@ -23,7 +23,7 @@
             If the current user is the owner of the event, they can edit the event
              -->
         <?php 
-            require_once 'components/header.php';
+            require_once 'php/header.php';
         ?>
         <div class="container">
             <div class="row">
@@ -133,7 +133,7 @@
             </div>
         </div>
         <?php 
-            require_once 'components/footer.php';
+            require_once 'php/footer.php';
         ?>
     </body>
 </html>

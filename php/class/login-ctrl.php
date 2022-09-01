@@ -96,7 +96,7 @@
                 $_SESSION["login_err"] = $error[3];
                 $success = false; 
             }
-
+            //login user
             //direct function
             $req = array(
                 "email" => $this->email,

@@ -23,7 +23,7 @@
          -->
 
         <?php 
-            require_once 'php/components/header.php';
+            require_once 'php/header.php';
         ?>
         <!-- Splash screen component -->
         <div class="container-fluid ps-5 splash-outer">
@@ -66,7 +66,7 @@
         </div><!--End logo component-->
         <div class="spacer"></div><!-- Spacer helper div defined in global.css -->
         <?php 
-            require_once 'php/components/footer.php';
+            require_once 'php/footer.php';
         ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
         <script src="js/io.js"></script>

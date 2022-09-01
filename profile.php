@@ -25,7 +25,7 @@
             (DM, follow, unfollow, etc.)
              -->
         <?php 
-            require_once 'components/header.php';
+            require_once 'php/header.php';
         ?>
         <div class="container px-5">
             <div class="row">
@@ -136,7 +136,7 @@
             </div>
         </div>
         <?php 
-            require_once 'components/footer.php';
+            require_once 'php/footer.php';
         ?>
     </body>
 </html>

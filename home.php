@@ -21,7 +21,7 @@
             The explore (global) feed will display a user's events and all events in the database.
              -->
         <?php 
-            require_once 'components/header.php';
+            require_once 'php/header.php';
         ?>
         <div class="container">
             <div class="row">
@@ -174,7 +174,7 @@
             </div><!--END EA-->
         </div>
         <?php 
-            require_once 'components/footer.php';
+            require_once 'php/footer.php';
         ?>
         <script src="js/scroll.js"></script>
     </body>

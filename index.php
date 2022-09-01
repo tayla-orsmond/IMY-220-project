@@ -7,8 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>artfolio | Home</title>
-        <link rel="stylesheet" href="../css/global.css">
-        <link rel="stylesheet" href="../css/splash.css">
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/splash.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
     </head>
@@ -60,8 +60,8 @@
         <div class="container my-5 p-5">
             <h1 class="display-1 text-center">artfolio.</h1>
             <div class="d-flex justify-content-center">
-                <a class="btn btn-light mx-2" aria-current="page" href="php/signup.php">Sign up</a>
-                <a class="btn btn-light mx-2" aria-current="page" href="php/login.php">Log in</a>
+                <a class="btn btn-light mx-2" aria-current="page" href="signup.php">Sign up</a>
+                <a class="btn btn-light mx-2" aria-current="page" href="login.php">Log in</a>
             </div>
         </div><!--End logo component-->
         <div class="spacer"></div><!-- Spacer helper div defined in global.css -->

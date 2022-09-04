@@ -1,0 +1,113 @@
+/* Tayla Orsmond u21467456 */
+/*  
+ * Global styles
+ * to be referenced by all stylesheets
+ */
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Yeseva+One&display=swap');
+
+/* VARIABLES */
+:root{
+    --main: #0F0A0A;
+    --dark: #263238;
+    --light: #fbfbfb;
+    --accR: #F92472;
+    --accY: #F3CA40; 
+    --accB: #279AF1;
+    --main-font: 'Poppins', sans-serif;
+    --title-font: 'Yeseva One', cursive;
+    scrollbar-color: var(--dark) transparent;
+    scrollbar-width: thin;
+}
+/* BODY */
+body{
+    background-color: var(--light);
+    color: var(--dark);
+    overflow-x: hidden;
+    font-family: var(--main-font) !important;
+    font-weight: 500;
+}
+h1[class*="display-1"],
+h1{
+    font-family: var(--title-font);
+}
+h1{
+    font-size: 5rem !important;
+}
+/* SPACER */
+.spacer{
+    height: 50vh;
+}
+/* CARD */
+div[class*="card"]{
+    cursor: pointer;
+}
+/* SCROLLBAR */
+::-webkit-scrollbar{
+    width: 0.8rem;
+    height: 0.8rem;
+}
+::-webkit-scrollbar-track{
+    background: transparent;
+}
+::-webkit-scrollbar-thumb{
+    background: var(--dark);
+    border-radius: 10px;
+}
+/* BUTTONS AND LINKS */
+a{
+    font-family: var(--main-font) !important;
+    color: var(--main) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease-in-out;
+}
+a:hover{
+    color: var(--accR) !important;
+}
+a[class*="btn"]{
+    border-radius: 0;
+    border: none;
+    transition: all 0.5s ease-in-out;
+}
+a[class*="btn"]:hover{
+    border-radius: 1rem !important;
+}
+a[class *="btn-primary"],
+a[class *="btn-secondary"]{
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+a[class *="btn-primary"]:hover{
+    background-color: var(--accR);
+    color: var(--light) !important;
+}
+a[class *="btn-secondary"]:hover{
+    background-color: var(--accB);
+    color: var(--light) !important;
+}
+a[class *="btn-dark"],
+div[class *="btn-dark"]{
+    background-color: var(--dark) !important;
+    color: var(--light) !important;
+    border-radius: 0.5rem;
+}
+a[class *="btn-dark"]:hover,
+div[class *="btn-dark"]:hover{
+    background-color: var(--accY) !important;
+    color: var(--main) !important;
+}
+/* BORDER */
+div[class*="border"]{
+    border: 0.1rem solid var(--dark) !important;
+    border-radius: 0.6rem;
+}
+div[class*="bg-dark"]{
+    background-color: var(--dark) !important;
+}
+div[class*="bg-dark"] p,
+div[class*="bg-dark"] a{
+    color: var(--light) !important;
+}
+div[class*="bg-dark"] a:hover{
+    color: var(--accR) !important;
+}

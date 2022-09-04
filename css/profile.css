@@ -1,9 +1,0 @@
-/* Tayla Orsmond u21467456 */
-/* 
- * Profile photo styling
- */
-img[class*="rounded-circle"] {
-    width: 40rem;
-    height: 15rem;
-    object-fit: cover;
-}

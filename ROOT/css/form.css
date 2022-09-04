@@ -1,0 +1,26 @@
+/* Tayla Orsmond u21467456 */
+/*  
+ * Form styles
+ * to be referenced by all forms
+ */
+button[class*="submit-btn"]{
+    transition: all 0.4s ease-in-out;
+}
+button[class*="submit-btn"]:hover{
+    border-color: var(--accR);
+    border-width: 0.2rem;
+    text-decoration: none;
+}
+input[class*="form-control"]{
+    border-bottom: 0.1rem solid var(--dark) !important;
+    transition: all 0.4s ease-in-out;
+    outline: none;
+}
+input[class*="form-control"]:focus{
+    border: none !important;
+    outline: none !important;
+    box-shadow: 0 0 0 0.2rem var(--accY) !important;
+}
+input[class*="form-control"]:focus ~ label{
+    color: var(--accR) !important;
+}

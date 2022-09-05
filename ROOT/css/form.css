@@ -24,3 +24,18 @@ input[class*="form-control"]:focus{
 input[class*="form-control"]:focus ~ label{
     color: var(--accR) !important;
 }
+div[class*="bg-warning"]{
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+.valid{
+    color: var(--valid) !important;
+}
+.valid ~ label{
+    color: var(--valid) !important;
+}
+.invalid{
+    color: var(--invalid) !important;
+}
+.invalid ~ label{
+    color: var(--invalid) !important;
+}

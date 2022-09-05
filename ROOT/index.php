@@ -34,7 +34,7 @@
             <div class="splash mt-5">
                 <div class="splash-content"></div>
                 <div class="splash-content">
-                    <img src="media/the-swing.svg" alt="">
+                    <img src="media/img/the-swing.svg" alt="">
                 </div>
             </div>
         </div><!--End splash screen -->
@@ -50,7 +50,7 @@
             </div>
             <div class="feature d-flex">
                 <p class="fw-bold">Follow your favourite creators</p>
-                <img src="https://images.unsplash.com/photo-1547602469-79faa757dbef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" alt="Image by Jon Butterworth on Unsplash" class="img-fluid"/>
+                <img src="https://images.unsplash.com/photo-1547602469-79faa757dbef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt="Image by Jon Butterworth on Unsplash" class="img-fluid"/>
             </div>
             <div class="feature d-flex">
                 <img src="https://images.unsplash.com/photo-1645460497526-1d882d77e218?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80" alt="Image by Girl with red hat on Unsplash" class="img-fluid"/>
@@ -70,7 +70,6 @@
         <?php 
             require_once 'php/footer.php';
         ?>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
         <script src="js/io.js"></script>
     </body>
 </html>

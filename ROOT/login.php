@@ -25,7 +25,7 @@
         ?>
         <div class="container">
             <?php
-                 //if user is logged in, redirect to home page
+                //if user is logged in, redirect to home page
                 if(isset($_SESSION['logged_in'])){
                     if($_SESSION['logged_in']){
                         header("Location: index.php");
@@ -42,8 +42,8 @@
                     unset($_SESSION["login_err"]);
                 }
             ?>
-            <div class="d-flex justify-content-around flex-wrap border">
-                <form action="login-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
+            <div class="d-flex justify-content-around border">
+                <form action="php/login-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control border-0 border-bottom" id="email" name="email" placeholder="Jean-Honoré-Fragonard@gmail.com" required>
                         <label for="email">Email address</label>
@@ -53,7 +53,7 @@
                         <label for="password">password</label>
                     </div>
                     <p>Don't have an account? <a href="signup.php">Sign up</a>.</p>
-                    <button type="submit" class="btn submit-btn align-self-end" name="login" value="login"><span class="h1">log in.</span></button>
+                    <button type="submit" class="btn submit-btn align-self-end" name="login" id="login"><span class="h1">log in.</span></button>
                 </form>
                 <img src="https://images.unsplash.com/photo-1604140193916-187755174ecf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=692&q=80" alt="..." class="img-fluid"/>
             </div>
@@ -61,7 +61,7 @@
         <?php 
             require_once 'php/footer.php';
         ?>
-        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
         <script src="js/login.js"></script>
     </body>
 </html>

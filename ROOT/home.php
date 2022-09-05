@@ -48,77 +48,15 @@
                 </div>
             </div>
             <div class="row p-3 border" id="event-area"><!--EVENT AREA-->
-                <div class="col-4"><!--Primary event (featured)-->
-                    <div class="card text-bg-dark" id="event-primary">
-                        <img src="https://images.unsplash.com/photo-1549887534-1541e9326642?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80" class="card-img" alt="...">
-                        <div class="card-img-overlay d-flex flex-column justify-content-between">
-                            <div class="card-header">Featured</div>
-                            <div>
-                                <h5 class="card-title">New age art festival</h5>
-                                <p class="card-text h6">Fairview Walk | 26 November 2022</p>
-                                <p class="card-text">Join us for a look into the new age of art and get a first-time look at some of South Africa's upcoming contemporary artists.</p>
-                                <div class="d-flex justify-content-center">
-                                    <a href="." class="btn btn-dark">#newage</a>
-                                    <a href="." class="btn btn-dark">#festival</a>
-                                    <a href="." class="btn btn-dark">#live</a>
-                                </div>
-                                <a href="event.php" class="stretched-link"></a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-4 primary-event-outer"><!--Primary event (featured)-->
+                   <div id="event-primary"></div>
                 </div><!--End Primary event-->
                 <div class="col-8 scroller"><!--EVENT AREA OUTER (holder for event rows + scrollable container)-->
                     <div id="ea-1" class="align-items-center event-area-inner"><!--EVENT AREA INNER 1 (where the 1st row of events are loaded-->
-                        <div class="card event-card">
-                            <img src="https://images.unsplash.com/photo-1620147657422-4179e42bb21f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="card-img-top img-fluid" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Frida Khalo Festival</h5>
-                                <p class="card-text">Mexico</p>
-                                <a href="event.php" class="stretched-link"></a>
-                            </div>
-                        </div>
-                        <div class="card event-card">
-                            <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Artpop Celebration</h5>
-                                <p class="card-text">Pirate's Sports Club</p>
-                                <a href="event.php" class="stretched-link"></a>
-                            </div>
-                        </div>
-                        <div class="card event-card">
-                            <img src="https://images.unsplash.com/photo-1655635949348-953b0e3c140a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1354&q=80" class="card-img-top img-fluid" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Virtual Art Exhibition - arebyte Gallery</h5>
-                                <p class="card-text">arebyte Gallery</p>
-                                <a href="event.php" class="stretched-link"></a>
-                            </div>
-                        </div>
+                        
                     </div><!--END EA INNER 1-->
                     <div id="ea-2" class="align-items-center event-area-inner"><!--EVENT AREA INNER 2 (where the 1st row of events are loaded-->
-                        <div class="card event-card">
-                            <img src="https://images.unsplash.com/photo-1515169273894-7e876dcf13da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="card-img-top img-fluid" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">New Gallery Opening</h5>
-                                <p class="card-text">Wapadrand, Pretoria</p>
-                                <a href="event.php" class="stretched-link"></a>
-                            </div>
-                        </div>
-                        <div class="card event-card">
-                            <img src="https://images.unsplash.com/photo-1514195037031-83d60ed3b448?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" class="card-img-top img-fluid" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">En-Plein-Air Event</h5>
-                                <p class="card-text">Paris, France</p>
-                                <a href="event.php" class="stretched-link"></a>
-                            </div>
-                        </div>
-                        <div class="card event-card">
-                            <img src="https://images.unsplash.com/photo-1622613618885-17a2ef76865e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" class="card-img-top img-fluid" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Supernature:Simulacra</h5>
-                                <p class="card-text">Arcadia Park, Pretoria</p>
-                                <a href="event.php" class="stretched-link"></a>
-                            </div>
-                        </div>
+                        
                     </div><!--END EA INNER 2-->
                 </div><!--END EA OUTER-->
             </div><!--END EA-->
@@ -127,5 +65,7 @@
             require_once 'php/footer.php';
         ?>
         <script src="js/scroll.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="js/load.js"></script>
     </body>
 </html>

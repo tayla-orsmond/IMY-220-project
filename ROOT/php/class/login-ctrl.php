@@ -36,7 +36,7 @@
             //get rid of illegal chars
             $this->email = filter_var($this->email, FILTER_SANITIZE_EMAIL);
             //validate
-            if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){$result = false;}
+            if(filter_var($this->email, FILTER_VALIDATE_EMAIL) === false){$result = false;}
             else {$result = true;}
             return $result;
         }
@@ -52,11 +52,7 @@
         }
         //user exists (using API call to DB)
         private function exist(){
-            $result = false;
-            if($this->api->existingUser($this->email)){
-                $result = true;
-            }
-            return $result;
+            return $this->api->userExists($this->email, null);
         }
 
         /*
@@ -66,7 +62,7 @@
         */
         //login user if user exists + valid
         public function login(){
-            $success = false;
+            $success = true;
             //error array
             $error = array(
                 "Please ensure all form inputs are filled in before submitting",
@@ -96,32 +92,34 @@
                 $_SESSION["login_err"] = $error[3];
                 $success = false; 
             }
+            if(!$success){//guard
+                return $success;
+            }
             //login user
             //direct function
             $req = array(
                 "email" => $this->email,
                 "password" => $this->psw
             );
+
             $this->api->getUser($req);
             $result = json_decode($this->api->getResponse(), true);
 
             //check if login was successful
             if($result["status"] === "error"){
-                $_SESSION["login_err"] = $result["data"]["message"];
+                $_SESSION["login_err"] = $error[4] . ' ' . $result["data"]["message"];
                 $success = false;
+            }
+            if(!$success){//guard
+                return $success;
             }
 
             //set session if login was a success
-            $_SESSION["logged_in"] = $success;
-
-            if(!$success){
-                return $success;
-            }
-            //set sessions
-            $_SESSION["user_id"] = $result["data"]["user"]["u_id"];
-            $_SESSION["user_name"] = $result["data"]["user"]["u_name"];
-            $_SESSION["user_display_name"] = $result["data"]["user"]["u_display_name"];
-            $_SESSION["user_admin"] = $result["data"]["user"]["u_admin"];
+            $_SESSION["logged_in"] = true;
+            $_SESSION["user_id"] = $result["data"]["return"]["u_id"];
+            $_SESSION["user_name"] = $result["data"]["return"]["u_name"];
+            $_SESSION["user_display_name"] = $result["data"]["return"]["u_display_name"];
+            $_SESSION["user_admin"] = $result["data"]["return"]["u_admin"];
 
             return $success;
         }

@@ -20,7 +20,7 @@ class API{
         CREATE TABLE users(
             u_id BIGINT PRIMARY KEY AUTO_INCREMENT not null, 
             u_name VARCHAR(255) UNIQUE not null,
-            u_display_name VARCHAR(255) DEFAULT "Jane Doe",
+            u_display_name VARCHAR(255) DEFAULT "New User",
             u_email VARCHAR(255) UNIQUE not null,
             u_psw VARCHAR(1000) not null,
             u_profile VARCHAR(1000) DEFAULT "profile.png",
@@ -293,28 +293,25 @@ class API{
         }
     }
 
+    public function userExists($email, $username){
+        //Description: check if user already exists (for signup / login)
+        $result = true;//assume user already exists
+        //prepare statement 
+        $stmt = $username != NULL ? "u_email = ? OR u_name = ?" : "u_email = ?";
+        $query = $this->conn->prepare('SELECT u_id FROM users WHERE '. $stmt);
+        if(!$query->execute(array($email, $username)) || $query->rowCount() > 0){ 
+            $query = null;
+            $result = true;//don't allow user in if there was internal error
+        }
+        else {$result = false;}
+        return $result;
+    }
+
     /*
         
         SIGNUP - SET USER + CHECK USER DNE ALREADY
         ===========================================================================================================================
     */
-    public function userExists($req){
-        //Description: check if user already exists (for signup)
-        $email = $req["email"];
-        $username = $req["username"];
-        $result = true;//assume user already exists
-        //prepare statement 
-        $query = $this->conn->prepare('SELECT u_id FROM users WHERE u_email = ? OR u_name = ?;');
-        if(!$query->execute(array($email, $username))){ 
-            $query = null;
-            $result = true;//don't allow user in if there was internal error
-        }
-        else if($query->rowCount() > 0){
-            $result = true;
-        }
-        else {$result = false;}
-        return $result;
-    }
     public function setUser($req){
         //Description: Make SQL queries for signing up a user (insert into DB) if all validation passes
         //Error handling for server-side form validation done by signup-ctrl class which is used by signup-handler
@@ -333,16 +330,17 @@ class API{
         //prepare statement -> separate data from query with ? that prevents SQL injections
         $query = $this->conn->prepare('INSERT INTO users (u_name, u_display_name, u_email, u_psw, u_profile, u_bio, u_pronouns, u_age, u_location, u_admin) VALUES (?,?,?,?,?,?,?,?,?,?);');
         //hash password
-        $hashed_psw = password_hash($psw, PASSWORD_DEFAULT);
+        // $hashed_psw = password_hash($psw, PASSWORD_DEFAULT);
+        
         //create array
-        $user_array = array($name, $display_name, $email, $hashed_psw, $profile, $bio, $pronouns, $age, $location, $admin);
+        $user_array = array($name, $display_name, $email, $psw, $profile, $bio, $pronouns, $age, $location, $admin);
         //error handling
         if(!$query->execute($user_array)){ 
             $query = null;
             return;
         }
         $query = null;
-        
+        //get user
         $this->getUser($req);
     }
 
@@ -351,21 +349,6 @@ class API{
         LOGIN - GET USER + CHECK USER EXISTS AND VALID CREDENTIALS GIVEN
         ===========================================================================================================================
     */
-    public function existingUser($email){
-        //Description: check if user already exists (for login)
-        $result = false;//assume user doesn't exist
-        //prepare statement 
-        $query = $this->conn->prepare('SELECT u_id FROM users WHERE u_email = ?;');
-        if(!$query->execute(array($email))){ 
-            $query = null;
-            $result = false;//don't allow user in if there was internal error
-        }
-        else if($query->rowCount() > 0){
-            $result = true;
-        }
-        else {$result = false;}
-        return $result;
-    }
     public function getUser($req){
         //Description: Make SQL queries for logging in a user (get from DB) if all validation passes
         //Error handling for server-side form validation done by login-ctrl class which is used by login-handler
@@ -373,7 +356,7 @@ class API{
         $email = $req["email"];
         $psw = $req["password"];
         //prepare statement
-        $query = $this->conn->prepare('SELECT u_psw FROM users WHERE `u_email` = ?;');
+        $query = $this->conn->prepare('SELECT * FROM users WHERE `u_email` = ?;');
         //error handling
         if(!$query->execute(array($email))){ 
             $query = null;
@@ -390,46 +373,31 @@ class API{
         //If user exists, check password is valid (matches whatis stored in db)
         //Get password from successful query (no email duplicates allowed) 
         //-> FETCH_ASSOC set in DBH class so returns associative array
-        $hashed_psw = $query->fetchAll();
-        $matched = password_verify($psw, $hashed_psw[0]["u_psw"]);//get first index with users hashed password col
-        if(!$matched){
+        // $hashed_psw = $query->fetchAll();
+        // $matched = password_verify($psw, $hashed_psw[0]["u_psw"]);//get first index with users hashed password col
+        
+        $retrieved = $query->fetchAll();
+
+        if(!$psw === $retrieved[0]["u_psw"]){
             $query = null;
             $this->respond("error", null, "Authentication Error, Incorrect Email or Password");
             return;
         }
-        else{
-            $user_q = $this->conn->prepare('SELECT * FROM users WHERE `u_email` = ? AND `u_psw` = ?;');//grab user
-            //error handling
-            if(!$user_q->execute(array($email, $hashed_psw[0]["u_pass"]))){ 
-                $query = null;
-                $this->respond("error", null, $this->processing_err);
-                return;
-            }
-            //check if user returned
-            if($user_q->rowCount() == 0){
-                $query = null;
-                $this->respond("error", null, $this->user_dne_err);
-                return;
-            }
-            //get user and set session
-            $user = $user_q->fetchAll();
-            $user_array = array(
-                "u_id" => $user[0]["u_id"],
-                "u_name" => $user[0]["u_name"],
-                "u_display_name" => $user[0]["u_display_name"],
-                "u_email" => $user[0]["u_email"],
-                "u_profile" => $user[0]["u_profile"],
-                "u_bio" => $user[0]["u_bio"],
-                "u_pronouns" => $user[0]["u_pronouns"],
-                "u_age" => $user[0]["u_age"],
-                "u_location" => $user[0]["u_location"],
-                "u_admin" => $user[0]["u_admin"]
-            );
+        $user_array = array(
+            "u_id" => $retrieved[0]["u_id"],
+            "u_name" => $retrieved[0]["u_name"],
+            "u_display_name" => $retrieved[0]["u_display_name"],
+            "u_email" => $retrieved[0]["u_email"],
+            "u_profile" => $retrieved[0]["u_profile"],
+            "u_bio" => $retrieved[0]["u_bio"],
+            "u_pronouns" => $retrieved[0]["u_pronouns"],
+            "u_age" => $retrieved[0]["u_age"],
+            "u_location" => $retrieved[0]["u_location"],
+            "u_admin" => $retrieved[0]["u_admin"]
+        );
 
-            $this->respond("success", $user_array, "User logged in successfully");
-            
-            $user_q = null;
-        }
+        $this->respond("success", $user_array, "User logged in successfully");
+
         $query = null;
     }
     /*
@@ -493,7 +461,7 @@ class API{
         //Description: Get events for local or global feed
         //This is a multiple object request (not single object)
         $scope = $req["scope"];
-        $user_id = $req["user_id"];
+        $user_id = $req["id"];
         if($scope == "global"){
             //global feed -> events from all users
             $query = $this->conn->prepare('SELECT * FROM events WHERE 1 ORDER BY e_date DESC;');
@@ -510,54 +478,46 @@ class API{
             //get all followers of user
             $query = $this->conn->prepare('SELECT u_fid FROM followers WHERE u_rid = ?;');
             //error handling
-            if(!$query->execute(array($user_id))){ 
+            if(!$query->execute(array($user_id)) || $query->rowCount() == 0){
                 $query = null;
-                $this->respond("error", null, $this->processing_err);
-                return;
-            }
-            //check if user has followers
-            if($query->rowCount() == 0){
-                $query = null;
-                $this->respond("error", null, "User has no followers");
-                return;
             }
             //get all events from user and all followers
-            $followers = $query->fetchAll();
-            $query = null;
-            $events = array();
-            foreach($followers as $follower){
-                //get all follower's events
-                $query = $this->conn->prepare('SELECT * FROM events WHERE u_id = ? ORDER BY e_date DESC;');
-                //error handling
-                if(!$query->execute(array($follower["u_fid"]))){ 
-                    $query = null;
-                    $this->respond("error", null, $this->processing_err);
-                    return;
-                }
-                $events = array_merge($events, $query->fetchAll());
+            if($query->rowCount() > 0){
+                $followers = $query->fetchAll();
                 $query = null;
-
-                //get all follower's attended events
-                $query = $this->conn->prepare('SELECT e_rid FROM reviews WHERE u_rid =?;');
-                //error handling
-                if(!$query->execute(array($follower["u_fid"]))){ 
-                    $query = null;
-                    $this->respond("error", null, $this->processing_err);
-                    return;
-                }
-                $e = $query->fetchAll();
-                $query = null;
-                foreach($e as $event){
-                    //grab each event
-                    $query = $this->conn->prepare('SELECT * FROM events WHERE e_id = ? ORDER BY e_date DESC;');
+                $events = array();
+                foreach($followers as $follower){
+                    //get all follower's events
+                    $query = $this->conn->prepare('SELECT * FROM events WHERE u_id = ? ORDER BY e_date DESC;');
                     //error handling
-                    if(!$query->execute(array($event["e_rid"]))){ 
+                    if(!$query->execute(array($follower["u_fid"]))){ 
                         $query = null;
-                        $this->respond("error", null, $this->processing_err);
-                        return;
+                        break;
                     }
                     $events = array_merge($events, $query->fetchAll());
                     $query = null;
+
+                    //get all follower's attended events
+                    $query = $this->conn->prepare('SELECT e_rid FROM reviews WHERE u_rid =?;');
+                    //error handling
+                    if(!$query->execute(array($follower["u_fid"]))){ 
+                        $query = null;
+                        break;
+                    }
+                    $e = $query->fetchAll();
+                    $query = null;
+                    foreach($e as $event){
+                        //grab each event
+                        $query = $this->conn->prepare('SELECT * FROM events WHERE e_id = ? ORDER BY e_date DESC;');
+                        //error handling
+                        if(!$query->execute(array($event["e_rid"]))){ 
+                            $query = null;
+                            $this->respond("error", null, $this->processing_err);
+                            return;
+                        }
+                        $events = array_merge($events, $query->fetchAll());
+                        $query = null;
+                    }
                 }
             }
             //finally get all user's events
@@ -830,7 +790,7 @@ class API{
     public function update($req){
         //Description: Make SQL queries for updating a user, event or list (update in DB) if all validation passes
         //Find user (already checked if valid)
-        if(!$this->userExists($req)){
+        if(!$this->userExists($req["email"], $req["username"])){
             //user DNE
             $this->respond("error", null, $this->user_dne_err);
             return;
@@ -948,7 +908,7 @@ class API{
     public function rate($req){
         //Description: Add user review to event and update event rating
         //check user exists
-        if(!$this->userExists($req)){
+        if(!$this->userExists($req["email"], $req["username"])){
             //user DNE
             $this->respond("error", null, $this->user_dne_err);
             return;
@@ -1049,7 +1009,7 @@ class API{
         else{
             $this->response["status"] = $type;
             $this->response["timestamp"] = $this->curr_time;
-            array_push($this->response["data"], $return);
+            $this->response["data"]["return"] = $return;
             $this->response["data"]["message"] = $msg;
         }
     }

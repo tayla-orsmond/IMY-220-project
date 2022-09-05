@@ -14,6 +14,8 @@
     --accR: #F92472;
     --accY: #F3CA40; 
     --accB: #279AF1;
+    --valid: rgb(115, 175, 115); 
+    --invalid: rgb(170, 81, 81);
     --main-font: 'Poppins', sans-serif;
     --title-font: 'Yeseva One', cursive;
     scrollbar-color: var(--dark) transparent;

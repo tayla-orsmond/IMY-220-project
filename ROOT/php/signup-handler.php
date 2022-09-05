@@ -10,24 +10,25 @@
     */
     if(isset($_POST["signup"])){//check form was submitted
         //set variables from form data
+    
         $name = $_POST["username"];
         $email = $_POST["email"];
         $psw = $_POST["password"];
         $repeat_psw = $_POST["confirm"];
-
-        //error handling location
-
-        //signup controller class object
+        
+        //create signup controller
         require_once "class/signup-ctrl.php";
 
         $signup = new SignupCtrl($name, $email, $psw, $repeat_psw);
+        
         //error handling + signup
         $success = $signup->signup();
+        
         //return errors if applicable
         if(!$success){
             //error occurred
-            header("Location: ../signup.php?signup=error");
+            header('Location: ../signup.php?signup=error');
             die();
         }
-        header("Location: ../home.php?login=success");//jump to home.php if no error
+        header('Location: ../home.php?login=success');//jump to home.php if no error
     }

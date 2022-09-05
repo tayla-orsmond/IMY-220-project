@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+    ?>
 <!-- Tayla Orsmond u21467456 -->
 <!-- Header component
     Reflects login functionality
@@ -14,14 +17,15 @@
             </button>
             <div class="collapse navbar-collapse justify-content-md-end" id="navbarSupportedContent">
                 <?php
-                    $logged_in = true;
+                    $logged_in = false;
                     if (isset($_SESSION['logged_in'])) {
-                        $logged_in = $_SESSION['logged_in'];
-                        // $user_display_name = $_SESSION['user_display_name'];
+                        $logged_in = true;
                     }
                     if ($logged_in) {
-                        echo '<ul class="navbar-nav me-2 mb-2 mb-lg-0">
-                                
+                        echo '<ul class="navbar-nav me-2 mb-2 mb-lg-0 align-items-center">
+                                <li class="nav-item mx-2">
+                                    Welcome @' . $_SESSION['user_name'] . '
+                                </li>
                                 <li class="nav-item mx-2">
                                     <a class="nav-link" aria-current="page" href="home.php">home.</a>
                                 </li>

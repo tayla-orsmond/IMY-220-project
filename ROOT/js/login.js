@@ -25,27 +25,29 @@ $(() => {
     psw = psw_field.val();
     const btn = $('#login');
     //ERROR MESSAGES
-    const email_err = $('<div id="email_err"></div>', {
-        html: 'Please enter a valid Email Address',
-        class: 'invalid bg-warning p-3'
+    const email_err = $('<div></div>', {
+        html: 'Please enter a valid Email Address.',
+        class: 'bg-warning p-3',
+        id: 'email_err'
     });
-    const psw_err = $('<div id="pswErr"></div>', {
+    const psw_err = $('<div></div>', {
         html: 'Please enter a valid password. Passwords must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character and one number.',
-        class: 'invalid bg-warning p-3'
+        class: 'bg-warning p-3',
+        id: 'psw_err'
     });
-    const submit_err = $('<div id="submitErr"></div>', {
+    const submit_err = $('<div></div>', {
         html: 'Please make sure all fields are filled in correctly before submitting.',
-        class: 'invalid bg-warning p-3'
+        class: 'bg-warning p-3',
+        id: 'submit_err'
     });
     //EVENT HANDLERS
     btn.on('click', (e) => {
-        e.preventDefault();
         if (valid_email && valid_psw) {
-            return true;
+            $('form').submit("login");
         } else {
             submit_err.insertAfter(btn);
         }
-        return false;
+        e.preventDefault();
     });
     email_field.on('blur', () => {
         email = email_field.val();

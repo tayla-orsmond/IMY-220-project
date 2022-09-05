@@ -13,10 +13,11 @@
         $email = $_POST["email"];
         $psw = $_POST["password"];
 
-        //login controller class object
+        //create login controller
         require_once "class/login-ctrl.php";
 
         $login = new LoginCtrl($email, $psw);
+
         //error handling + login
         $success = $login->login();
         //return errors if applicable

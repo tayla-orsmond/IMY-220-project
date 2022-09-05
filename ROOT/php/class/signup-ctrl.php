@@ -43,7 +43,7 @@
                 username may not start or end with _ or .
                 username may not contain .. or __ or _. or ._ between characters
             */
-            $rg = "/^(?=[a-zA-Z0-9._]{3,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/";
+            $rg = "/^(?=[a-zA-Z0-9._]{3,20}$)(?!.*[_.]{2}).*$/";
             //validate
             return preg_match($rg, $this->name) === 1;
         }
@@ -71,16 +71,11 @@
         }
         //passwords match
         private function match(){
-            return $this->psw === $this->repPsw;
+            return $this->psw === $this->repeat_psw;
         }
         //user already exists
         private function exist(){
-            $result = true;
-            if($this->api->userExists($this->email)){
-                $result = true;
-            }
-            else {$result = false;}
-            return $result;
+            return $this->api->userExists($this->email, $this->name);
         }
         
         /*
@@ -90,7 +85,7 @@
         */
         //signup user if user DNE + valid
         public function signup(){
-            $success = false;
+            $success = true;
             $error = array(
                 "Please ensure all form inputs are filled in before submitting",
                 "Invalid UserName",
@@ -106,30 +101,33 @@
                 $_SESSION["signup_err"] = $error[0];
                 $success = false;
             }
-            if(!$this->validName()){
+            else if(!$this->validName()){
                 //echo "Invalid Name"
                 $_SESSION["signup_err"] = $error[1];
                 $success = false;
             }
-            if(!$this->validEmail()){
+            else if(!$this->validEmail()){
                 //echo "Invalid Email Address"
                 $_SESSION["signup_err"] = $error[3];
                 $success = false;
             }
-            if(!$this->validPass()){
+            else if(!$this->validPass()){
                 //echo "Invalid Password"
                 $_SESSION["signup_err"] = $error[4];
                 $success = false;
             }
-            if(!$this->match()){
+            else if(!$this->match()){
                 //echo "Passwords do not match"
                 $_SESSION["signup_err"] = $error[5];
                 $success = false;
             }
-            if($this->exist()){
+            else if($this->exist()){
                 //echo "User Already exists"
                 $_SESSION["signup_err"] = $error[6];
                 $success = false;
+            }
+            if(!$success){//guard
+                return $success;
             }
             //signup user
             //direct function
@@ -139,26 +137,24 @@
                 "password" => $this->psw
             );
             $this->api->setUser($req);
-            $result = $this->api->getResponse();
+            $result = json_decode($this->api->getResponse(), true);
             
             //check if signup was successful
             if($result["status"] === "error"){
                 //echo "Error Processing Request"
-                $_SESSION["signup_err"] = $error[7];
+                $_SESSION["signup_err"] = $error[7] . " " . $result["data"]["message"];
                 $success = false;
+            }
+            if(!$success){//guard
+                return $success;
             }
 
             //set session if signup was a success
-            $_SESSION["logged_in"] = $success;
-
-            if(!$success){
-                return $success;
-            }
-            //set sessions
-            $_SESSION["user_id"] = $result["data"]["u_id"];
-            $_SESSION["user_name"] = $result["data"]["u_name"];
-            $_SESSION["user_display_name"] = $result["data"]["u_display_name"];
-            $_SESSION["user_admin"] = $result["data"]["u_admin"];
+            $_SESSION["logged_in"] = true;
+            $_SESSION["user_id"] = $result["data"]["return"]["u_id"];
+            $_SESSION["user_name"] = $result["data"]["return"]["u_name"];
+            $_SESSION["user_display_name"] = $result["data"]["return"]["u_display_name"];
+            $_SESSION["user_admin"] = $result["data"]["return"]["u_admin"];
 
             return $success;
         }

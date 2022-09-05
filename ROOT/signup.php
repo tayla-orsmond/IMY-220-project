@@ -35,21 +35,21 @@
                 if(isset($_SESSION['signup_err'])){
                     $err = $_SESSION['signup_err'];
                     echo '
-                    <div id="error" class="invalid bg-danger p-3">
+                    <div id="error" class="invalid bg-danger p-3 w-100">
                         <p class="fw-bold h3">Signup Failed</p>
                         <p>'. $err . '</p>
                     </div>';
                     unset($_SESSION["signup_err"]);
                 }
             ?>
-            <div class="d-flex justify-content-around flex-wrap border">
+            <div class="d-flex justify-content-aroundborder">
                 <form action="php/signup-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
-                    <div class="d-flex flex-wrap justify-content-between mb-3">
-                        <div class="form-floating flex-fill me-3">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="form-floating me-3">
                             <input type="text" class="form-control border-0 border-bottom" id="username" name="username" placeholder="Jean-Honoré Fragonard" required>
                             <label for="username">username</label>
                         </div>
-                        <div class="form-floating flex-fill">
+                        <div class="form-floating">
                             <input type="email" class="form-control border-0 border-bottom" id="email" name="email" placeholder="jean@example.com" required>
                             <label for="email">email address</label>
                         </div>
@@ -63,11 +63,11 @@
                         <label for="confirm">confirm password</label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="tscs" required>
+                        <input class="form-check-input" type="checkbox" value="true" id="tscs" required>
                         <label class="form-check-label" for="tscs">I agree to the <a href="https://www.lingscars.com/">terms and conditions</a>.</label>
                     </div>
                     <p>Already have an account? <a href="login.php">Log in</a>.</p>
-                    <button type="submit" class="btn submit-btn align-self-end" name="signup" value="signup"><span class="h1">sign up.</span></button>
+                    <button type="submit" class="btn submit-btn align-self-end" name="signup" id="signup"><span class="h1">sign up.</span></button>
                 </form>
                 <img src="https://images.unsplash.com/photo-1631383591182-aa24205c089a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80" class="img-fluid" alt="Image by Girl with red hat on Unsplash">
             </div>
@@ -75,7 +75,7 @@
         <?php 
             require_once 'php/footer.php';
         ?>
-        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
         <script src="js/signup.js"></script>
     </body>
 </html>

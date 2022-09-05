@@ -5,13 +5,13 @@
 // This is used to make the feature elements on the spash page translate + fade in when they are scrolled into view.
 const options = {
     root: null,
-    rootMargin: '-100px',
-    threshold: 0.25
+    rootMargin: '0px',
+    threshold: 1
 }
 
 const callback = entries =>{
     entries.forEach(entry => {
-        if(entry.intersectionRatio > 0){
+        if(entry.isIntersecting){
             entry.target.style.transform = 'translateX(0)';
             entry.target.style.opacity = '1';
             io.unobserve(entry.target);

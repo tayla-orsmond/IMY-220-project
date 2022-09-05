@@ -35,35 +35,39 @@ $(() => {
     repeat_psw = repeat_psw_field.val();
     const btn = $('#signup');
     //ERROR MESSAGES
-    const username_err = $('<div id="username_err"></div>', {
-        html: 'Please enter a valid Username. Usernames must be between 3-20 characters long and contain only letters and numbers.',
-        class: 'invalid bg-warning p-3'
+    const username_err = $('<div></div>', {
+        html: 'Please enter a valid Username.',
+        class: 'invalid bg-warning p-3',
+        id: 'username_err'
     });
-    const email_err = $('<div id="email_err"></div>', {
-        html: 'Please enter a valid Email Address',
-        class: 'invalid bg-warning p-3'
+    const email_err = $('<div></div>', {
+        html: 'Please enter a valid Email Address.',
+        class: 'invalid bg-warning p-3',
+        id: 'email_err'
     });
-    const psw_err = $('<div id="pswErr"></div>', {
-        html: 'Please enter a valid password. Passwords must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.',
-        class: 'invalid bg-warning p-3'
+    const psw_err = $('<div></div>', {
+        html: 'Please enter a valid password. Passwords must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character and one number.',
+        class: 'invalid bg-warning p-3',
+        id: 'psw_err'
     });
-    const repeat_psw_err = $('<div id="repeat_psw_err"></div>', {
-        html: 'Please enter a valid password. Passwords must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.',
-        class: 'invalid bg-warning p-3'
+    const repeat_psw_err = $('<div></div>', {
+        html: 'Passwords must match.',
+        class: 'invalid bg-warning p-3',
+        id: 'repeat_psw_err'
     });
-    const submit_err = $('<div id></div>', {
+    const submit_err = $('<div></div>', {
         html: 'Please make sure all fields are filled in correctly before submitting.',
-        class: 'invalid bg-warning p-3'
+        class: 'invalid bg-warning p-3',
+        id: 'submit_err'
     });
     //EVENT HANDLERS
     btn.on('click', (e) => {
-        e.preventDefault();
         if (valid_username && valid_email && valid_psw && valid_repeat_psw) {
-            return true;
+            $('form').submit("signup");
         } else {
             submit_err.insertAfter(btn);
         }
-        return false;
+        e.preventDefault();
     });
     username_field.on('blur', () => {
         username = username_field.val();
@@ -123,7 +127,7 @@ $(() => {
     });
     //FUNCTIONS
     const validateUsername = (username) => {
-        const rg = new RegExp(/^(?=[a-zA-Z0-9._]{3,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/);
+        const rg = new RegExp(/^(?=[a-zA-Z0-9_.]{3,20}$)(?!.*[_.]{2}).*$/);
         return rg.test(username);
     }
     const validateEmail = (email) => {

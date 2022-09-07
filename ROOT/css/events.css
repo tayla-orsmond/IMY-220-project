@@ -2,14 +2,8 @@
 /* 
  * Event card styling
  */
-.scroller{
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    scroll-behavior: smooth;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: mandatory;
-    scroll-snap-align: start;
+#event-area{
+    min-height: 30rem;
 }
 .event-area-inner{
     display: grid;
@@ -44,7 +38,9 @@ div[class~="carousel-item"] img{
     height: 100%;
     object-fit: cover;
 }
-/* NAV LINKS */
+/* 
+* Nav Tabs styling
+*/
 .nav-tabs a[class*="active"]{
     background-color: var(--dark) !important;
     color: var(--light) !important;

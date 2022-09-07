@@ -32,22 +32,23 @@
                     <nav class="d-flex justify-content-between align-items-center px-3"><!--Nav-->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#"><span class="h5">your folios.</span></a>
+                                <a class="nav-link active" aria-current="page" href="#" id="local"><span class="h5">your folios.</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#"><span class="h5">global folios.</span></a>
+                                <a class="nav-link" aria-current="page" href="#" id="global"><span class="h5">global folios.</span></a>
                             </li>
                         </ul>
                         <form><!--Search-->
                             <div class="input-group">
-                                <input type="text" class="form-control" id="search" placeholder="search">
-                                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
+                                <input type="text" class="form-control" id="search-input" placeholder="Search worldwide">
+                                <button type="submit" class="btn btn-outline-secondary" id="search"><i class="fa fa-search"></i></button>
                             </div>
                         </form><!--End Search-->
                     </nav><!--End Nav-->
                 </div>
             </div>
             <div class="row p-3 border" id="event-area"><!--EVENT AREA-->
+                <div class="col-6 offset-3" id="error-area"></div>
                 <div class="col-4 primary-event-outer"><!--Primary event (featured)-->
                    <div id="event-primary"></div>
                 </div><!--End Primary event-->
@@ -55,7 +56,7 @@
                     <div id="ea-1" class="align-items-center event-area-inner"><!--EVENT AREA INNER 1 (where the 1st row of events are loaded-->
                         
                     </div><!--END EA INNER 1-->
-                    <div id="ea-2" class="align-items-center event-area-inner"><!--EVENT AREA INNER 2 (where the 1st row of events are loaded-->
+                    <div id="ea-2" class="align-items-center event-area-inner"><!--EVENT AREA INNER 2 (where the 2nd row of events are loaded-->
                         
                     </div><!--END EA INNER 2-->
                 </div><!--END EA OUTER-->

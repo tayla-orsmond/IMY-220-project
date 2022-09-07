@@ -18,6 +18,7 @@ $(()=> {
         </div>
         `
     }
+    //Primary event template
     const primary_event_template = (event) => {
         return `
         <div class="card text-bg-dark" id="event-primary">
@@ -39,8 +40,16 @@ $(()=> {
         </div>
         `
     }
+    const error_template = (error) => {
+        return `
+            <div class="d-flex flex-column bg-light p-3 text-center">
+                <img src="https://images.unsplash.com/photo-1599729872017-05170c770642?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80" class="img-fluid" alt="...">
+                ${error}
+            </div>
+        `
+    }
     // Load the events from the server
-    const load_events = () => {
+    const load_events = (scope) => {
         $.ajax({
             url: 'api.php',
             type: "POST",
@@ -53,33 +62,111 @@ $(()=> {
                 "type": "info",
                 "user_id": window.sessionStorage.getItem("user_id"),
                 "return": "events",
-                "scope": "global",
+                "scope": scope,
                 "id": window.sessionStorage.getItem("user_id"),
             }),
             success: function(resp, status){//succesful query
                 console.log(status);
                 console.log(resp.data);
-                if(resp.status == "success"){
-                    //Load the events
-                    let events = resp.data.return;
-                    let primary_event = events.shift();
-                    $("#event-primary").replaceWith(primary_event_template(primary_event));
-                    const half = Math.floor(events.length / 2);
-                    let e1 = events.slice(0, half);
-                    let e2 = events.slice(half, events.length);
-                    e1.forEach(event => {
-                        $("#ea-1").append(event_template(event));
-                    });
-                    e2.forEach(event => {
-                        $("#ea-2").append(event_template(event));
-                    });
-                }
+                populate_events(resp);
             },
             error: function(xhr,status,error){//error handling
-                console.log(status);
-                console.log(xhr['responseText']);
+                error_handler(xhr,status,error);
             }
         })
     }
-    load_events();
+    //search for events
+    const search_events = (search) => {
+        $.ajax({
+            url: 'api.php',
+            type: "POST",
+            accept: "application/json",
+            contentType: "application/json",
+            username: "root",
+            password: "",
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "info",
+                "user_id": window.sessionStorage.getItem("user_id"),
+                "return": "search",
+                "search": search,
+                "id": window.sessionStorage.getItem("user_id"),
+            }),
+            success: function(resp, status){//succesful query
+                console.log(status);
+                console.log(resp.data);
+                populate_events(resp);
+            },
+            error: function(xhr,status,error){//error handling
+                error_handler(xhr,status,error);
+            }
+        })
+    }
+    //clear the events
+    const clear_events = () => {
+        $("#event-primary").empty();
+        $("#event-primary").hide();
+        $("#ea-1").empty();
+        $("#ea-2").empty();
+        $("#error-area").empty();
+        $("#error-area").hide();
+    };
+    //populate the events
+    const populate_events = (resp) => {
+        //clear events
+        clear_events();
+        $("#event-primary").show();        
+        if(resp.status == "success"){
+            //Load the events
+            let events = resp.data.return;
+            let primary_event = events.shift();
+            $("#event-primary").replaceWith(primary_event_template(primary_event));
+            const half = Math.floor(events.length / 2);
+            let e1 = events.slice(0, half);
+            let e2 = events.slice(half, events.length);
+            e1.forEach(event => {
+                $("#ea-1").append(event_template(event));
+            });
+            e2.forEach(event => {
+                $("#ea-2").append(event_template(event));
+            });
+        }
+        else if(resp.status == "error"){
+            $("#error-area").show();
+            $("#error-area").append(error_template(resp.data.message));
+        }
+    }
+    //error handler
+    const error_handler = (xhr,status,error) => {
+        console.log(status);
+        console.log(xhr['responseText']);
+        console.log(error);
+        //clear events
+        clear_events();
+        $("#error-area").show();
+        $("#error-area").append(error_template("Error loading events"));
+    }
+    //on page load, load the events for the local feed
+    load_events("local");
+    //on search, search for events
+    $("#search").on("submit", (e) => {
+        if($("#search-input").val().length > 0){
+            search_events($("#search-input").val());
+        }
+        e.preventDefault();
+    });
+    //on click of the local link, load the local feed
+    $("#local").on("click", () => {
+        //make local link active
+        $("#local").addClass("active");
+        $("#global").removeClass("active");
+        load_events("local");
+    });
+    //on click of the global link, load the global feed
+    $("#global").on("click", () => {
+        //make global link active
+        $("#global").addClass("active");
+        $("#local").removeClass("active");
+        load_events("global");
+    });
 });

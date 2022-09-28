@@ -1,5 +1,5 @@
-<?php 
-    session_start();
+<?php
+    require_once 'class/config.php';
     ?>
 <!-- Tayla Orsmond u21467456 -->
 <!-- Header component
@@ -23,14 +23,14 @@
                     }
                     if ($logged_in) {
                         echo '<ul class="navbar-nav me-2 mb-2 mb-lg-0 align-items-center">
-                                <li class="nav-item mx-2">
-                                    Welcome @' . $_SESSION['user_name'] . '
+                                <li class="nav-item mx-2 fw-bold">
+                                    Welcome @' . $_SESSION['user_name'] .'
                                 </li>
                                 <li class="nav-item mx-2">
                                     <a class="nav-link" aria-current="page" href="home.php">home.</a>
                                 </li>
                                 <li class="nav-item mx-2">
-                                    <a class="nav-link" aria-current="page" href="profile.php">myfolio.</a>
+                                    <a class="nav-link" aria-current="page" href="profile.php?id=' . $_SESSION['user_id'] . '"> myfolio.</a>
                                 </li>
                                 <li class="nav-item mx-2">
                                     <a class="nav-link btn btn-secondary" href="logout.php">Log out</a>

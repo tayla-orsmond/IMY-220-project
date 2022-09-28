@@ -28,115 +28,219 @@
             require_once 'php/header.php';
         ?>
         <div class="container px-5">
-            <div class="row">
-                <div class="col-12"><h1>myfolio.</h1></div><!--Title-->
-                <div class="col-9 p-5 d-flex border"><!--Profile Header card -> show details of the user-->
-                    <div class="flex-fill profile-photo">
-                        <img src="https://images.unsplash.com/photo-1548811579-017cf2a4268b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=389&q=80" alt="" class="img-fluid rounded-circle">
-                    </div>
-                    <div class="flex-fill p-3 m-1">
-                        <h2>Tayla Orsmond</h2>
-                        <p class="pb-2 border-bottom">@taylawantsasnack</p>
-                        <div class="d-flex justify-content-start gap-3">
-                            <p>she/her</p>
-                            <p><i class="fa fa-calendar-alt"></i> 19</p>
-                            <p><i class="fa fa-map-marker-alt"></i> Pretoria, South Africa</p>
+            <div id="error"></div>
+            <?php
+                //echo out the appropriate profile page for the user dpending on the user id in the url
+                //if the id is blank, then the user is viewing their own profile
+                //so use the cookie to get the user id
+                //if the user id is not set, redirect to the splash page
+                if (isset($_GET['id']) || isset($_COOKIE['user_id'])) {
+                    $user_id = null;
+                    if (isset($_GET['id'])) {
+                        $user_id = $_GET['id'];
+                    } else {
+                        $user_id = $_COOKIE['user_id'];
+                    }
+                    //make a curl request to the api to get the profile data
+                    $body = array(
+                        'type'   => 'info',
+                        'user_id' => $_SESSION['user_id'],
+                        'return'  => 'profile',
+                        'id'     => $user_id,
+                    );
+    
+                    //make post request to API using curl
+                    $curl = curl_init();
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => $api_url,
+                        CURLOPT_POST => TRUE,
+                        CURLOPT_RETURNTRANSFER => TRUE,
+                        CURLOPT_HTTPHEADER => $api_headers,
+                        CURLOPT_POSTFIELDS => json_encode($body),
+                        CURLOPT_USERPWD => $api_key,
+                    ));
+                    //Send the request
+                    $r = curl_exec($curl);
+                    
+                    if(!$r){//some kind of error occurred
+                        echo "Error: " . curl_error($curl);
+                    }
+    
+                    $result = json_decode($r, true);
+    
+                    //close the request
+                    curl_close($curl);
+    
+                    //get the event details from the response
+                    $profile = $result['data']['return'];
+
+                    //display the profile
+                    if(empty($profile)){
+                        echo '<h1 class="text-center">User not found</h1>'. '<p class="text-center">'. $result["data"]["message"] . '</p>';
+                    }else{
+                        echo '
+                        <div class="row">
+                        <div class="col-12"><h1>myfolio.</h1></div><!--Title-->
+                        <div class="col-9 p-5 d-flex border"><!--Profile Header card -> show details of the user-->
+                            <div class="flex-fill profile-photo">
+                                <img src="media/uploads/'. $profile['u_profile'] .'" alt="..." class="img-fluid rounded-circle">
+                            </div>
+                            <div class="flex-fill p-3 m-1">
+                                <h2>' . $profile['u_display_name'] . '</h2>
+                                <p class="pb-2 border-bottom">@<span id="username">' . $profile['u_name'] . '</span></p>
+                                <div class="d-flex justify-content-start gap-3">';
+                                if($profile['u_pronouns'] != ""){
+                                    echo '<p>' . $profile['u_pronouns'] . '</p>';
+                                }
+                                if($profile['u_age'] != ""){
+                                    echo '<p><i class="fa fa-calendar-alt"></i>' . $profile['u_age'] . '</p>';
+                                }
+                                if($profile['u_location'] != ""){
+                                    echo '<p><i class="fa fa-map-marker-alt"></i>' . $profile['u_location'] . '</p>';
+                                }
+                                echo '</div>
+                                <p> ' . $profile['u_bio'] .' </p>
+                                <p><i class="fa fa-address-book"></i> <a href="mailto:' . $profile['u_email'] . '">' . $profile['u_email'] . '</a></p>
+                            </div>
+                        </div><!--End Profile Header card-->
+                        <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
+                            if($profile['u_id'] === $_SESSION['user_id']){
+                                echo '<a href="" class="btn btn-dark">Edit Profile</a>';
+                            }
+                            //get the profile's followers
+                            $body = array(
+                                'type'   => 'info',
+                                'user_id' => $_SESSION['user_id'],
+                                'return'  => 'followers',
+                                'id'     => $user_id
+                            );
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                                CURLOPT_URL => $api_url,
+                                CURLOPT_POST => TRUE,
+                                CURLOPT_RETURNTRANSFER => TRUE,
+                                CURLOPT_HTTPHEADER => $api_headers,
+                                CURLOPT_POSTFIELDS => json_encode($body),
+                                CURLOPT_USERPWD => $api_key,
+                            ));
+                            //Send the request
+                            $r = curl_exec($curl);
+                            
+                            if(!$r){//some kind of error occurred
+                                echo "Error: " . curl_error($curl);
+                            }
+
+                            $result = json_decode($r, true);
+
+                            //close the request
+                            curl_close($curl);
+
+                            if(!empty($result) && $result['status'] == "success"){
+                                $followers = $result['data']['return'];
+                            }else{
+                                $followers = array();
+                            }
+
+                            //get the profile's following
+                            $body = array(
+                                'type'   => 'info',
+                                'user_id' => $_SESSION['user_id'],
+                                'return'  => 'following',
+                                'id'     => $user_id
+                            );
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                                CURLOPT_URL => $api_url,
+                                CURLOPT_POST => TRUE,
+                                CURLOPT_RETURNTRANSFER => TRUE,
+                                CURLOPT_HTTPHEADER => $api_headers,
+                                CURLOPT_POSTFIELDS => json_encode($body),
+                                CURLOPT_USERPWD => $api_key,
+                            ));
+                            //Send the request
+                            $r = curl_exec($curl);
+
+                            if(!$r){//some kind of error occurred
+                                echo "Error: " . curl_error($curl);
+                            }
+
+                            $result = json_decode($r, true);
+
+                            //close the request
+                            curl_close($curl);
+                            if(!empty($result) && $result['status'] == "success"){
+                                $following = $result['data']['return'];
+                            }else{
+                                $following = array();
+                            }
+
+                            //check if the user is following the profile
+                            $is_follower = false;
+                            if(!empty($followers)){
+                                foreach($followers as $follower){
+                                    if($follower['u_fid'] === $_SESSION['user_id']){
+                                        $is_follower = true;
+                                    }
+                                }
+                            }
+                            //check if the user logged in is not the current profile
+                            if($user_id != $_SESSION['user_id']){
+                                //check if the user is following the profile
+                                echo '<div class="btn btn-light ' . ($is_follower ? "" : "d-none") . '" id="unfollow">Following</div>
+                                <a href="message.php?chat="'. $profile['u_id'] .'" class=" ' . ($is_follower ? "" : "d-none") . '" id="DM"><i class="fa fa-paper-plane"></i></a>
+                                <div class="btn btn-dark ' . ($is_follower ? "d-none" : "") . '" id="follow">Follow</div>';
+                            }
+                        echo '<div class="">
+                                <p><span class="fw-bold followers">' . count($followers) . ' </span> <a href="" id="show_follows">Followers</a></p>
+                                <p><span class="fw-bold following">' . count($following) . '</span> <a href="" id="show_following">Following</a></p>
+                            </div>
+                        </div><!--End Actions -->
+                        <div class="col-12 row mt-2">
+                            <div class="col-12">
+                                <nav class="d-flex justify-content-between align-items-center px-3"><!--Nav-->
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page" href="#" id="folios"><span class="h5">myfolios.</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" aria-current="page" href="#" id="reviewed"><span class="h5">myreviews.</span></a>
+                                        </li>
+                                    </ul>
+                                </nav><!--End Nav-->
+                            </div>
                         </div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis laborum porro ducimus. Sint blanditiis nesciunt debitis excepturi a, quas neque sequi quod tempore, unde nemo aliquid possimus asperiores adipisci nulla!</p>
-                        <p><i class="fa fa-address-book"></i> <a href="mailto:tayla.orsmond@gmail.com">tayla.orsmond@gmail.com</a></p>
-                    </div>
-                </div><!--End Profile Header card-->
-                <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->
-                    <div class="btn btn-dark">Follow</div>
-                    <div class="btn btn-light">Following</div>
-                    <div class="btn btn-dark">Edit Profile</div>
-                    <div class="">
-                        <p><span class="fw-bold">14</span> <a href="">Followers</a></p>
-                        <p><span class="fw-bold">14</span> <a href="">Following</a></p>
-                    </div>
-                    <div class="btn btn-outline-light"><i class="fa fa-paper-plane"></i></div>
-                </div><!--End Actions -->
-                <div class="col-12 row mt-2">
-                    <div class="col-12">
-                        <nav class="d-flex justify-content-between align-items-center px-3"><!--Nav-->
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#"><span class="h5">my folios.</span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="#"><span class="h5">my reviews</span></a>
-                                </li>
-                            </ul>
-                        </nav><!--End Nav-->
-                    </div>
-                </div>
-                <div class="col-10 d-flex flex-wrap p-3 gap-2 border event-inner"><!--Event area -> for user's events-->
-                    <div class="w-100">
-                        <div class="btn btn-dark">Add Event</div>
-                    </div>
-                    <div class="card event-card">
-                        <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Artpop Celebration</h5>
-                            <p class="card-text">Pirate's Sports Club</p>
-                        </div>
-                    </div>
-                    <div class="card event-card">
-                        <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Artpop Celebration</h5>
-                            <p class="card-text">Pirate's Sports Club</p>
-                        </div>
-                    </div>
-                    <div class="card event-card">
-                        <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Artpop Celebration</h5>
-                            <p class="card-text">Pirate's Sports Club</p>
-                        </div>
-                    </div>
-                    <div class="card event-card">
-                        <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Artpop Celebration</h5>
-                            <p class="card-text">Pirate's Sports Club</p>
-                        </div>
-                    </div>
-                    <div class="card event-card">
-                        <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Artpop Celebration</h5>
-                            <p class="card-text">Pirate's Sports Club</p>
-                        </div>
-                    </div>
-                    <div class="card event-card">
-                        <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Artpop Celebration</h5>
-                            <p class="card-text">Pirate's Sports Club</p>
-                        </div>
-                    </div>
-                    <div class="card event-card">
-                        <img src="https://images.unsplash.com/photo-1456086272160-b28b0645b729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" class="card-img-top img-fluid" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Artpop Celebration</h5>
-                            <p class="card-text">Pirate's Sports Club</p>
-                        </div>
-                    </div>
-                </div><!--End Event area-->
-                <div class="col-2 p-3">
-                    <p><span class="h5">my galleries.</span></p>
-                    <div class="list-group list-group-flush my-2 galleries-inner"><!--lists of user's galleries (event lists)-->
-                        <a href="#" class="list-group-item list-group-item-action">Summer 2022</a>
-                        <a href="#" class="list-group-item list-group-item-action">SOHO</a>
-                        <a href="#" class="list-group-item list-group-item-action">December 2020</a>
-                    </div>
-                    <div class="btn btn-dark">Add Gallery</div>
-                </div><!--End galleries-->
-            </div>
+                        <div class="col-10 d-flex flex-wrap p-3 gap-2 border event-area-inner"><!--Event area -> for users events-->';
+                            if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $user_id){
+                                echo'
+                                <div class="w-100">
+                                    <div class="btn btn-dark" id="add_event">Add Event</div>
+                                </div>';
+                            }
+                        echo '<div id="events-inner"></div>
+                            <div class="w-100" id="error-area"></div>
+                        </div><!--End Event area-->
+                        <div class="col-2 p-3">
+                            <p><span class="h5">my galleries.</span></p>
+                            <div class="list-group list-group-flush my-2 galleries-area-inner"><!--lists of users galleries (event lists)-->
+                                <div id="error-area-g"></div>
+                            </div>
+                            <div id="galleries-inner"></div>';
+                                if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $user_id){
+                                    echo '<div class="btn btn-dark" id="add_gallery">Add Gallery</div>';
+                                }
+                            echo'
+                            </div><!--End galleries-->
+                        </div>';
+                    }
+                } else {
+                    //if the user id is not set, redirect to the splash page
+                    header("Location: index.php");
+                }
+            ?>
         </div>
         <?php 
             require_once 'php/footer.php';
         ?>
+        <script src="js/profile.js"></script>
     </body>
 </html>

@@ -45,15 +45,15 @@
                 <img src="https://i.etsystatic.com/24634016/c/2645/2102/0/203/il/56f6d0/2581895112/il_680x540.2581895112_w7md.jpg" alt="..." class="img-fluid"/>
             </div>
             <div class="feature d-flex">
-                <img src="https://images.unsplash.com/photo-1632127258100-f8ae7c6c58c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Image by Diane Picchiottino on Unsplash" class="img-fluid"/>
+                <img src="https://images.unsplash.com/photo-1632127258100-f8ae7c6c58c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" SameSite="None" alt="Image by Diane Picchiottino on Unsplash" class="img-fluid"/>
                 <p class="fw-bold">Discover others' events</p>
             </div>
             <div class="feature d-flex">
                 <p class="fw-bold">Follow your favourite creators</p>
-                <img src="https://images.unsplash.com/photo-1547602469-79faa757dbef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt="Image by Jon Butterworth on Unsplash" class="img-fluid"/>
+                <img src="https://images.unsplash.com/photo-1547602469-79faa757dbef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" SameSite="None" alt="Image by Jon Butterworth on Unsplash" class="img-fluid"/>
             </div>
             <div class="feature d-flex">
-                <img src="https://images.unsplash.com/photo-1645460497526-1d882d77e218?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80" alt="Image by Girl with red hat on Unsplash" class="img-fluid"/>
+                <img src="https://images.unsplash.com/photo-1645460497526-1d882d77e218?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80" SameSite="None" alt="Image by Girl with red hat on Unsplash" class="img-fluid"/>
                 <p class="fw-bold">Join in the culture</p>
             </div>
         </div><!--End features-->

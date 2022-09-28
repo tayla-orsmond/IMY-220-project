@@ -1,5 +1,5 @@
 //Tayla Orsmond u21467456
-//Language: javascript
+//Language: javascript, jquery
 //Path: js\login.js
 //Description: This is the javascript for the login page. It validates the email and password fields and checks if they are empty or not.
 //It checks password and repeat password fields to make sure they match.

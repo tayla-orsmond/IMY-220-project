@@ -108,22 +108,22 @@
             }
             else if(!$this->validEmail()){
                 //echo "Invalid Email Address"
-                $_SESSION["signup_err"] = $error[3];
+                $_SESSION["signup_err"] = $error[2];
                 $success = false;
             }
             else if(!$this->validPass()){
                 //echo "Invalid Password"
-                $_SESSION["signup_err"] = $error[4];
+                $_SESSION["signup_err"] = $error[3];
                 $success = false;
             }
             else if(!$this->match()){
                 //echo "Passwords do not match"
-                $_SESSION["signup_err"] = $error[5];
+                $_SESSION["signup_err"] = $error[4];
                 $success = false;
             }
             else if($this->exist()){
                 //echo "User Already exists"
-                $_SESSION["signup_err"] = $error[6];
+                $_SESSION["signup_err"] = $error[5];
                 $success = false;
             }
             if(!$success){//guard
@@ -142,7 +142,7 @@
             //check if signup was successful
             if($result["status"] === "error"){
                 //echo "Error Processing Request"
-                $_SESSION["signup_err"] = $error[7] . " " . $result["data"]["message"];
+                $_SESSION["signup_err"] = $error[6] . " " . $result["data"]["message"];
                 $success = false;
             }
             if(!$success){//guard
@@ -155,7 +155,13 @@
             $_SESSION["user_name"] = $result["data"]["return"]["u_name"];
             $_SESSION["user_display_name"] = $result["data"]["return"]["u_display_name"];
             $_SESSION["user_admin"] = $result["data"]["return"]["u_admin"];
-
+            //set cookies if signup was a success
+            setcookie("logged_in", true, time() + (86400 * 30), "/");
+            setcookie("user_id", $result["data"]["return"]["u_id"], time() + (86400 * 30), "/");
+            setcookie("user_name", $result["data"]["return"]["u_name"], time() + (86400 * 30), "/");
+            setcookie("user_display_name", $result["data"]["return"]["u_display_name"], time() + (86400 * 30), "/");
+            setcookie("user_admin", $result["data"]["return"]["u_admin"], time() + (86400 * 30), "/");
+            
             return $success;
         }
     }

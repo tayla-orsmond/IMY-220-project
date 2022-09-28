@@ -1,13 +1,12 @@
 //Tayla Orsmond u21467456
 // Language: javascript
-// Path: js\scroll.js
+// Path: js\io.js
 // Description: This is the functionality for the intersection observer. 
 // This is used to make the feature elements on the spash page translate + fade in when they are scrolled into view.
 document.addEventListener('DOMContentLoaded', () => {
     const options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0
+        rootMargin: '-100px',
+        threshold: 0.1
     }
     
     const callback = entries =>{

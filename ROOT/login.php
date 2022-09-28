@@ -25,10 +25,19 @@
         ?>
         <div class="container">
             <?php
+                //if cookies are set, set the logged in session variable to true
+                if (isset($_COOKIE['user_id']) && isset($_COOKIE['user_name'])) {
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['user_id'] = $_COOKIE['user_id'];
+                    $_SESSION['user_name'] = $_COOKIE['user_name'];
+                    $_SESSION['user_display_name'] = $_COOKIE['user_display_name'];
+                    $_SESSION['user_admin'] = $_COOKIE['user_admin'];
+                    header('Location: home.php');
+                }
                 //if user is logged in, redirect to home page
                 if(isset($_SESSION['logged_in'])){
                     if($_SESSION['logged_in']){
-                        header("Location: index.php");
+                        header("Location: home.php");
                     }
                 }
                 //if there was a login error, display it
@@ -61,7 +70,6 @@
         <?php 
             require_once 'php/footer.php';
         ?>
-        <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
         <script src="js/login.js"></script>
     </body>
 </html>

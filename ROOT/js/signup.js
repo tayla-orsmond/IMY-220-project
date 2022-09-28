@@ -1,5 +1,5 @@
 //Tayla Orsmond u21467456
-//Language: javascript
+//Language: javascript, jquery
 //Path: js\signup.js
 //Description: This is the javascript for the signup page. It validates the username, email, password and repeat_password fields and checks if they are empty or not.
 //It checks password and repeat password fields to make sure they match.

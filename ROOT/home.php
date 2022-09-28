@@ -41,7 +41,7 @@
                         <form><!--Search-->
                             <div class="input-group">
                                 <input type="text" class="form-control" id="search-input" placeholder="Search worldwide">
-                                <button type="submit" class="btn btn-outline-secondary" id="search"><i class="fa fa-search"></i></button>
+                                <button type="submit" class="btn btn-outline-dark" id="search"><i class="fa fa-search"></i></button>
                             </div>
                         </form><!--End Search-->
                     </nav><!--End Nav-->
@@ -66,7 +66,6 @@
             require_once 'php/footer.php';
         ?>
         <script src="js/scroll.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
         <script src="js/load.js"></script>
     </body>
 </html>

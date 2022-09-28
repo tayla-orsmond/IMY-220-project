@@ -3,7 +3,7 @@
  * Splash screen styling
  */
 .splash-outer{
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 .splash-txt{
@@ -36,8 +36,10 @@
     opacity: 0;
     position: relative;
     transform: translateY(-50%);
-    align-items: flex-end;
     transition: all 0.8s ease-in-out;
+    min-width: 50vw;
+    min-height: 100vh;
+    align-items: flex-end;
 }
 .feature:nth-of-type(2){
     background-color: var(--accR);

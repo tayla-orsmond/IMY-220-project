@@ -24,7 +24,7 @@
 /* BODY */
 body{
     background-color: var(--light);
-    color: var(--dark);
+    color: var(--dark) !important;
     overflow-x: hidden;
     font-family: var(--main-font) !important;
     font-weight: 500;
@@ -34,7 +34,7 @@ h1{
     font-family: var(--title-font);
 }
 h1{
-    font-size: 5rem !important;
+    font-size: 5rem;
 }
 /* SPACER */
 .spacer{
@@ -65,6 +65,16 @@ div[class*="card"]{
 ::-webkit-scrollbar-thumb{
     background: var(--dark);
     border-radius: 10px;
+}
+/* NON_DRAGGABLE IMAGES */
+img,
+img[class*="img-fluid"]{
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 /* BUTTONS AND LINKS */
 a{
@@ -122,14 +132,4 @@ div[class*="bg-dark"] a{
 }
 div[class*="bg-dark"] a:hover{
     color: var(--accR) !important;
-}
-/* NON_DRAGGABLE IMAGES */
-img,
-img[class*="img-fluid"]{
-    user-drag: none;
-    -webkit-user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
 }

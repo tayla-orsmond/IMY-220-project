@@ -1,20 +1,29 @@
 <?php
-    session_start();
     error_reporting(E_ALL);
 	ini_set('error_reporting',E_ALL);
+    ini_set('display_errors',1);
+    ini_set('display_startup_errors',1);
+
+    session_start();
+    //globals
+    $api_url = "http://localhost/api.php";
+    $api_headers = array(
+        "Accept: application/json",
+        "Content-Type: application/json",
+    );
+    $api_key = "u21467456" . ":" . "ejimskut";
+    
     class DBH{
         /*
             Tayla Orsmond u21467456
             ---------------------------------------------------------
             This class is a singleton that handles the database connection
         */
-        
         //connection info
         // private $host = 'localhost';
         // private $dbname = 'u21467456';
         // private $username = 'u21467456';
         // private $password = 'ejimskut';
-        // private $charset = 'utf8mb4';
         private $host = 'localhost';
         private $dbname = 'u21467456';
         private $username = 'root';

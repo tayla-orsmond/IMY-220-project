@@ -25,6 +25,6 @@
             //error occurred
             header("Location: ../login.php?login=error");
             die();
-        }  
-        header("Location: ../home.php?login=success");//jump to home.php if no error
+        }
+        header("Location: ../home.php?id=". $_SESSION['user_id']);//jump to home.php if no error
     }

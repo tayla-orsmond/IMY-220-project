@@ -69,7 +69,7 @@
                 "Invalid Email Address",
                 "Invalid Password",
                 "User Does Not Exist, please sign up first before logging in",
-                "Login Failed, please refresh and try again"
+                "Login Failed, "
             );
             //error handle
             if($this->isEmpty()){
@@ -104,7 +104,6 @@
 
             $this->api->getUser($req);
             $result = json_decode($this->api->getResponse(), true);
-
             //check if login was successful
             if($result["status"] === "error"){
                 $_SESSION["login_err"] = $error[4] . ' ' . $result["data"]["message"];
@@ -120,6 +119,13 @@
             $_SESSION["user_name"] = $result["data"]["return"]["u_name"];
             $_SESSION["user_display_name"] = $result["data"]["return"]["u_display_name"];
             $_SESSION["user_admin"] = $result["data"]["return"]["u_admin"];
+
+            //set cookies if login was a success
+            setcookie("logged_in", true, time() + (86400 * 30), "/");
+            setcookie("user_id", $result["data"]["return"]["u_id"], time() + (86400 * 30), "/");
+            setcookie("user_name", $result["data"]["return"]["u_name"], time() + (86400 * 30), "/");
+            setcookie("user_display_name", $result["data"]["return"]["u_display_name"], time() + (86400 * 30), "/");
+            setcookie("user_admin", $result["data"]["return"]["u_admin"], time() + (86400 * 30), "/");
 
             return $success;
         }

@@ -6,6 +6,12 @@
     session_start();
     session_unset();
     session_destroy();
-    //go back to front page
-    header("Location: index.php?");
+    //delete cookies
+    setcookie("logged_in", "", time() - 3600, "/");
+    setcookie("user_id", "", time() - 3600, "/");
+    setcookie("user_name", "", time() - 3600, "/");
+    setcookie("user_display_name", "", time() - 3600, "/");
+    setcookie("user_admin", "", time() - 3600, "/");
+    //redirect to splash page
+    header("Location: index.php");
 

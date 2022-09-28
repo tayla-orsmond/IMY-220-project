@@ -23,7 +23,6 @@
         
         //error handling + signup
         $success = $signup->signup();
-        
         //return errors if applicable
         if(!$success){
             //error occurred

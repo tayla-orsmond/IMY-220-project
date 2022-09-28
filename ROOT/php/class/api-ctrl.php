@@ -346,26 +346,21 @@ class API{
         $pronouns = isset($req["pronouns"]) ? $req["pronouns"] : "";
         $profile = isset($req["profile"]) ? $req["profile"] : "profile.png";
         $bio = isset($req["bio"]) ? $req["bio"] : "";
-        $admin = isset($req["admin"]) ? $req["admin"] : false;
+        $admin = isset($req["admin"]) ? $req["admin"] : 0;        
 
-        //prepare statement -> separate data from query with ? that prevents SQL injections
         $query = $this->conn->prepare('INSERT INTO users (u_name, u_display_name, u_email, u_psw, u_profile, u_bio, u_pronouns, u_age, u_location, u_admin) VALUES (?,?,?,?,?,?,?,?,?,?);');
-        //hash password
-        // $hashed_psw = password_hash($psw, PASSWORD_DEFAULT);
-        
+
         //create array
         $user_array = array($name, $display_name, $email, $psw, $profile, $bio, $pronouns, $age, $location, $admin);
         //error handling
         try{
             $query->execute($user_array);
-            $this->respond("success", $user_array, "User created successfully");
         }
         catch(PDOException $e){
             $this->respond("error", null, "Error: " . $e->getMessage());
         }
-        $query = null;
-        //get user
-        $this->getUser($req);
+        $query = null; 
+        $this->getUser($req);//get user info and send back
     }
 
     /*

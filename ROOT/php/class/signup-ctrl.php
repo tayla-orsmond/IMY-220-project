@@ -93,7 +93,7 @@
                 "Invalid Password",
                 "Passwords do not match",
                 "User Already Exists",
-                "Signup Failed, please refresh and try again"
+                "Signup Failed, "
             );
             //error handle
             if($this->isEmpty()){
@@ -141,7 +141,6 @@
             
             //check if signup was successful
             if($result["status"] === "error"){
-                //echo "Error Processing Request"
                 $_SESSION["signup_err"] = $error[6] . " " . $result["data"]["message"];
                 $success = false;
             }
@@ -155,6 +154,7 @@
             $_SESSION["user_name"] = $result["data"]["return"]["u_name"];
             $_SESSION["user_display_name"] = $result["data"]["return"]["u_display_name"];
             $_SESSION["user_admin"] = $result["data"]["return"]["u_admin"];
+
             //set cookies if signup was a success
             setcookie("logged_in", true, time() + (86400 * 30), "/");
             setcookie("user_id", $result["data"]["return"]["u_id"], time() + (86400 * 30), "/");

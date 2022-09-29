@@ -42,12 +42,9 @@ $(()=> {
                 <div>
                     <h5 class="card-title text-truncate">${e_name}</h5>
                     <p class="card-text h6 text-truncate">${e_location} | ${e_date}</p>
-                    <p class="card-text text-truncate ">${e_desc}</p>
-                    <div class="d-flex justify-content-center">
-                        <a href="." class="btn btn-dark">${e_tag1}</a>
-                        <a href="." class="btn btn-dark">${e_tag2}</a>
-                        <a href="." class="btn btn-dark">${e_tag3}</a>
-                    </div>
+                    <p class="card-text text-truncate ">
+                        ${e_desc.replace(/#(\w+)/g, '<a href="home.php?search=$1">#$1</a>')}
+                    </p>
                     <a href="event.php?id=${e_id}" class="stretched-link"></a>
                 </div>
             </div>
@@ -166,11 +163,25 @@ $(()=> {
         $("#error-area").append(error_template("Error loading events"));
     }
     //on page load, load the events for the local feed
-    load_events("local");
+    //if there is a get parameter, load the events for the search
+    //get the search parameters from the url
+    const url_params = new URLSearchParams(window.location.search);
+    const search = url_params.get('search');
+    if(search != null){
+        $("#global").addClass("active");
+        $("#local").removeClass("active");
+        search_events(search);
+    }
+    else{
+        load_events("local");
+    }
+
     //on search, search for events
     $("#search").on("submit", (e) => {
         if($("#search-input").val().length > 0){
             search_events($("#search-input").val());
+            $("#global").addClass("active");
+            $("#local").removeClass("active");
         }
         e.preventDefault();
     });

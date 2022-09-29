@@ -45,11 +45,6 @@ class API{
             e_time TIME not null,
             e_location VARCHAR(255) not null,
             e_type VARCHAR(255) not null,
-            e_tag1 VARCHAR(255) DEFAULT "",
-            e_tag2 VARCHAR(255) DEFAULT "",
-            e_tag3 VARCHAR(255) DEFAULT "",
-            e_tag4 VARCHAR(255) DEFAULT "",
-            e_tag5 VARCHAR(255) DEFAULT "",
             e_img VARCHAR(1000) DEFAULT "event.png",
             e_rating TINYINT not null DEFAULT 0
         );
@@ -153,7 +148,7 @@ class API{
                 ADD REQ{
                     [req] "add" : "event" (Add type. Can be of type: event, list)
                     [req] "username" : "jane.doe" (User's u_name in the users database table)
-                    [req] -> All parameters for adding events (name* , desc, date* , time* , location *, type *, tags, img)
+                    [req] -> All parameters for adding events (name* , desc (w/tags), date* , time* , location*, type*, img)
                     OR [req] -> All parameters for adding lists (name *, desc)
                 }
                 DELETE REQ{
@@ -167,21 +162,21 @@ class API{
                     [req] "event_id": "12"  (Event's e_id in the events database table)
                     [req] "list_id": "12"  (List's l_id in the list database table)
                     [opt] -> Any (all) of the profile parameters (display name, bio, age, location, pronouns, img)
-                    [opt] -> Any (all) of the event parameters (name, desc, date, time, location, type, tags, img)
+                    [opt] -> Any (all) of the event parameters (name, desc (w/tags), date, time, location, type, img)
                     [opt] -> Any (all) of the list parameters (name, desc)
                 }
                 RATE REQ{
                     [req] "username" : "jane.doe" (User's u_name in the users database table)
                     [req] "event_id" : "15" (Event's e_id in the events database table)
-                    [req] "rating" : "4" (The event's new added rating)
-                    [req] -> All parameters for adding reviews (name *, comment *, image *)
+                    [req] -> All parameters for adding reviews (name *, comment *, image *, rating*)
                 }
                 CHAT REQ{
-
+                    [req] "chat_id": 12 (User u_id with which you wanna chat)
+                    [req] "message" : "hello" (the message you want to send)
                 }
                 FOLLOW REQ{
                     [req] "follow" : "follow" (Follow type. Can be of type: follow, unfollow)
-                    [req] "user_name" : "jane.doe" (User's u_name in the users database table)
+                    [req] "username" : "jane.doe" (User's u_name in the users database table)
                     [req] "follow_id" : "2" (User's u_id in the users database table)
                     [req] "follow_name" : "jane.doe" (User's u_name in the users database table)
                 }
@@ -196,7 +191,7 @@ class API{
         //check required request type
         if($req["type"] === "info"){
             //INFO REQ 
-            if(!in_array($req["return"], $req)){
+            if(!in_array($req["return"], $req) || empty($req["return"])){
                 //required return parameter not set
                 $this->respond("error", null, "Error: Bad Request - No return parameter specified");
             }
@@ -249,7 +244,7 @@ class API{
             $this->setUser($req);
         }
         else if($req["type"] === "add"){
-            if(!in_array($req["add"], $req)){
+            if(!in_array($req["add"], $req) || empty($req["add"])){
                 //required add parameter not set
                 $this->respond("error", null, "Error: Bad Request - No add parameter specified");
             }
@@ -258,7 +253,7 @@ class API{
             }
         }
         else if($req["type"] === "delete"){
-            if(!in_array($req["delete"], $req)){
+            if(!in_array($req["delete"], $req) || empty($req["delete"])){
                 //required delete parameter not set
                 $this->respond("error", null, "Error: Bad Request - No delete parameter specified");
             }
@@ -268,7 +263,7 @@ class API{
         }
         else if($req["type"] === "update"){
             //UPDATE REQ
-            if(!in_array($req["update"], $req)){
+            if(!in_array($req["update"], $req) || empty($req["update"])){
                 //required update parameter not set
                 $this->respond("error", null, "Error: Bad Request - No update parameter specified");
             }
@@ -278,7 +273,7 @@ class API{
         }
         else if($req["type"] === "rate"){
             //RATE REQ
-            if((!in_array($req["username"], $req) || empty($req["username"])) || (!in_array($req["event_id"], $req) || empty($req["event_id"])) || (!in_array($req["rating"], $req) || empty($req["rating"]))){
+            if((!in_array($req["username"], $req) || empty($req["username"])) || (!in_array($req["event_id"], $req) || empty($req["event_id"])) || (!in_array($req["rating"], $req) || empty($req["rating"])) || (!in_array($req["r_name"], $req) || empty($req["r_name"])) || (!in_array($req["r_comment"], $req) || empty($req["r_comment"])) || (!in_array($req["r_img"], $req) || empty($req["r_img"]))){
                 $this->respond("error", null, "Nothing to rate, or review parameters missing.");
             }
             else{
@@ -616,7 +611,6 @@ class API{
         }
         else{
             $this->respond("error", null, "Invalid GET request");
-            return;
         }
     }
     public function getReviewedEvents($req){
@@ -704,7 +698,7 @@ class API{
     public function getFollowers($req){
         //Description: Get all followers for a specific user
         $user_id = $req["id"];
-        $query = $this->conn->prepare('SELECT u_fid FROM followers WHERE u_rid = ?;');
+        $query = $this->conn->prepare('SELECT u_fid, u_fname FROM followers WHERE u_rid = ?;');
         //error handling
         try{
             $query->execute(array($user_id));
@@ -714,7 +708,7 @@ class API{
                 $this->respond("success", $followers, "User's followers returned successfully");
             }
             else{
-                $this->respond("error", null, "No followers for this user");
+                $this->respond("error", null, "This user has no followers");
             }
             $query = null;
         }
@@ -726,7 +720,7 @@ class API{
     public function getFollowing($req){
         //Description: Get all users a specific user is following
         $user_id = $req["id"];
-        $query = $this->conn->prepare('SELECT u_rid FROM followers WHERE u_fid = ?;');
+        $query = $this->conn->prepare('SELECT u_rid, u_rname FROM followers WHERE u_fid = ?;');
         //error handling
         try{
             $query->execute(array($user_id));
@@ -736,7 +730,7 @@ class API{
                 $this->respond("success", $following, "User's following returned successfully");
             }
             else{
-                $this->respond("error", null, "No users followed by this user");
+                $this->respond("error", null, "This user is not following anyone");
             }
             $query = null;
         }
@@ -794,25 +788,19 @@ class API{
                 "e_time" => $req["e_time"],
                 "e_location" => $req["e_location"],
                 "e_type" => $req["e_type"],
-                "e_tag1" => isset($req["e_tag1"]) ? $req["e_tag1"] : "",
-                "e_tag2" => isset($req["e_tag2"]) ? $req["e_tag2"] : "",
-                "e_tag3" => isset($req["e_tag3"]) ? $req["e_tag3"] : "",
-                "e_tag4" => isset($req["e_tag4"]) ? $req["e_tag4"] : "",
-                "e_tag5" => isset($req["e_tag5"]) ? $req["e_tag5"] : "",
                 "e_img" => isset($req["e_img"]) ? $req["e_img"] : "event.png",
                 "e_rating" => 0
             );
-            $query = $this->conn->prepare('INSERT INTO events (u_rid, u_rname, e_name, e_desc, e_date, e_time, e_location, e_type, e_tag1, e_tag2, e_tag3, e_tag4, e_tag5, e_img, e_rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
+            $query = $this->conn->prepare('INSERT INTO events (u_rid, u_rname, e_name, e_desc, e_date, e_time, e_location, e_type, e_img, e_rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
             //error handling
             try{
-                $query->execute(array($user_id, $user_name, $event_array["e_name"], $event_array["e_desc"], $event_array["e_date"], $event_array["e_time"], $event_array["e_location"], $event_array["e_type"], $event_array["e_tag1"], $event_array["e_tag2"], $event_array["e_tag3"], $event_array["e_tag4"], $event_array["e_tag5"], $event_array["e_img"], $event_array["e_rating"]));
+                $query->execute(array($user_id, $user_name, $event_array["e_name"], $event_array["e_desc"], $event_array["e_date"], $event_array["e_time"], $event_array["e_location"], $event_array["e_type"], $event_array["e_img"], $event_array["e_rating"]));
                 $this->respond("success", $event_array, "Event added successfully");
-                $query = null;
             }
             catch(PDOException $e){
                 $this->respond("error", null, "Error: " . $e->getMessage());
-                $query = null;
             }
+            $query = null;
         }
         else if($add == "list"){
             //if the list name is not set, return error
@@ -913,40 +901,52 @@ class API{
             try{
                 $query->execute(array($req["u_display_name"], $req["u_profile"], $req["u_bio"], $req["u_pronouns"], $req["u_location"], $req["user_id"]));
                 $this->respond("success", null, "User updated successfully");
-                $query = null;
             }
             catch(PDOException $e){
                 $this->respond("error", null, "Error: " . $e->getMessage());
-                $query = null;
             }
+            $query = null;
         }
         else if($update === "event"){
             //update event
-            $query = $this->conn->prepare('UPDATE `events` SET `e_name`=?, `e_desc`=?, `e_date`=?, `e_time`=?, `e_location`=?, `e_type`=?, `e_img`=?, `e_tag1`=?, `e_tag2`=?, `e_tag3`=?, `e_tag4`=?, `e_tag5`=? WHERE e_id=?; AND u_rid=?;');
+            $query = $this->conn->prepare('UPDATE `events` SET `e_name`=?, `e_desc`=?, `e_date`=?, `e_time`=?, `e_location`=?, `e_type`=?, `e_img`=? WHERE e_id=?; AND u_rid=?;');
             //error handling
             try{
-                $query->execute(array($req["e_name"], $req["e_desc"], $req["e_date"], $req["e_time"], $req["e_location"], $req["e_type"], $req["e_img"], $req["e_tag1"], $req["e_tag2"], $req["e_tag3"], $req["e_tag4"], $req["e_tag5"], $req["event_id"], $req["user_id"]));
-                $this->respond("success", null, "Event updated successfully");
-                $query = null;
+                $event_array = array(
+                    "e_name" => $req["e_name"],
+                    "e_desc" => isset($req["e_desc"]) ? $req["e_desc"] : "No description",
+                    "e_date" => $req["e_date"],
+                    "e_time" => $req["e_time"],
+                    "e_location" => $req["e_location"],
+                    "e_type" => $req["e_type"],
+                    "e_img" => isset($req["e_img"]) ? $req["e_img"] : "event.png"
+                );
+                $query->execute(array($req["e_name"], $req["e_desc"], $req["e_date"], $req["e_time"], $req["e_location"], $req["e_type"], $req["e_img"], $req["event_id"], $req["user_id"]));
+                $this->respond("success", $event_array, "Event updated successfully");
             }
             catch(PDOException $e){
                 $this->respond("error", null, "Error: " . $e->getMessage());
-                $query = null;
             }
+            $query = null;
         }
         else if($update === "list"){
             //update list
             $query = $this->conn->prepare('UPDATE `lists` SET `l_name`=?, `l_desc`=?, `l_events`=? WHERE l_id=?; AND u_rid=?;');
             //error handling
             try{
+                $list_array = array(
+                    "l_name" => $req["l_name"],
+                    "l_desc" => $req["l_desc"], 
+                    "l_events" => $req["l_events"], 
+                    "list_id" => $req["list_id"]
+                );
                 $query->execute(array($req["l_name"], $req["l_desc"], $req["l_events"], $req["list_id"], $req["user_id"]));
-                $this->respond("success", null, "List updated successfully");
-                $query = null;
+                $this->respond("success", $list_array, "List updated successfully");
             }
             catch(PDOException $e){
                 $this->respond("error", null, "Error: " . $e->getMessage());
-                $query = null;
             }
+            $query = null;
         }
         else{
             $this->respond("error", null, "Invalid Update Type");
@@ -986,6 +986,7 @@ class API{
                         $query = null;
                         return;
                     }
+                    $query = null;
                 }
             }
             catch(PDOException $e){
@@ -1005,6 +1006,7 @@ class API{
                 $query = null;
                 return;
             }
+            $query = null;
         }
         else{
             $this->respond("error", null, "Invalid Follow Type");
@@ -1025,10 +1027,10 @@ class API{
         }
         $params = $req["search"];
         //make query with params
-        $query = $this->conn->prepare('SELECT DISTINCT * FROM events WHERE e_name LIKE "%" ? "%" OR u_rname=? OR e_location=? OR e_type=? OR e_tag1=? OR e_tag2=? OR e_tag3=? OR e_tag4=? OR e_tag5=? ORDER BY e_date DESC;');
+        $query = $this->conn->prepare('SELECT DISTINCT * FROM events WHERE e_name LIKE "%" "?" "%" OR e_desc LIKE "%" "?" "%" OR u_rname=? OR e_location=? OR e_type=? ORDER BY e_date DESC;');
         //error handling
         try{
-            $query->execute(array($params, $params, $params, $params, $params, $params, $params, $params, $params));
+            $query->execute(array($params, $params, $params, $params, $params));
             $result = $query->fetchAll();
             if(empty($result)){
                 $this->respond("error", null, "No results found");

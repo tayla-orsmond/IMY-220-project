@@ -14,15 +14,17 @@
         private $email;
         private $psw;
         private $repeat_psw;
+        private $display_name;
         private $api;
 
         //constructor
-        public function __construct($name, $email, $psw, $repeat_psw)
+        public function __construct($name, $email, $psw, $repeat_psw, $display_name)
         {
             $this->name = $name;
             $this->email = $email;
             $this->psw = $psw;
             $this->repeat_psw = $repeat_psw;
+            $this->$display_name = $display_name;
             $this->api = new API();
         }
 
@@ -129,12 +131,16 @@
             if(!$success){//guard
                 return $success;
             }
+            //sanitize the display name
+            $this->display_name = htmlspecialchars($this->display_name, ENT_SUBSTITUTE);
+            
             //signup user
             //direct function
             $req = array(
                 "username" => $this->name,
                 "email" => $this->email,
-                "password" => $this->psw
+                "password" => $this->psw,
+                "display_name" => $this->display_name
             );
             $this->api->setUser($req);
             $result = json_decode($this->api->getResponse(), true);

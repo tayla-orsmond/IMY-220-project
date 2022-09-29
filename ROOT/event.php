@@ -70,33 +70,31 @@
                 <div class="col-8 p-3 d-flex flex-column">
                     <img src="media/uploads/'. $event["e_img"] .'" class="img-fluid w-100" alt="...">';
                     if($event["u_rid"] == $_SESSION['user_id']){
-                        echo '<div class="btn btn-dark justify-self-end align-self-end">Edit Event</div>';
+                        echo '<div class="btn btn-dark justify-self-end align-self-end" data-bs-toggle="modal" data-bs-target="#event_modal" id="edit_event">Edit Event</div>';
                     }
                     echo '<div class="w-75">
-                        <p><a href="profile.php?id='. $event["u_rid"] .'">@'. $event["u_rname"] .'</a></p>';
+                        <p><a href="profile.php?id='. $event["u_rid"] .'">@'. $event["u_rname"] .'</a></p>
+                        <p>';
                         for($i = 0; $i < $event["e_rating"]; $i++){
                             echo '<i class="fa fa-star fa-xl"></i>';
                         }
                         for($i = 0; $i < 5 - $event["e_rating"]; $i++){
                             echo '<i class="fa fa-star-o fa-xl"></i>';
                         }
-                        echo '<h2>'. $event["e_name"] .'</h2>
+                        echo '</p>
+                        <h2>'. $event["e_name"] .'</h2>
                         <p class="h4">'. $event["e_location"] .' | '. date("D - d M Y", strtotime($event["e_date"])) .'</p>
                         <p class="h5">'.  date("h:m", strtotime($event["e_date"]))  .'</p>
                         <p class="p-2"><span class="bg-light p-2">'. $event["e_type"] .'</span></p>
-                        <p>'. $event["e_desc"] .'</p>
+                        <p>'. 
+                        //search the event description for hashtags
+                        //if there are any, replace them with a link to the home page
+                        //with the hashtag as the search term / parameter in the url
+                        preg_replace('/#([^\s]+)/', '<a href="home.php?search=$1">#$1</a>', $event["e_desc"]);
+                        $event["e_desc"]
+                        .'</p>
                         <div class="d-flex justify-content-start gap-1">';
-                            if($event["e_tag1"] != ""){
-                                echo '<a href="home.php" class="btn btn-dark">'. $event["e_tag1"] .'</a>';
-                            }
-                            if($event["e_tag2"] != ""){
-                                echo '<a href="home.php" class="btn btn-dark">'. $event["e_tag2"] .'</a>';
-                            }
-                            if($event["e_tag3"] != ""){
-                                echo '<a href="home.php" class="btn btn-dark">'. $event["e_tag3"] .'</a>';
-                            }
-                        echo '</div>
-                        <p class="mt-2"><a href="" id="add-event">> Add this event to a gallery</a></p>
+                        echo '<p class="mt-2"><a href="#" data-bs-toggle="modal" data-bs-target="#add_to_list_modal" id="add_event_to_list"> &gt; Add this event to a gallery</a></p>
                     </div>
                 </div>';
 
@@ -137,9 +135,11 @@
                 echo'
                 <div class="col-4">
                     <div class="d-flex justify-content-between p-2 border-bottom">
-                        <h3>Reviews and Ratings</h3>
-                        <div class="btn btn-dark" id="add-review">Add Review</div>
-                    </div>
+                        <h3>Reviews and Ratings</h3>';
+                        if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != $event_id){
+                            echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#review_modal" id="add-review">Add Review</div>';
+                        }
+                    echo '</div>
                     <div class="d-flex flex-column p-3">';
                         if(empty($reviews)){
                             echo '<div class="p-1 mt-2 review-box">
@@ -163,7 +163,7 @@
                                         </div>
                                         <p>'. $reviews[$i]["r_comment"] .'</p>';
                                 if($reviews[$i]["u_rid"] == $_SESSION['user_id']){
-                                    echo '<div class="btn btn-dark" id="edit-review">Edit Review</div>';
+                                    echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#review_modal" id="edit-review">Edit Review</div>';
                                 }
                                 echo '</div>';
                             }
@@ -181,11 +181,11 @@
                         for($i = 0; $i < count($reviews) && $i < 10; $i++){
                             if($i == 0){
                                 echo '<div class="carousel-item active">
-                                    <img src="media/uploads/'. $reviews[$i]["r_img"] .'" class="d-block w-100" alt="...">
+                                    <img src="media/uploads/reviews'. $reviews[$i]["r_img"] .'" class="d-block w-100" alt="...">
                                 </div>';
                             }else{
                                 echo '<div class="carousel-item">
-                                    <img src="media/uploads/'. $reviews[$i]["r_img"] .'" class="d-block w-100" alt="...">
+                                    <img src="media/uploads/reviews'. $reviews[$i]["r_img"] .'" class="d-block w-100" alt="...">
                                 </div>';
                             }
                         }

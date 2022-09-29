@@ -33,13 +33,16 @@
                 //echo out the appropriate profile page for the user dpending on the user id in the url
                 //if the id is blank, then the user is viewing their own profile
                 //so use the cookie to get the user id
-                //if the user id is not set, redirect to the splash page
-                if (isset($_GET['id']) || isset($_COOKIE['user_id'])) {
+                //and the session as a last resort
+                //if the user id is not set at all, redirect to the splash page
+                if (isset($_GET['id']) || isset($_COOKIE['user_id']) || isset($_SESSION['user_id'])) {
                     $user_id = null;
                     if (isset($_GET['id'])) {
                         $user_id = $_GET['id'];
-                    } else {
+                    } else if(isset($_COOKIE['user_id'])){
                         $user_id = $_COOKIE['user_id'];
+                    } else{//last resort
+                        $user_id = $_SESSION['user_id'];
                     }
                     //make a curl request to the api to get the profile data
                     $body = array(
@@ -104,8 +107,8 @@
                             </div>
                         </div><!--End Profile Header card-->
                         <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
-                            if($profile['u_id'] === $_SESSION['user_id']){
-                                echo '<a href="" class="btn btn-dark">Edit Profile</a>';
+                            if(isset($_SESSION['user_id']) && $profile['u_id'] === $_SESSION['user_id']){
+                                echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal">Edit Profile</a>';
                             }
                             //get the profile's followers
                             $body = array(
@@ -184,15 +187,15 @@
                                 }
                             }
                             //check if the user logged in is not the current profile
-                            if($user_id != $_SESSION['user_id']){
+                            if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != $user_id){
                                 //check if the user is following the profile
                                 echo '<div class="btn btn-light ' . ($is_follower ? "" : "d-none") . '" id="unfollow">Following</div>
-                                <a href="message.php?chat="'. $profile['u_id'] .'" class=" ' . ($is_follower ? "" : "d-none") . '" id="DM"><i class="fa fa-paper-plane"></i></a>
+                                <a href="message.php?chat="'. $profile['u_id'] .'" class=" ' . ($is_follower ? "" : "d-none") . '" id="DM"><i class="fa fa-paper-plane fa-xl"></i></a>
                                 <div class="btn btn-dark ' . ($is_follower ? "d-none" : "") . '" id="follow">Follow</div>';
                             }
                         echo '<div class="">
-                                <p><span class="fw-bold followers">' . count($followers) . ' </span> <a href="" id="show_follows">Followers</a></p>
-                                <p><span class="fw-bold following">' . count($following) . '</span> <a href="" id="show_following">Following</a></p>
+                                <p><span class="fw-bold followers">' . count($followers) . ' </span> <a href="" data-bs-toggle="modal" data-bs-target="#followers_modal" id="show_follows">Followers</a></p>
+                                <p><span class="fw-bold following">' . count($following) . '</span> <a href="" data-bs-toggle="modal" data-bs-target="#following_modal" id="show_following">Following</a></p>
                             </div>
                         </div><!--End Actions -->
                         <div class="col-12 row mt-2">
@@ -210,10 +213,10 @@
                             </div>
                         </div>
                         <div class="col-10 d-flex flex-wrap p-3 gap-2 border event-area-inner"><!--Event area -> for users events-->';
-                            if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $user_id){
+                            if(isset($_SESSION['user_id']) && $_SESSION['user_id'] === $user_id){
                                 echo'
                                 <div class="w-100">
-                                    <div class="btn btn-dark" id="add_event">Add Event</div>
+                                    <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#event_modal" id="add_event">Add Event</div>
                                 </div>';
                             }
                         echo '<div id="events-inner"></div>
@@ -226,7 +229,7 @@
                             </div>
                             <div id="galleries-inner"></div>';
                                 if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $user_id){
-                                    echo '<div class="btn btn-dark" id="add_gallery">Add Gallery</div>';
+                                    echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#list_modal" id="add_gallery">Add Gallery</div>';
                                 }
                             echo'
                             </div><!--End galleries-->

@@ -238,11 +238,6 @@ $(() => {
                 "e_date": $("#e_date").val(),
                 "e_time": $("#e_time").val(),
                 "e_location": $("#e_location").val(),
-                "e_tag1": $("#e_tag1").val(),
-                "e_tag2": $("#e_tag2").val(),
-                "e_tag3": $("#e_tag3").val(),
-                "e_tag4": $("#e_tag4").val(),
-                "e_tag5": $("#e_tag5").val(),
                 "e_img": $("#e_img").val(),
                 "e_rating": $("#e_rating").val()
             }),

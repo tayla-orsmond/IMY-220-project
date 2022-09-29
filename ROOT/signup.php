@@ -55,13 +55,17 @@
                 <form action="php/signup-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
                     <div class="d-flex justify-content-between mb-3">
                         <div class="form-floating me-3">
-                            <input type="text" class="form-control border-0 border-bottom" id="username" name="username" placeholder="Jean-Honoré Fragonard" required>
+                            @<input type="text" class="form-control border-0 border-bottom" id="username" name="username" placeholder="@jeantheswinger" required>
                             <label for="username">username</label>
                         </div>
                         <div class="form-floating">
                             <input type="email" class="form-control border-0 border-bottom" id="email" name="email" placeholder="jean@example.com" required>
                             <label for="email">email address</label>
                         </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control border-0 border-bottom" id="display_name" name="display_name" placeholder="Jean-Honoré Fragonard">
+                        <label for="display_name">display name (optional)</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control border-0 border-bottom" id="password" name="password" placeholder="(Shhh... this is secret)" required>

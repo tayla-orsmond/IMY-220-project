@@ -15,11 +15,12 @@
         $email = $_POST["email"];
         $psw = $_POST["password"];
         $repeat_psw = $_POST["confirm"];
+        $display_name = $_POST["display_name"];
         
         //create signup controller
         require_once "class/signup-ctrl.php";
 
-        $signup = new SignupCtrl($name, $email, $psw, $repeat_psw);
+        $signup = new SignupCtrl($name, $email, $psw, $repeat_psw, $display_name);
         
         //error handling + signup
         $success = $signup->signup();

@@ -708,7 +708,7 @@ class API{
                 $this->respond("success", $followers, "User's followers returned successfully");
             }
             else{
-                $this->respond("error", null, "This user has no followers");
+                $this->respond("error", null, "No followers");
             }
             $query = null;
         }
@@ -730,7 +730,7 @@ class API{
                 $this->respond("success", $following, "User's following returned successfully");
             }
             else{
-                $this->respond("error", null, "This user is not following anyone");
+                $this->respond("error", null, "No following");
             }
             $query = null;
         }

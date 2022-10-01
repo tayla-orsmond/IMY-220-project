@@ -194,8 +194,8 @@
                                 <div class="btn btn-dark ' . ($is_follower ? "d-none" : "") . '" id="follow">Follow</div>';
                             }
                         echo '<div class="">
-                                <p><span class="fw-bold followers">' . count($followers) . ' </span> <a href="" data-bs-toggle="modal" data-bs-target="#followers_modal" id="show_follows">Followers</a></p>
-                                <p><span class="fw-bold following">' . count($following) . '</span> <a href="" data-bs-toggle="modal" data-bs-target="#following_modal" id="show_following">Following</a></p>
+                                <p><span class="fw-bold followers">' . count($followers) . ' </span> <a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_followers">Followers</a></p>
+                                <p><span class="fw-bold following">' . count($following) . '</span> <a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_following">Following</a></p>
                             </div>
                         </div><!--End Actions -->
                         <div class="col-12 row mt-2">

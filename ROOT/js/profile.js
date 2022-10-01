@@ -55,11 +55,19 @@ $(() => {
         </li>
         `
     }
-    //follower / following template list item for a list group
-    const follower_following_template = ({u_name, u_id}) => {
+    //follower template list item for a list group
+    const follower_template = ({u_fname, u_fid}) => {
         return `
         <li class="list-group-item">
-            <a href="profile.php?id=${u_id}">${u_name}</a>
+            <a href="profile.php?id=${u_fid}">@${u_fname}</a>
+        </li>
+        `
+    }
+    //following template list item for a list group
+    const following_template = ({u_rname, u_rid}) => {
+        return `
+        <li class="list-group-item">
+            <a href="profile.php?id=${u_rid}">@${u_rname}</a>
         </li>
         `
     }
@@ -67,7 +75,6 @@ $(() => {
     const error_template = (error) => {
         return `
             <div class="d-flex flex-column bg-light p-3 text-center">
-                <img src="https://images.unsplash.com/photo-1575805082881-8828b300e0ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="img-fluid" alt="...">
                 ${error}
             </div>
         `
@@ -94,8 +101,6 @@ $(() => {
                 "id": user_id,
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
                 populate_events(resp);
             },
             error: function(xhr,status,error){//error handling
@@ -120,8 +125,6 @@ $(() => {
                 "id": user_id,
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
                 populate_events(resp);
             },
             error: function(xhr,status,error){//error handling
@@ -146,8 +149,6 @@ $(() => {
                 "id": user_id,
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
                 populate_galleries(resp);
             },
             error: function(xhr,status,error){//error handling
@@ -184,7 +185,7 @@ $(() => {
                 $("#galleries-inner").append(gallery_template(gallery));
             });
         }
-        else if(resp.status == "error"){
+        else{
             console.log(resp.status);
             console.log(resp.data.message);
             $("#error-area-g").show();
@@ -242,11 +243,12 @@ $(() => {
                 "e_rating": $("#e_rating").val()
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
                 if(resp.status == "success"){
-                    $("#add_event").modal("hide");
                     load_events();
+                }
+                else{
+                    console.log(resp.status + " | " + status);
+                    console.log(resp.data.message);
                 }
             },
             error: function(xhr,status,error){//error handling
@@ -267,18 +269,18 @@ $(() => {
             data: JSON.stringify({
                 "type": "add",
                 "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
-                "return": "galleries",
+                "add": "list",
                 "id": user_id,
-                "title": $("#add_gallery_title").val(),
-                "description": $("#add_gallery_description").val(),
-                "url": $("#add_gallery_url").val(),
+                "l_name": $("#g_name").val(),
+                "l_desc": $("#g_desc").val(),
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
                 if(resp.status == "success"){
-                    $("#add_gallery").modal("hide");
                     load_galleries();
+                }
+                else{
+                    console.log(resp.status + " | " + status);
+                    console.log(resp.data.message);
                 }
             },
             error: function(xhr,status,error){//error handling
@@ -330,8 +332,8 @@ $(() => {
             }
         })
     }
-    //load the user's followers in a modal
-    const load_followers = () => {
+    //load the user's followers / following in a modal
+    const load_followers_following = (f) => {
         $.ajax({
             url: api_url,
             type: "POST",
@@ -343,44 +345,41 @@ $(() => {
             data: JSON.stringify({
                 "type": "info",
                 "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
-                "return": "followers",
+                "return": f,
                 "id": user_id,
             }),
-            success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
-                populate_followers(resp);
+            success: function(resp, status){//succesful query     
+                populate_followers_following(resp, f);
             },
             error: function(xhr,status,error){//error handling
                 error_handler(xhr,status,error);
             }
         })
     }
-    //load the user's following in a modal
-    const load_following = () => {
-        $.ajax({
-            url: api_url,
-            type: "POST",
-            accept: "application/json",
-            contentType: "application/json",
-            username: user_name,
-            password: user_key,
-            dataType: "json",
-            data: JSON.stringify({
-                "type": "info",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
-                "return": "following",
-                "id": user_id,
-            }),
-            success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
-                populate_following(resp);
-            },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+    //populate the modal with the user's followers / following
+    const populate_followers_following = (resp, f) => {
+        $("#follow_list").empty();
+        $("#follow_modal_label").empty();
+        $("#follow_modal_label").text("F" + f.slice(1));
+        console.log(resp.data.return);
+        if(resp.status === "success" && resp.data.return.length > 0){
+            let follow = resp.data.return;
+            if(f === "followers"){
+                follow.forEach(user => {
+                    $("#follow_list").append(follower_template(user));
+                });
             }
-        })
+            else{
+                follow.forEach(user => {
+                    $("#follow_list").append(following_template(user));
+                });
+            }
+        }
+        else{
+            console.log(resp.status);
+            console.log(resp.data.message);
+            $("#follow_list").append(error_template(resp.data.message));
+        }
     }
     /**
      * 
@@ -410,11 +409,11 @@ $(() => {
         follow_unfollow("unfollow");        
     });
     //if the following tab is clicked, load the user's following
-    $("#following").on("click", () => {
-        load_following();
+    $("#show_following").on("click", () => {
+        load_followers_following("following");
     });
     //if the followers tab is clicked, load the user's followers
-    $("#followers").on("click", () => {
-        load_followers();
+    $("#show_followers").on("click", () => {
+        load_followers_following("followers");
     });
 });

@@ -77,7 +77,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="list_modal_label">Add Gallery</h5>
-                
             </div>
             <div class="modal-body">
                 <form id="add_list_form" method="post" action="php/profile.php">
@@ -105,7 +104,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="review_modal_label">Add Review</h5>
-                
             </div>
             <div class="modal-body">
                 <form id="add_review_form" method="post" action="php/profile.php">
@@ -212,37 +210,15 @@
     </div>
 </div>
 
-<!-- Bootstrap Modal to view a users followers (list of usernames which are links to their profiles) -->
-<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="followers_modal" tabindex="-1" role="dialog" aria-labelledby="followers_modal_label" aria-hidden="true">
+<!-- Bootstrap Modal to view a users followers / following (list of usernames which are links to their profiles) -->
+<div class="modal modal-lg fade modal-fullscreen-sm" id="follow_modal" tabindex="-1" role="dialog" aria-labelledby="follow_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="followers_modal_label">Followers</h5>
-                
+                <h5 class="modal-title" id="follow_modal_label"></h5>
             </div>
             <div class="modal-body">
-                <ul class="list-group" id="followers_list">
-                    <li class="list-group-item">Loading...</li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Bootstrap Modal to view a users following (list of usernames which are links to their profiles) -->
-<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="following_modal" tabindex="-1" role="dialog" aria-labelledby="following_modal_label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="following_modal_label">Following</h5>
-                
-            </div>
-            <div class="modal-body">
-                <ul class="list-group" id="following_list">
-                    <li class="list-group-item">Loading...</li>
+                <ul class="list-group" id="follow_list">
                 </ul>
             </div>
             <div class="modal-footer">

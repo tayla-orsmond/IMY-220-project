@@ -5,6 +5,6 @@
 $(() => {
     $('.scroller').on('scroll', (event) => {
         event.preventDefault();
-        scroller.scrollLeft += event.deltaY * 5;
+        $('.scroller').scrollLeft += event.deltaY * 5;
     });
 });

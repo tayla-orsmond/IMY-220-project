@@ -1,7 +1,8 @@
 //Tayla Orsmond u21467456
 //Language: javascript, jquery
 //Path: js\signup.js
-//Description: This is the javascript for the signup page. It validates the username, email, password and repeat_password fields and checks if they are empty or not.
+//Description: This is the javascript for the signup page. 
+//It validates the username, email, password and repeat_password fields and checks if they are empty or not.
 //It checks password and repeat password fields to make sure they match.
 /*
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -17,6 +18,7 @@
     Username Regex
 
 */
+import {validate_username, validate_email, validate_password, username_err, email_err, psw_err, repeat_psw_err, submit_err} from './validate.js';
 
 $(() => {
     //VARIABLES
@@ -34,32 +36,6 @@ $(() => {
     const repeat_psw_field = $('#confirm');
     repeat_psw = repeat_psw_field.val();
     const btn = $('#signup');
-    //ERROR MESSAGES
-    const username_err = $('<div></div>', {
-        html: 'Please enter a valid Username.',
-        class: 'invalid bg-warning p-3',
-        id: 'username_err'
-    });
-    const email_err = $('<div></div>', {
-        html: 'Please enter a valid Email Address.',
-        class: 'invalid bg-warning p-3',
-        id: 'email_err'
-    });
-    const psw_err = $('<div></div>', {
-        html: 'Please enter a valid password. Passwords must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character and one number.',
-        class: 'invalid bg-warning p-3',
-        id: 'psw_err'
-    });
-    const repeat_psw_err = $('<div></div>', {
-        html: 'Passwords must match.',
-        class: 'invalid bg-warning p-3',
-        id: 'repeat_psw_err'
-    });
-    const submit_err = $('<div></div>', {
-        html: 'Please make sure all fields are filled in correctly before submitting.',
-        class: 'invalid bg-warning p-3',
-        id: 'submit_err'
-    });
     //EVENT HANDLERS
     btn.on('click', (e) => {
         if (valid_username && valid_email && valid_psw && valid_repeat_psw) {
@@ -71,7 +47,7 @@ $(() => {
     });
     username_field.on('blur', () => {
         username = username_field.val();
-        if (validateUsername(username)) {
+        if (validate_username(username)) {
             username_field.removeClass('invalid');
             username_field.addClass('valid');
             username_err.remove();
@@ -85,7 +61,7 @@ $(() => {
     });
     email_field.on('blur', () => {
         email = email_field.val();
-        if (validateEmail(email)) {
+        if (validate_email(email)) {
             email_field.removeClass('invalid');
             email_field.addClass('valid');
             email_err.remove();
@@ -99,7 +75,7 @@ $(() => {
     });
     psw_field.on('blur', () => {
         psw = psw_field.val();
-        if (validatePassword(psw)) {
+        if (validate_password(psw)) {
             psw_field.removeClass('invalid');
             psw_field.addClass('valid');
             psw_err.remove();
@@ -113,7 +89,7 @@ $(() => {
     });
     repeat_psw_field.on('blur', () => {
         repeat_psw = repeat_psw_field.val();
-        if (validatePassword(repeat_psw) && psw === repeat_psw) {
+        if (validate_password(repeat_psw) && psw === repeat_psw) {
             repeat_psw_field.removeClass('invalid');
             repeat_psw_field.addClass('valid');
             repeat_psw_err.remove();
@@ -125,17 +101,4 @@ $(() => {
             valid_repeat_psw = false;
         }
     });
-    //FUNCTIONS
-    const validateUsername = (username) => {
-        const rg = new RegExp(/^(?=[a-zA-Z0-9_.]{3,20}$)(?!.*[_.]{2}).*$/);
-        return rg.test(username);
-    }
-    const validateEmail = (email) => {
-        const rg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        return rg.test(email);
-    }
-    const validatePassword = (psw) => {
-        const rg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=~`-])[A-Za-z\d!@#$%^&*()_+=~`-]{8,}$/);
-        return rg.test(psw);
-    }
 });

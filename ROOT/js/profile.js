@@ -4,84 +4,19 @@
 //Description: This file contains the javascript code for the profile page
 //e.g., adding an event, adding a gallery (list), following, unfollowing, viewing your events and your reviewed events etc.
 
+import { validate_event, validate_list} from "./validate.js";
+import { get_cookie } from "./cookie.js";
+import { event_template, gallery_template, follower_template, error_template_blank} from "./template.js";
+
 $(() => {
-    /**
-     * 
-     * CONSTANTS AND GLOBAL VARIABLES ===========================================================
-     */
-    //get the cookie values 
-    const getCookie = (cookieName, cookies) => {
-        const name = cookieName + "=";//beginning of cookie string (name of name value pair)
-        for(const cookie of cookies){
-            let c = cookie;
-            while(c.charAt(0) == ' '){//parse until you get to just before a cookie name
-                c = c.substring(1);
-            }
-            if(c.indexOf(name) == 0){//cookie name match
-                return c.substring(name.length, c.length);//parse the cookie string to get value
-            }
-        }
-        return "-1";
-    }
+    //GLOBALS
     //Get the user id from the url
     const urlParams = new URLSearchParams(window.location.search);
     const user_id = urlParams.get('id');
-    //event template
-    const event_template = ({e_img, e_name, e_location, e_id}) => {
-        return `
-        <div class="card event-card">
-            <img src="${e_img}" class="card-img-top img-fluid" alt="...">
-            <div class="card-body">
-                <h5 class="card-title text-truncate">${e_name}</h5>
-                <p class="card-text text-truncate">${e_location}</p>
-                <a href="event.php?id=${e_id}" class="stretched-link"></a>
-            </div>
-        </div>
-        `
-    }
-    //gallery template list item for a list group 
-    const gallery_template = ({g_img, g_name, g_id}) => {
-        return `
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-4">
-                    <img src="${g_img}" class="img-fluid" alt="...">
-                </div>
-                <div class="col-8">
-                    <h5 class="card-title text-truncate">${g_name}</h5>
-                    <a href="gallery.php?id=${g_id}" class="stretched-link"></a>
-                </div>
-            </div>
-        </li>
-        `
-    }
-    //follower template list item for a list group
-    const follower_template = ({u_fname, u_fid}) => {
-        return `
-        <li class="list-group-item">
-            <a href="profile.php?id=${u_fid}">@${u_fname}</a>
-        </li>
-        `
-    }
-    //following template list item for a list group
-    const following_template = ({u_rname, u_rid}) => {
-        return `
-        <li class="list-group-item">
-            <a href="profile.php?id=${u_rid}">@${u_rname}</a>
-        </li>
-        `
-    }
-    //error template
-    const error_template = (error) => {
-        return `
-            <div class="d-flex flex-column bg-light p-3 text-center">
-                ${error}
-            </div>
-        `
-    }
     /**
      * 
-     * FUNCTIONS FOR EVENTS ===========================================================
+     * FUNCTIONS FOR EVENTS ==========================================================
+     * 
      */
     //load the user's events
     const load_events = () => {
@@ -91,11 +26,11 @@ $(() => {
             accept: "application/json",
             contentType: "application/json",
             username: user_name,
-            password: user_key,
+            password: api_key,
             dataType: "json",
             data: JSON.stringify({
                 "type": "info",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "return": "events",
                 "scope": "self",
                 "id": user_id,
@@ -116,11 +51,11 @@ $(() => {
             accept: "application/json",
             contentType: "application/json",
             username: user_name,
-            password: user_key,
+            password: api_key,
             dataType: "json",
             data: JSON.stringify({
                 "type": "info",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "return": "reviewed",
                 "id": user_id,
             }),
@@ -140,11 +75,11 @@ $(() => {
             accept: "application/json",
             contentType: "application/json",
             username: user_name,
-            password: user_key,
+            password: api_key,
             dataType: "json",
             data: JSON.stringify({
                 "type": "info",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "return": "lists",
                 "id": user_id,
             }),
@@ -171,7 +106,7 @@ $(() => {
             console.log(resp.status);
             console.log(resp.data.message);
             $("#error-area").show();
-            $("#error-area").append(error_template("It's a still life over here. " + resp.data.message));
+            $("#error-area").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
     }
     //populate galleries
@@ -189,8 +124,105 @@ $(() => {
             console.log(resp.status);
             console.log(resp.data.message);
             $("#error-area-g").show();
-            $("#error-area-g").append(error_template("It's a still life over here. " + resp.data.message));
+            $("#error-area-g").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
+    }
+    //add a new event
+    const add_event = () => {
+        //get the values from the form
+        let e_name = $("#e_name").val();
+        let e_desc = $("#e_desc").val();
+        let e_date = $("#e_date").val();
+        let e_time = $("#e_time").val();
+        let e_location = $("#e_location").val();
+        //get the image filename from the form
+        let e_img = $("#e_img_input").val().split("\\").pop();
+        let e_type = $("#e_type").val();
+        //make the ajax call
+        $.ajax({
+            url: api_url,
+            type: "POST",
+            accept: "application/json",
+            contentType: "application/json",
+            username: user_name,
+            password: api_key,
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "add",
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
+                "add": "event",
+                "e_name": e_name,
+                "e_desc": e_desc,
+                "e_date": e_date,
+                "e_time": e_time,
+                "e_location": e_location,
+                "e_img": e_img,
+                "e_type": e_type,
+            }),
+            success: function(resp, status){//succesful query
+                if(resp.status == "success"){
+                    //submit the form
+                    $("#event_form").submit();
+                    //clear the form
+                    $("#e_name").val("");
+                    $("#e_desc").val("");
+                    $("#e_date").val("");
+                    $("#e_time").val("");
+                    $("#e_location").val("");
+                    $("#e_img").val("");
+                    $("#e_type").val("");       
+                    //load the events
+                    load_events();
+                }
+                else{
+                    console.log(resp.status);
+                    console.log(resp.data.message);
+                }
+            },
+            error: function(xhr,status,error){//error handling
+                error_handler(xhr,status,error);
+            }
+        })
+    }
+    //add a new gallery
+    const add_list = () => {
+        //get the values from the form
+        let g_name = $("#g_name").val();
+        let g_desc = $("#g_desc").val();
+        //make the ajax call
+        $.ajax({
+            url: api_url,
+            type: "POST",
+            accept: "application/json",
+            contentType: "application/json",
+            username: user_name,
+            password: api_key,
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "add",
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "add": "list",
+                "l_name": g_name,
+                "l_desc": g_desc,
+            }),
+            success: function(resp, status){//succesful query
+                if(resp.status == "success"){
+                    //clear the form
+                    $("#g_name").val("");
+                    $("#g_desc").val("");
+                    //load the galleries
+                    load_galleries();
+                }
+                else{
+                    console.log(resp.status);
+                    console.log(resp.data.message);
+                }
+            },
+            error: function(xhr,status,error){//error handling
+                error_handler(xhr,status,error);
+            }
+        })
     }
     //clear the events
     const clear_events = () => {
@@ -217,80 +249,11 @@ $(() => {
         //clear events
         clear_events();
         $("#error").show();
-        $("#error").append(error_template(error));
-    }
-    //add an event via a modal
-    const add_event = () => {
-        $.ajax({
-            url: api_url,
-            type: "POST",
-            accept: "application/json",
-            contentType: "application/json",
-            username: user_name,
-            password: user_key,
-            dataType: "json",
-            data: JSON.stringify({
-                "type": "add",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
-                "user_name": getCookie("user_name", document.cookie.split(";")) === "-1" ? null : getCookie("user_name", document.cookie.split(";")),
-                "add": "event",
-                "e_name": $("#e_name").val(),
-                "e_desc": $("#e_desc").val(),
-                "e_date": $("#e_date").val(),
-                "e_time": $("#e_time").val(),
-                "e_location": $("#e_location").val(),
-                "e_img": $("#e_img").val(),
-                "e_rating": $("#e_rating").val()
-            }),
-            success: function(resp, status){//succesful query
-                if(resp.status == "success"){
-                    load_events();
-                }
-                else{
-                    console.log(resp.status + " | " + status);
-                    console.log(resp.data.message);
-                }
-            },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
-            }
-        })
-    }
-    //add a gallery via a modal
-    const add_gallery = () => {
-        $.ajax({
-            url: api_url,
-            type: "POST",
-            accept: "application/json",
-            contentType: "application/json",
-            username: user_name,
-            password: user_key,
-            dataType: "json",
-            data: JSON.stringify({
-                "type": "add",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
-                "add": "list",
-                "id": user_id,
-                "l_name": $("#g_name").val(),
-                "l_desc": $("#g_desc").val(),
-            }),
-            success: function(resp, status){//succesful query
-                if(resp.status == "success"){
-                    load_galleries();
-                }
-                else{
-                    console.log(resp.status + " | " + status);
-                    console.log(resp.data.message);
-                }
-            },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
-            }
-        })
+        $("#error").append(error_template_blank(error));
     }
     /**
      * 
-     * FUNCTIONS FOR (UN)FOLLOWING ===========================================================
+     * FUNCTIONS FOR FOLLOWERS/ FOLLOWING ==========================================================
      */
     //follow / unfollow the user
     const follow_unfollow = (f) => {
@@ -300,13 +263,13 @@ $(() => {
             accept: "application/json",
             contentType: "application/json",
             username: user_name,
-            password: user_key,
+            password: api_key,
             dataType: "json",
             data: JSON.stringify({
                 "type": "follow",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "follow": f,
-                "username": getCookie("user_name", document.cookie.split(";")) === "-1" ? null : getCookie("user_name", document.cookie.split(";")),
+                "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
                 "follow_id": user_id,
                 "follow_name": $("#username").html(),
             }),
@@ -340,11 +303,11 @@ $(() => {
             accept: "application/json",
             contentType: "application/json",
             username: user_name,
-            password: user_key,
+            password: api_key,
             dataType: "json",
             data: JSON.stringify({
                 "type": "info",
-                "user_id": getCookie("user_id", document.cookie.split(";")) === "-1" ? null : getCookie("user_id", document.cookie.split(";")),
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "return": f,
                 "id": user_id,
             }),
@@ -378,7 +341,7 @@ $(() => {
         else{
             console.log(resp.status);
             console.log(resp.data.message);
-            $("#follow_list").append(error_template(resp.data.message));
+            $("#follow_list").append(error_template_blank(resp.data.message));
         }
     }
     /**
@@ -415,5 +378,23 @@ $(() => {
     //if the followers tab is clicked, load the user's followers
     $("#show_followers").on("click", () => {
         load_followers_following("followers");
+    });
+    //if the submit_event button is clicked, validate and submit the event
+    $("#submit_event").on("click", (e) => {
+        if(validate_event()){
+            //hide the modal
+            $("#event_modal").modal("hide"); 
+            add_event();
+        }
+        e.preventDefault();
+    });
+    //if the submit_list button is clicked, validate and submit the gallery
+    $("#submit_list").on("click", (e) => {
+        if(validate_list()){
+            //hide the modal
+            $("#list_modal").modal("hide"); 
+            add_list();
+        }
+        e.preventDefault();
     });
 });

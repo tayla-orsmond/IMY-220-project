@@ -95,7 +95,7 @@ class API{
     public $conn;
     //common errors
     public $user_dne_err = "Error: user does not exist";
-
+    public $no_events_err = "Error: No events found";
     //response and resp error JSON objects
     public $curr_time;//curr time of request
     public $response = array(
@@ -484,7 +484,7 @@ class API{
                     $this->respond("success", $events, "Global feed returned successfully");
                 }
                 else{
-                    $this->respond("error", null, "No events found");
+                    $this->respond("error", null, $this->no_events_err);
                 }
                 $query = null;
             }
@@ -495,98 +495,27 @@ class API{
         }
         else if($scope == "local"){
             //local feed -> events and attended events from current user and all users they follow
-            //get all followers of user
-            $query = $this->conn->prepare('SELECT u_fid FROM followers WHERE u_rid = ?;');
+            //make one query that gets all a user's events and events from all users they follow, also get all of the events the user has reviewed and all users they follow have reviewed
+            $query = $this->conn->prepare('SELECT * FROM events WHERE e_id IN (SELECT e_id FROM events WHERE u_rid = ? UNION SELECT e_id FROM events WHERE u_rid IN (SELECT u_id FROM users WHERE u_id IN (SELECT u_rid FROM followers WHERE u_fid = ?))) ORDER BY e_date DESC;');
             //error handling
             try{
-                $query->execute(array($user_id));
-            }
-            catch(PDOException $e){
-                $query = null;
-            }
-            //get all events from user and all followers
-            $events = array();
-            if($query != null && $query->rowCount() > 0){
-                $followers = $query->fetchAll();
-                $query = null;
-                foreach($followers as $follower){
-                    //get all follower's events
-                    $query = $this->conn->prepare('SELECT * FROM events WHERE u_rid = ? ORDER BY e_date DESC;');
-                    //error handling
-                    try{
-                        $query->execute(array($follower["u_fid"]));
-                        $events = array_merge($events, $query->fetchAll());
-                        $query = null;
-                    }
-                    catch(PDOException $e){
-                        $query = null;
-                    }
-                    //get all follower's attended events
-                    $query = $this->conn->prepare('SELECT e_rid FROM reviews WHERE u_rid =?;');
-                    //error handling
-                    try{
-                        $query->execute(array($follower["u_fid"]));
-                        $attended_events = $query->fetchAll();
-                        $query = null;
-                        foreach($attended_events as $attended_event){
-                            //get all attended events
-                            $query = $this->conn->prepare('SELECT * FROM events WHERE e_id = ? ORDER BY e_date DESC;');
-                            //error handling
-                            try{
-                                $query->execute(array($attended_event["e_rid"]));
-                                $events = array_merge($events, $query->fetchAll());
-                                $query = null;
-                            }
-                            catch(PDOException $e){
-                                $query = null;
-                            }
-                        }
-                    }
-                    catch(PDOException $e){
-                        $query = null;
-                    }
+                $query->execute(array($user_id, $user_id));
+                $events = $query->fetchAll();
+                if(!empty($events)){
+                    //get events
+                    //remove duplicates
+                    $events = array_map("unserialize", array_unique(array_map("serialize", $events)));
+                    $this->respond("success", $events, "Local feed returned successfully");
                 }
-            }
-            //finally get all user's events
-            $query = $this->conn->prepare('SELECT * FROM events WHERE u_rid = ? ORDER BY e_date DESC;');
-            //error handling
-            try{
-                $query->execute(array($user_id));
-                $events = array_merge($events, $query->fetchAll());
-                $query = null;
-            }
-            catch(PDOException $e){
-                $query = null;
-            }
-            //get all user's attended events
-            $query = $this->conn->prepare('SELECT e_rid FROM reviews WHERE u_rid =?;');
-            //error handling
-            try{
-                $query->execute(array($user_id));
-                $attended_events = $query->fetchAll();
-                $query = null;
-                foreach($attended_events as $attended_event){
-                    //get all attended events
-                    $query = $this->conn->prepare('SELECT * FROM events WHERE e_id = ? ORDER BY e_date DESC;');
-                    //error handling
-                    try{
-                        $query->execute(array($attended_event["e_rid"]));
-                        $events = array_merge($events, $query->fetchAll());
-                        $query = null;
-                    }
-                    catch(PDOException $e){
-                        $query = null;
-                    }
+                else{
+                    $this->respond("error", null, $this->no_events_err);
                 }
-            }
-            catch(PDOException $e){
                 $query = null;
             }
-            //sort events by date
-            usort($events, function($a, $b) {
-                return $a['e_date'] <=> $b['e_date'];
-            });
-            $this->respond("success", $events, "Local feed returned successfully");
+            catch(PDOException $e){
+                $this->respond("error", null, "Error: " . $e->getMessage());
+                $query = null;
+            }
         }
         else if($scope == "self"){
             //user feed -> events from current user
@@ -600,7 +529,7 @@ class API{
                     $this->respond("success", $events, "User feed returned successfully");
                 }
                 else{
-                    $this->respond("error", null, "No events found");
+                    $this->respond("error", null, $this->no_events_err);
                 }
                 $query = null;
             }
@@ -615,36 +544,22 @@ class API{
     }
     public function getReviewedEvents($req){
         //Description: Get all events reviewed by user
+        //This is a multiple object request (not single object)
         $user_id = $req["id"];
-        $query = $this->conn->prepare('SELECT e_rid FROM reviews WHERE u_rid = ?;');
+        //make one query that gets all a user's events and events that user has reviewed
+        $query = $this->conn->prepare('SELECT * FROM events WHERE e_id IN (SELECT e_rid FROM reviews WHERE u_rid = ?) ORDER BY e_date DESC;');
         //error handling
         try{
             $query->execute(array($user_id));
             $events = $query->fetchAll();
             if(!empty($events)){
-                //get all events reviewed by user
-                $query = null;
-                $event_array = array();
-                foreach($events as $event){
-                    //grab each event
-                    $query = $this->conn->prepare('SELECT * FROM events WHERE e_id = ? ORDER BY e_date DESC;');
-                    //error handling
-                    try{
-                        $query->execute(array($event["e_rid"]));
-                        $event_array = array_merge($event_array, $query->fetchAll());
-                        $query = null;
-                    }
-                    catch(PDOException $e){
-                        $query = null;
-                    }
-                }
-                $this->respond("success", $event_array, "User's reviewed events returned successfully");
-                $query = null;
+                //get events
+                $this->respond("success", $events, "Reviewed events returned successfully");
             }
             else{
-                $this->respond("error", null, "No events found");
-                $query = null;
+                $this->respond("error", null, $this->no_events_err);
             }
+            $query = null;
         }
         catch(PDOException $e){
             $this->respond("error", null, "Error: " . $e->getMessage());
@@ -787,11 +702,11 @@ class API{
                 "e_date" => $req["e_date"],
                 "e_time" => $req["e_time"],
                 "e_location" => $req["e_location"],
-                "e_type" => $req["e_type"],
+                "e_type" => isset($req["e_type"]) ? $req["e_type"] : "Other",
                 "e_img" => isset($req["e_img"]) ? $req["e_img"] : "event.png",
                 "e_rating" => 0
             );
-            $query = $this->conn->prepare('INSERT INTO events (u_rid, u_rname, e_name, e_desc, e_date, e_time, e_location, e_type, e_img, e_rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
+            $query = $this->conn->prepare('INSERT INTO events (u_rid, u_rname, e_name, e_desc, e_date, e_time, e_location, e_type, e_img, e_rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
             //error handling
             try{
                 $query->execute(array($user_id, $user_name, $event_array["e_name"], $event_array["e_desc"], $event_array["e_date"], $event_array["e_time"], $event_array["e_location"], $event_array["e_type"], $event_array["e_img"], $event_array["e_rating"]));
@@ -965,7 +880,7 @@ class API{
             $query = $this->conn->prepare('SELECT * FROM `followers` WHERE u_rid=? AND u_fid=?;');
             //error handling
             try{
-                $query->execute(array($req["user_id"], $req["follow_id"]));
+                $query->execute(array($req["follow_id"], $req["user_id"]));
                 $result = $query->fetchAll();
                 $query = null;
                 if(count($result) > 0){
@@ -978,7 +893,7 @@ class API{
                     $query = $this->conn->prepare('INSERT INTO `followers`(`u_rid`, `u_rname`, `u_fid`, `u_fname`) VALUES (?, ?, ?, ?);');
                     //error handling
                     try{
-                        $query->execute(array($req["follow_id"], $req["username"], $req["user_id"], $req["follow_name"]));
+                        $query->execute(array($req["follow_id"], $req["follow_name"], $req["user_id"],  $req["username"]));
                         $this->respond("success", null, "Successfully followed user");
                     }
                     catch(PDOException $e){
@@ -1021,13 +936,14 @@ class API{
         //Description: Search DB for events matching query parameters (if any)
         //Only a single search bar with VARCHAR(1000) input so only one parameter to search for
         //get parameters
-        if(!isset($req["search"])){
+        if(!isset($req["search"]) || empty($req["search"])){
             $this->respond("error", null, "Invalid Search Request");
             return;
         }
         $params = $req["search"];
+        $params = "%" . $params . "%";
         //make query with params
-        $query = $this->conn->prepare('SELECT DISTINCT * FROM events WHERE e_name LIKE "%" "?" "%" OR e_desc LIKE "%" "?" "%" OR u_rname=? OR e_location=? OR e_type=? ORDER BY e_date DESC;');
+        $query = $this->conn->prepare('SELECT * FROM `events` WHERE e_name LIKE ? OR e_desc LIKE ? OR e_location LIKE ? OR e_type LIKE ? OR u_rname LIKE ? ORDER BY e_date DESC;');
         //error handling
         try{
             $query->execute(array($params, $params, $params, $params, $params));

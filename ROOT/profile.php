@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" href="css/events.css">
         <link rel="stylesheet" href="css/profile.css">
+        <link rel="stylesheet" href="css/form.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
     </head>
@@ -86,7 +87,7 @@
                         <div class="col-12"><h1>myfolio.</h1></div><!--Title-->
                         <div class="col-9 p-5 d-flex border"><!--Profile Header card -> show details of the user-->
                             <div class="flex-fill profile-photo">
-                                <img src="media/uploads/'. $profile['u_profile'] .'" alt="..." class="img-fluid rounded-circle">
+                                <img src="media/uploads/profiles/'. $profile['u_profile'] .'" alt="..." class="img-fluid rounded-circle">
                             </div>
                             <div class="flex-fill p-3 m-1">
                                 <h2>' . $profile['u_display_name'] . '</h2>
@@ -107,10 +108,10 @@
                             </div>
                         </div><!--End Profile Header card-->
                         <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
-                            if(isset($_SESSION['user_id']) && $profile['u_id'] === $_SESSION['user_id']){
+                            if(isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']){
                                 echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal">Edit Profile</a>';
                             }
-                            //get the profile's followers
+                            //====================get the profile's followers
                             $body = array(
                                 'type'   => 'info',
                                 'user_id' => $_SESSION['user_id'],
@@ -144,7 +145,7 @@
                                 $followers = array();
                             }
 
-                            //get the profile's following
+                            //====================get the profile's following
                             $body = array(
                                 'type'   => 'info',
                                 'user_id' => $_SESSION['user_id'],
@@ -181,13 +182,13 @@
                             $is_follower = false;
                             if(!empty($followers)){
                                 foreach($followers as $follower){
-                                    if($follower['u_fid'] === $_SESSION['user_id']){
+                                    if($follower['u_fid'] == $_SESSION['user_id']){
                                         $is_follower = true;
                                     }
                                 }
                             }
                             //check if the user logged in is not the current profile
-                            if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != $user_id){
+                            if(isset($_SESSION['user_id']) && $user_id != $_SESSION['user_id']){
                                 //check if the user is following the profile
                                 echo '<div class="btn btn-light ' . ($is_follower ? "" : "d-none") . '" id="unfollow">Following</div>
                                 <a href="message.php?chat="'. $profile['u_id'] .'" class=" ' . ($is_follower ? "" : "d-none") . '" id="DM"><i class="fa fa-paper-plane fa-xl"></i></a>
@@ -213,7 +214,7 @@
                             </div>
                         </div>
                         <div class="col-10 d-flex flex-wrap p-3 gap-2 border event-area-inner"><!--Event area -> for users events-->';
-                            if(isset($_SESSION['user_id']) && $_SESSION['user_id'] === $user_id){
+                            if(isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']){
                                 echo'
                                 <div class="w-100">
                                     <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#event_modal" id="add_event">Add Event</div>
@@ -228,7 +229,7 @@
                                 <div id="error-area-g"></div>
                             </div>
                             <div id="galleries-inner"></div>';
-                                if(isset($_SESSION['user_id']) && $_SESSION['user_id'] == $user_id){
+                                if(isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']){
                                     echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#list_modal" id="add_gallery">Add Gallery</div>';
                                 }
                             echo'
@@ -244,6 +245,6 @@
         <?php 
             require_once 'php/footer.php';
         ?>
-        <script src="js/profile.js"></script>
+        <script src="js/profile.js" type="module"></script>
     </body>
 </html>

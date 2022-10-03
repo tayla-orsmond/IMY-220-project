@@ -13,6 +13,7 @@
     Password Regex
 
 */
+import {validate_email, validate_password, email_err, psw_err, submit_err} from './validate.js';
 
 $(() => {
     //VARIABLES
@@ -24,22 +25,6 @@ $(() => {
     const psw_field = $('#password');
     psw = psw_field.val();
     const btn = $('#login');
-    //ERROR MESSAGES
-    const email_err = $('<div></div>', {
-        html: 'Please enter a valid Email Address.',
-        class: 'bg-warning p-3',
-        id: 'email_err'
-    });
-    const psw_err = $('<div></div>', {
-        html: 'Please enter a valid password. Passwords must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character and one number.',
-        class: 'bg-warning p-3',
-        id: 'psw_err'
-    });
-    const submit_err = $('<div></div>', {
-        html: 'Please make sure all fields are filled in correctly before submitting.',
-        class: 'bg-warning p-3',
-        id: 'submit_err'
-    });
     //EVENT HANDLERS
     btn.on('click', (e) => {
         if (valid_email && valid_psw) {
@@ -51,7 +36,7 @@ $(() => {
     });
     email_field.on('blur', () => {
         email = email_field.val();
-        if (validateEmail(email)) {
+        if (validate_email(email)) {
             email_field.removeClass('invalid');
             email_field.addClass('valid');
             email_err.remove();
@@ -65,7 +50,7 @@ $(() => {
     });
     psw_field.on('blur', () => {
         psw = psw_field.val();
-        if (validatePsw(psw)) {
+        if (validate_password(psw)) {
             psw_field.removeClass('invalid');
             psw_field.addClass('valid');
             psw_err.remove();
@@ -77,13 +62,4 @@ $(() => {
             valid_psw = false;
         }
     });
-    //FUNCTIONS
-    const validateEmail = (email) => {
-        const rg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        return rg.test(email);
-    }
-    const validatePsw = (psw) => {
-        const rg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=~`-])[A-Za-z\d!@#$%^&*()_+=~`-]{8,}$/);
-        return rg.test(psw);
-    }
 });

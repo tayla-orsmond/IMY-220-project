@@ -68,9 +68,9 @@
                 //echo out the event data
                 echo '<div class="row">
                 <div class="col-8 p-3 d-flex flex-column">
-                    <img src="media/uploads/'. $event["e_img"] .'" class="img-fluid w-100" alt="...">';
+                    <img src="media/uploads/events/'. $event["e_img"] .'" class="img-fluid w-100" alt="...">';
                     if($event["u_rid"] == $_SESSION['user_id']){
-                        echo '<div class="btn btn-dark justify-self-end align-self-end" data-bs-toggle="modal" data-bs-target="#event_modal" id="edit_event">Edit Event</div>';
+                        echo '<div class="btn btn-dark justify-self-end align-self-end mt-3" data-bs-toggle="modal" data-bs-target="#event_modal" id="edit_event">Edit Event</div>';
                     }
                     echo '<div class="w-75">
                         <p><a href="profile.php?id='. $event["u_rid"] .'">@'. $event["u_rname"] .'</a></p>

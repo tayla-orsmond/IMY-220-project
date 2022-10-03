@@ -3,63 +3,10 @@
 // Path: js\load.js
 // Description: This is the functionality for loading events from the server into the page.
 //<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+import {get_cookie} from "./cookie.js";
+import {event_template, primary_event_template, error_template} from "./template.js";
 
 $(()=> {
-    //get the cookie values 
-    const getCookie = (cookieName, cookies) => {
-        const name = cookieName + "=";//beginning of cookie string (name of name value pair)
-        for(const cookie of cookies){
-            let c = cookie;
-            while(c.charAt(0) == ' '){//parse until you get to just before a cookie name
-                c = c.substring(1);
-            }
-            if(c.indexOf(name) == 0){//cookie name match
-                return c.substring(name.length, c.length);//parse the cookie string to get value
-            }
-        }
-        return "-1";
-    }
-    //Event template
-    const event_template = ({e_img, e_name, e_location, e_id}) => {
-        return `
-        <div class="card event-card">
-            <img src="${e_img}" class="card-img-top img-fluid" alt="...">
-            <div class="card-body">
-                <h5 class="card-title text-truncate">${e_name}</h5>
-                <p class="card-text text-truncate">${e_location}</p>
-                <a href="event.php?id=${e_id}" class="stretched-link"></a>
-            </div>
-        </div>
-        `
-    }
-    //Primary event template
-    const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_tag1, e_tag2, e_tag3, e_id}) => {
-        return `
-        <div class="card text-bg-dark" id="event-primary">
-            <img src="${e_img}" class="card-img" alt="...">
-            <div class="card-img-overlay d-flex flex-column justify-content-between">
-                <div class="card-header">Featured</div>
-                <div>
-                    <h5 class="card-title text-truncate">${e_name}</h5>
-                    <p class="card-text h6 text-truncate">${e_location} | ${e_date}</p>
-                    <p class="card-text text-truncate ">
-                        ${e_desc.replace(/#(\w+)/g, '<a href="home.php?search=$1">#$1</a>')}
-                    </p>
-                    <a href="event.php?id=${e_id}" class="stretched-link"></a>
-                </div>
-            </div>
-        </div>
-        `
-    }
-    //error template
-    const error_template = (error) => {
-        return `
-            <div class="d-flex flex-column bg-light p-3 text-center">
-                <img src="https://images.unsplash.com/photo-1599729872017-05170c770642?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80" class="img-fluid" alt="...">
-                ${error}
-            </div>
-        `
-    }
     // Load the events from the server
     const load_events = (scope) => {
         $.ajax({
@@ -68,14 +15,14 @@ $(()=> {
             accept: "application/json",
             contentType: "application/json",
             username: user_name,
-            password: user_key,
+            password: api_key,
             dataType: "json",
             data: JSON.stringify({
                 "type": "info",
-                "user_id": getCookie("user_id", document.cookie.split(";")) == "-1" ? null : getCookie("user_id", document.cookie.split(";")),
+                "user_id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "return": "events",
                 "scope": scope,
-                "id": getCookie("user_id", document.cookie.split(";")) == "-1" ? null : getCookie("user_id", document.cookie.split(";"))
+                "id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";"))
             }),
             success: function(resp, status){//succesful query
                 console.log(status);
@@ -95,14 +42,14 @@ $(()=> {
             accept: "application/json",
             contentType: "application/json",
             username: "root",
-            password: "",
+            password: api_key,
             dataType: "json",
             data: JSON.stringify({
                 "type": "info",
-                "user_id": getCookie("user_id", document.cookie.split(";")) == "-1" ? null : getCookie("user_id", document.cookie.split(";")),
+                "user_id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "return": "search",
                 "search": search,
-                "id": getCookie("user_id", document.cookie.split(";")) == "-1" ? null : getCookie("user_id", document.cookie.split(";"))
+                "id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";"))
             }),
             success: function(resp, status){//succesful query
                 console.log(status);
@@ -116,12 +63,12 @@ $(()=> {
     }
     //clear the events
     const clear_events = () => {
-        $("#event-primary").empty();
-        $("#event-primary").hide();
-        $("#ea-1").empty();
-        $("#ea-2").empty();
-        $("#error-area").empty();
-        $("#error-area").hide();
+        $("#event_primary").empty();
+        $("#event_primary").hide();
+        $("#ea_1").empty();
+        $("#ea_2").empty();
+        $("#error_area").empty();
+        $("#error_area").hide();
     };
     //populate the events
     const populate_events = (resp) => {
@@ -129,27 +76,27 @@ $(()=> {
         clear_events();
         if(resp.status == "success" && resp.data.return.length > 0){
             //Load the events
-            $("#event-primary").show();        
+            $("#event_primary").show();        
             let events = resp.data.return;
             let primary_event = events.shift();
-            $("#event-primary").replaceWith(primary_event_template(primary_event));
-            const half = Math.floor(events.length / 2);
+            $("#event_primary").replaceWith(primary_event_template(primary_event));
+            const half = Math.ceil(events.length / 2.0);
             let e1 = events.slice(0, half);
             let e2 = events.slice(half, events.length);
             e1.forEach(event => {
-                $("#ea-1").append(event_template(event.data));
+                $("#ea_1").append(event_template(event));
             });
             e2.forEach(event => {
-                $("#ea-2").append(event_template(event.data));
+                $("#ea_2").append(event_template(event));
             });
         }
         else if(resp.status == "error"){
-            $("#error-area").show();
-            $("#error-area").append(error_template(resp.data.message));
+            $("#error_area").show();
+            $("#error_area").append(error_template(resp.data.message));
         }
         else{
-            $("#error-area").show();
-            $("#error-area").append(error_template("It's a still life over here..."));
+            $("#error_area").show();
+            $("#error_area").append(error_template("It's a still life over here..."));
         }
     }
     //error handler
@@ -159,8 +106,8 @@ $(()=> {
         console.log(error);
         //clear events
         clear_events();
-        $("#error-area").show();
-        $("#error-area").append(error_template("Error loading events"));
+        $("#error_area").show();
+        $("#error_area").append(error_template("Error loading events"));
     }
     //on page load, load the events for the local feed
     //if there is a get parameter, load the events for the search
@@ -177,7 +124,8 @@ $(()=> {
     }
 
     //on search, search for events
-    $("#search").on("submit", (e) => {
+    $("#search").on("click", (e) => {
+        console.log("searching");
         if($("#search-input").val().length > 0){
             search_events($("#search-input").val());
             $("#global").addClass("active");

@@ -70,6 +70,6 @@
         <?php 
             require_once 'php/footer.php';
         ?>
-        <script src="js/login.js"></script>
+        <script src="js/login.js" type="module"></script>
     </body>
 </html>

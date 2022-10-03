@@ -1,8 +1,13 @@
 <?php
+    //Tayla Orsmond u21467456
     error_reporting(E_ALL);
 	ini_set('error_reporting',E_ALL);
     ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
+    //allow file uploads
+    ini_set('file_uploads', 'On');
+    //set the max file size to 2MB
+    ini_set('upload_max_filesize', '2M');
 
     session_start();
     //globals

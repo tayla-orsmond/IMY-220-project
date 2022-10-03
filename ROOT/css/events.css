@@ -20,14 +20,14 @@
 .event-card:hover{
     border: solid 0.5rem var(--light);
 }
-#event-primary img[class*="card-img"]{
+#event_primary img[class*="card-img"]{
     opacity: 0.5;
 }
-#event-primary div[class*="card-header"]{
+#event_primary div[class*="card-header"]{
     border: none;
     color: var(--accB) !important;
 }
-#event-primary h5[class*="card-title"]{
+#event_primary h5[class*="card-title"]{
     color: var(--accB) !important;
 }
 div[class~="carousel-item"]{

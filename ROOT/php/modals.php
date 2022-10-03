@@ -20,14 +20,15 @@
                 <h5 class="modal-title" id="event_modal_label">Add Event</h5>
             </div>
             <div class="modal-body">
-                <form id="add_event_form" method="post" action="php/profile.php">
+                <form id="event_form" method="post" action="upload.php" enctype="multipart/form-data">
                     <div class="form-group mb-3">
                         <label for="e_name">Name *</label>
                         <input type="text" class="form-control" id="e_name" name="e_name" placeholder="Monet En-Plein-Air Event" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="e_desc">Description (Add your funky <span class="text-primary">#tags</span> here)</label>
-                        <textarea class="form-control" id="e_desc" name="e_desc" rows="3" placeholder="A Lovely day of painting outdoors"></textarea>
+                        <textarea class="form-control" id="e_desc" name="e_desc" rows="1" placeholder="A Lovely day of painting outdoors"></textarea>
+                        <div id="e_desc_val" class="mt-1"></div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="e_date">Date *</label>
@@ -38,13 +39,13 @@
                         <input type="time" class="form-control" id="e_time" name="e_time" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="event_location">Location *</label>
-                        <input type="text" class="form-control" id="event_location" name="event_location" placeholder="Rue Laffitte, Paris, France" required>
+                        <label for="e_location">Location *</label>
+                        <input type="text" class="form-control" id="e_location" name="e_location" placeholder="Rue Laffitte, Paris, France" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="e_type">Type *</label>
                         <select class="form-control" id="e_type" name="e_type" required>
-                            <option value="Event">Event</option>
+                            <option value="Event" selected>Event</option>
                             <option value="Solo Exhibition">Solo Exhibition</option>
                             <option value="Collective Exhibition">Collective Exhibition</option>
                             <option value="Temporary Exhibition">Temporary Exhibition</option>
@@ -55,17 +56,21 @@
                             <option value="Play">Play</option>
                             <option value="Competition">Competition</option>
                             <option value="Festival">Festival</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="form-group mb-3">
                         <label for="e_img">Cover Image</label>
-                        <input type="file" class="form-control-file" id="e_img" name="e_img" required>
+                        <!-- add an image using drag and drop or file input -->
+                        <p>Drag and drop an image here or click to select an image</p>
+                        <div class="dropzone text-center bg-light p-5 m-1" id="e_img"><i class="text-primary fa fa-upload fa-2xl"></i></div>
+                        <input type="file" class="form-control" id="e_img_input" name="e_img_input" accept="image/*" size="50" style="display: none;">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="add_event_form">Save</button>
+                <button type="submit" class="btn btn-dark" form="event_form" id="submit_event">Save</button>
             </div>
         </div>
     </div>
@@ -79,20 +84,20 @@
                 <h5 class="modal-title" id="list_modal_label">Add Gallery</h5>
             </div>
             <div class="modal-body">
-                <form id="add_list_form" method="post" action="php/profile.php">
+                <form id="list_form" method="post" action="../profile.php">
                     <div class="form-group mb-3">
                         <label for="l_name">Name *</label>
                         <input type="text" class="form-control" id="l_name" name="l_name" placeholder="Vermeer Girl's trip" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="l_desc">Description (Add your funky <span class="text-primary">#tags</span> here)</label>
+                        <label for="l_desc">Description (optional)</label>
                         <textarea class="form-control" id="l_desc" name="l_desc" rows="3" placeholder="A girl's trip all over the Netherlands"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="add_list_form">Save</button>
+                <button type="submit" class="btn btn-dark" form="list_form" id="submit_list">Save</button>
             </div>
         </div>
     </div>
@@ -106,7 +111,7 @@
                 <h5 class="modal-title" id="review_modal_label">Add Review</h5>
             </div>
             <div class="modal-body">
-                <form id="add_review_form" method="post" action="php/profile.php">
+                <form id="review_form" method="post" action="../event.php">
                     <div class="form-group mb-3">
                         <label for="r_name">Name *</label>
                         <input type="text" class="form-control" id="r_name" name="r_name" placeholder="The best event I've ever been to!!!" required>
@@ -131,7 +136,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="add_review_form">Save</button>
+                <button type="submit" class="btn btn-dark" form="review_form">Save</button>
             </div>
         </div>
     </div>
@@ -143,41 +148,40 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="edit_profile_modal_label">Edit Profile</h5>
-                
             </div>
             <div class="modal-body">
-                <form id="edit_profile_form" method="post" action="php/profile.php">
+                <form id="edit_profile_form" method="post" action="../profile.php">
                     <!-- Profile Picture -->
                     <div class="form-group mb-3">
-                        <label for="p_img">Profile Picture</label>
-                        <input type="file" class="form-control-file" id="p_img" name="p_img" required>
+                        <label for="u_profile">Profile Picture</label>
+                        <input type="file" class="form-control-file" id="u_profile" name="u_profile" required>
                     </div>
                     <!-- Display Name -->
                     <div class="form-group mb-3">
-                        <label for="p_name">Display Name *</label>
-                        <input type="text" class="form-control" id="p_name" name="p_name" placeholder="Vermeer" required>
+                        <label for="u_display_name">Display Name *</label>
+                        <input type="text" class="form-control" id="u_display_name" name="u_display_name" placeholder="Vermeer" required>
                     </div>
                     <!-- Bio -->
                     <div class="form-group mb-3">
-                        <label for="p_bio">Bio</label>
-                        <textarea class="form-control" id="p_bio" name="p_bio" rows="3" placeholder="I love art!"></textarea>
+                        <label for="u_bio">Bio</label>
+                        <textarea class="form-control" id="u_bio" name="u_bio" rows="3" placeholder="I love art!"></textarea>
                     </div>
                     <div class="d-flex justify-content-between">
                         <!-- age -->
                         <div class="form-group mb-3 me-3">
-                            <label for="p_age">Age</label>
-                            <input type="number" class="form-control" id="p_age" name="p_age" placeholder="25">
+                            <label for="u_age">Age</label>
+                            <input type="number" class="form-control" id="u_age" name="u_age" placeholder="25">
                         </div>
                         <!--pronouns -->
                         <div class="form-group mb-3">
-                            <label for="p_pronouns">Pronouns</label>
-                            <input type="text" class="form-control" id="p_pronouns" name="p_pronouns" placeholder="she/her">
+                            <label for="u_pronouns">Pronouns</label>
+                            <input type="text" class="form-control" id="u_pronouns" name="u_pronouns" placeholder="she/her">
                         </div>
                     </div>
                     <!-- Location -->
                     <div class="form-group mb-3">
-                        <label for="p_location">Location</label>
-                        <input type="text" class="form-control" id="p_location" name="p_location" placeholder="Amsterdam, Netherlands">
+                        <label for="u_location">Location</label>
+                        <input type="text" class="form-control" id="u_location" name="u_location" placeholder="Amsterdam, Netherlands">
                     </div>
                 </form>
             </div>
@@ -185,7 +189,7 @@
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-dark" form="edit_profile_form">Save</button>
                 <!--delete profile button -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-target="#delete_profile_modal">Delete Profile</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_profile_modal">Delete Profile</button>
             </div>
         </div>
     </div>
@@ -197,14 +201,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="delete_profile_modal_label">Delete Profile</h5>
-                
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="delete_profile_btn">Delete</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete_profile_btn">Delete</button>
             </div>
         </div>
     </div>
@@ -235,10 +238,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="add_to_list_modal_label">Add to a Gallery</h5>
-                
             </div>
             <div class="modal-body">
-                <form id="add_to_list_form" method="post" action="php/profile.php">
+                <form id="add_to_list_form" method="post" action="../event.php">
                     <div class="form-group mb-3">
                         <label for="l_id">Galleries</label>
                         <select class="form-select" id="l_id" name="l_id" required>
@@ -263,7 +265,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="list_events_modal_label">Edit Gallery</h5>
-                
             </div>
             <div class="modal-body">
                 <div class="card-columns" id="list_events_card_columns">
@@ -286,3 +287,5 @@
         </div>
     </div>
 </div>
+
+<script src="js/validate.js" type="module"></script>

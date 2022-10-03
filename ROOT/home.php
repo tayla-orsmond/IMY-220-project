@@ -48,15 +48,15 @@
                 </div>
             </div>
             <div class="row p-3 border" id="event-area"><!--EVENT AREA-->
-                <div class="col-6 offset-3" id="error-area"></div>
+                <div class="col-6 offset-3" id="error_area"></div>
                 <div class="col-4 primary-event-outer"><!--Primary event (featured)-->
-                   <div id="event-primary"></div>
+                   <div id="event_primary"></div>
                 </div><!--End Primary event-->
                 <div class="col-8 scroller"><!--EVENT AREA OUTER (holder for event rows + scrollable container)-->
-                    <div id="ea-1" class="align-items-center event-area-inner"><!--EVENT AREA INNER 1 (where the 1st row of events are loaded-->
+                    <div id="ea_1" class="align-items-center event-area-inner"><!--EVENT AREA INNER 1 (where the 1st row of events are loaded-->
                         
                     </div><!--END EA INNER 1-->
-                    <div id="ea-2" class="align-items-center event-area-inner"><!--EVENT AREA INNER 2 (where the 2nd row of events are loaded-->
+                    <div id="ea_2" class="align-items-center event-area-inner"><!--EVENT AREA INNER 2 (where the 2nd row of events are loaded-->
                         
                     </div><!--END EA INNER 2-->
                 </div><!--END EA OUTER-->
@@ -66,6 +66,6 @@
             require_once 'php/footer.php';
         ?>
         <script src="js/scroll.js"></script>
-        <script src="js/load.js"></script>
+        <script src="js/load.js" type="module"></script>
     </body>
 </html>

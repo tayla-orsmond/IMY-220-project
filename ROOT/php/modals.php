@@ -20,7 +20,7 @@
                 <h5 class="modal-title" id="event_modal_label">Add Event</h5>
             </div>
             <div class="modal-body">
-                <form id="event_form" method="post" action="upload.php" enctype="multipart/form-data">
+                <form id="event_form" method="post" action="php/upload-handler.php" enctype="multipart/form-data">
                     <div class="form-group mb-3">
                         <label for="e_name">Name *</label>
                         <input type="text" class="form-control" id="e_name" name="e_name" placeholder="Monet En-Plein-Air Event" required>
@@ -63,7 +63,7 @@
                         <label for="e_img">Cover Image</label>
                         <!-- add an image using drag and drop or file input -->
                         <p>Drag and drop an image here or click to select an image</p>
-                        <div class="dropzone text-center bg-light p-5 m-1" id="e_img"><i class="text-primary fa fa-upload fa-2xl"></i></div>
+                        <div class="dropzone text-center bg-light p-5 m-1" id="e_img"><i class="text-primary fa fa-image fa-2xl"></i></div>
                         <input type="file" class="form-control" id="e_img_input" name="e_img_input" accept="image/*" size="50" style="display: none;">
                     </div>
                 </form>
@@ -84,14 +84,14 @@
                 <h5 class="modal-title" id="list_modal_label">Add Gallery</h5>
             </div>
             <div class="modal-body">
-                <form id="list_form" method="post" action="../profile.php">
+                <form id="list_form" method="post" action="../profile.php?id=<?=$_SESSION['user_id']?>">
                     <div class="form-group mb-3">
                         <label for="l_name">Name *</label>
-                        <input type="text" class="form-control" id="l_name" name="l_name" placeholder="Vermeer Girl's trip" required>
+                        <input type="text" class="form-control" id="l_name" name="l_name" placeholder="Romanticism Sightseeing trip" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="l_desc">Description (optional)</label>
-                        <textarea class="form-control" id="l_desc" name="l_desc" rows="3" placeholder="A girl's trip all over the Netherlands"></textarea>
+                        <textarea class="form-control" id="l_desc" name="l_desc" rows="3" placeholder="A girl's trip all over Europe to see some of the most romantic works"></textarea>
                     </div>
                 </form>
             </div>
@@ -111,7 +111,7 @@
                 <h5 class="modal-title" id="review_modal_label">Add Review</h5>
             </div>
             <div class="modal-body">
-                <form id="review_form" method="post" action="../event.php">
+                <form id="review_form" method="post" action=".">
                     <div class="form-group mb-3">
                         <label for="r_name">Name *</label>
                         <input type="text" class="form-control" id="r_name" name="r_name" placeholder="The best event I've ever been to!!!" required>
@@ -150,11 +150,14 @@
                 <h5 class="modal-title" id="edit_profile_modal_label">Edit Profile</h5>
             </div>
             <div class="modal-body">
-                <form id="edit_profile_form" method="post" action="../profile.php">
+                <form id="edit_profile_form" method="post" action="php/upload-handler.php" enctype="multipart/form-data">
                     <!-- Profile Picture -->
                     <div class="form-group mb-3">
-                        <label for="u_profile">Profile Picture</label>
-                        <input type="file" class="form-control-file" id="u_profile" name="u_profile" required>
+                        <label for="u_profile">Profile Picture *</label>
+                        <!-- add an image using drag and drop or file input -->
+                        <p>Drag and drop an image here or click to select an image</p>
+                        <div class="dropzone text-center bg-light p-5 m-1" id="u_profile"><i class="text-primary fa fa-image fa-2xl"></i></div>
+                        <input type="file" class="form-control" id="u_profile_input" name="u_profile_input" accept="image/*" size="50" style="display: none;">
                     </div>
                     <!-- Display Name -->
                     <div class="form-group mb-3">
@@ -187,7 +190,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="edit_profile_form">Save</button>
+                <button type="submit" class="btn btn-dark" form="edit_profile_form" id="submit_edit_profile">Save</button>
                 <!--delete profile button -->
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_profile_modal">Delete Profile</button>
             </div>
@@ -203,11 +206,14 @@
                 <h5 class="modal-title" id="delete_profile_modal_label">Delete Profile</h5>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+                <form id="delete_profile_form" method="post" action="php/delete-handler.php">
+                    <input type="hidden" id="p_id" name="p_id" value="<?=$_GET['id']?>">
+                    <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete_profile_btn">Delete</button>
+                <button type="submit" class="btn btn-danger" form="delete_profile_form" id="delete_profile" name="delete_profile">Delete</button>
             </div>
         </div>
     </div>

@@ -4,9 +4,9 @@
 //Description: This file contains the javascript code for the profile page
 //e.g., adding an event, adding a gallery (list), following, unfollowing, viewing your events and your reviewed events etc.
 
-import { validate_event, validate_list} from "./validate.js";
+import { validate_event, validate_list, validate_edit_profile} from "./validate.js";
 import { get_cookie } from "./cookie.js";
-import { event_template, gallery_template, follower_template, error_template_blank} from "./template.js";
+import { event_template, gallery_template, follower_template, following_template, error_template_blank} from "./template.js";
 
 $(() => {
     //GLOBALS
@@ -188,8 +188,8 @@ $(() => {
     //add a new gallery
     const add_list = () => {
         //get the values from the form
-        let g_name = $("#g_name").val();
-        let g_desc = $("#g_desc").val();
+        let g_name = $("#l_name").val();
+        let g_desc = $("#l_desc").val();
         //make the ajax call
         $.ajax({
             url: api_url,
@@ -202,6 +202,7 @@ $(() => {
             data: JSON.stringify({
                 "type": "add",
                 "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
                 "add": "list",
                 "l_name": g_name,
                 "l_desc": g_desc,
@@ -274,8 +275,6 @@ $(() => {
                 "follow_name": $("#username").html(),
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
                 let count = $(".followers").html();
                 if(f === "follow"){
                     $("#follow").addClass('d-none');
@@ -346,22 +345,86 @@ $(() => {
     }
     /**
      * 
+     * FUNCTIONS FOR PROFILE EDITING ============================================
+     * 
+     */
+    //populate the edit_profile modal with the user's info that we have on the page
+    const populate_edit_profile = () => {
+        $("#u_profile").text($(".profile-photo img").attr("src").split("/").pop());
+        //make the background image the same as the profile photo
+        $("#u_profile").css("background-image", "url(" + $(".profile-photo img").attr("src") + ")");
+        $("#u_display_name").val($(".display-name").text());
+        $("#u_bio").val($(".bio").text());
+        $("#u_pronouns").val($(".pronouns").text());
+        $("#u_location").val($(".location").text());
+        $("#u_age").val(parseInt($(".age").text()));
+    }
+    //edit the user's profile by sending a request to the api
+    const edit_profile = () => {
+        $.ajax({
+            url: api_url,
+            type: "POST",
+            accept: "application/json",
+            contentType: "application/json",
+            username: user_name,
+            password: api_key,
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "update",
+                "update": "user",
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
+                "u_display_name": $("#u_display_name").val(),
+                "u_bio": $("#u_bio").val(),
+                "u_pronouns": $("#u_pronouns").val(),
+                "u_location": $("#u_location").val(),
+                "u_age": $("#u_age").val(),
+                "u_profile": $("#u_profile").text(),
+            }),
+            success: function(resp, status){//succesful query
+                if(resp.status === "success"){
+                    //submit the form to upload the profile picture
+                    $("#edit_profile_form").submit();
+                    //update the page with the new info
+                    $(".display-name").text($("#u_display_name").val());
+                    $(".bio").text($("#u_bio").val());
+                    $(".pronouns").text($("#u_pronouns").val());
+                    $(".location").text($("#u_location").val());
+                    $(".age").text($("#u_age").val());
+                    $(".profile-photo img").attr("src", "media/uploads/profiles/" + $("#u_profile").text());
+                }
+                else{
+                    console.log(resp.status);
+                    console.log(resp.data.message);
+                    $("#edit_profile").modal("hide");
+                }
+            },
+            error: function(xhr,status,error){//error handling
+                error_handler(xhr,status,error);
+            }
+        })
+    }
+    /**
+     * 
      * EVENT HANDLERS ===========================================================
      * 
      */
     //when the page loads, load the user's events and galleries
     load_events();
     load_galleries();
+    populate_edit_profile();
     //if the folios tab is clicked, load the user's events
     $("#folios").on("click", () => {
         $("#folios").addClass("active");
         $("#reviewed").removeClass("active");
+        $("#add_event").show();
         load_events();
     });
     //if the reviewed tab is clicked, load the user's reviewed events
     $("#reviewed").on("click", () => {
         $("#reviewed").addClass("active");
         $("#folios").removeClass("active");
+        $("#add_event").hide();
         load_reviewed();
     });
     //if the follow button is clicked, follow the user
@@ -373,6 +436,7 @@ $(() => {
     });
     //if the following tab is clicked, load the user's following
     $("#show_following").on("click", () => {
+        console.log("show following");
         load_followers_following("following");
     });
     //if the followers tab is clicked, load the user's followers
@@ -394,6 +458,15 @@ $(() => {
             //hide the modal
             $("#list_modal").modal("hide"); 
             add_list();
+        }
+        e.preventDefault();
+    });
+    //if the submit_edit_profile button is clicked, validate and submit the profile edit
+    $("#submit_edit_profile").on("click", (e) => {
+        if(validate_edit_profile()){
+            //hide the modal
+            $("#edit_profile_modal").modal("hide"); 
+            edit_profile();
         }
         e.preventDefault();
     });

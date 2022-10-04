@@ -133,3 +133,10 @@ div[class*="bg-dark"] a{
 div[class*="bg-dark"] a:hover{
     color: var(--accR) !important;
 }
+#u_profile,
+#e_img{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

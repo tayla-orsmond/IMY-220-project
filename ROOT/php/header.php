@@ -17,6 +17,13 @@
             </button>
             <div class="collapse navbar-collapse justify-content-md-end" id="navbarSupportedContent">
                 <?php
+                    // if (isset($_SESSION['deleted']) && $_SESSION['deleted'] == true) {
+                    //     if($_SESSION['user_id'] == $_SESSION['deleted_id']) {
+                    //         unset($_SESSION['deleted']);
+                    //         unset($_SESSION['deleted_id']);
+                    //         header("Location: logout.php");
+                    //     }
+                    // }
                     $logged_in = false;
                     if (isset($_SESSION['logged_in'])) {
                         $logged_in = true;

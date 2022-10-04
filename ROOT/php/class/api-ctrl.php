@@ -36,9 +36,9 @@ class API{
         CREATE TABLE events(
             e_id BIGINT PRIMARY KEY AUTO_INCREMENT not null,
             u_rid BIGINT not null,
-            FOREIGN KEY (u_rid) REFERENCES users(u_id),
+            FOREIGN KEY (u_rid) REFERENCES users(u_id) ON DELETE CASCADE,
             u_rname VARCHAR(255) not null,
-            FOREIGN KEY (u_rname) REFERENCES users(u_name),
+            FOREIGN KEY (u_rname) REFERENCES users(u_name) ON DELETE CASCADE,
             e_name VARCHAR(255) not null,
             e_desc VARCHAR(255) DEFAULT "No description",
             e_date DATE not null,
@@ -54,11 +54,11 @@ class API{
         CREATE TABLE reviews(
             r_id BIGINT PRIMARY KEY AUTO_INCREMENT not null,
             u_rid BIGINT not null,
-            FOREIGN KEY (u_rid) REFERENCES users(u_id),
+            FOREIGN KEY (u_rid) REFERENCES users(u_id) ON DELETE CASCADE,
             u_rname VARCHAR(255) not null,
-            FOREIGN KEY (u_rname) REFERENCES users(u_name),
+            FOREIGN KEY (u_rname) REFERENCES users(u_name) ON DELETE CASCADE,
             e_rid BIGINT not null,
-            FOREIGN KEY (e_rid) REFERENCES events(e_id),
+            FOREIGN KEY (e_rid) REFERENCES events(e_id) ON DELETE CASCADE,
             r_rating TINYINT not null,
             r_name VARCHAR(255) not null,
             r_comment VARCHAR(1000) not null,
@@ -70,7 +70,9 @@ class API{
         CREATE TABLE lists(
             l_id BIGINT PRIMARY KEY AUTO_INCREMENT not null,
             u_rid BIGINT not null,
-            FOREIGN KEY (u_rid) REFERENCES users(u_id),
+            FOREIGN KEY (u_rid) REFERENCES users(u_id) ON DELETE CASCADE,
+            u_rname VARCHAR(255) not null,
+            FOREIGN KEY (u_rname) REFERENCES users(u_name) ON DELETE CASCADE,
             l_name VARCHAR(255) not null,
             l_desc VARCHAR(1000) DEFAULT "No description",
             l_events VARCHAR(1000) DEFAULT ""
@@ -81,13 +83,13 @@ class API{
         CREATE TABLE followers(
             f_id BIGINT PRIMARY KEY AUTO_INCREMENT not null,
             u_rid BIGINT not null,
-            FOREIGN KEY (u_rid) REFERENCES users(u_id),
+            FOREIGN KEY (u_rid) REFERENCES users(u_id) ON DELETE CASCADE,
             u_rname VARCHAR(255) not null,
-            FOREIGN KEY (u_rname) REFERENCES users(u_name),
+            FOREIGN KEY (u_rname) REFERENCES users(u_name) ON DELETE CASCADE,
             u_fid BIGINT not null,
-            FOREIGN KEY (u_fid) REFERENCES users(u_id),
+            FOREIGN KEY (u_fid) REFERENCES users(u_id) ON DELETE CASCADE,
             u_fname VARCHAR(255) not null,
-            FOREIGN KEY (u_fname) REFERENCES users(u_name)
+            FOREIGN KEY (u_fname) REFERENCES users(u_name) ON DELETE CASCADE
         );
     */
     //connection
@@ -112,7 +114,7 @@ class API{
     {
         $this->inst = DBH::getInstance();
         $this->conn = $this->inst->connect();
-        $date = date_create("",timezone_open("Africa/Johannesburg"));
+        $date = date_create("", timezone_open("Africa/Johannesburg"));
         $this->curr_time = date_format($date,"Y-m-d H:i");
     }
 
@@ -152,13 +154,14 @@ class API{
                     OR [req] -> All parameters for adding lists (name *, desc)
                 }
                 DELETE REQ{
-                    [req] "delete": "event" (Delete type. Can be of type: event, list, review, profile)
+                    [req] "delete": "event" (Delete type. Can be of type: event, list, review, user)
                     [req] "event_id": "12"  (Event's e_id in the events database table)
                     [req] "list_id": "12"  (List's l_id in the list database table)
                     [req] "review_id": "12"  (Rating's r_id in the review database table)
+                    [req] "profile_id": "12"  (User's u_id in the users database table)
                 }
                 UPDATE REQ{
-                    [req] "update" : "profile" (Update type. Can be of type: profile, event, list) 
+                    [req] "update" : "profile" (Update type. Can be of type: user, event, list)
                     [req] "event_id": "12"  (Event's e_id in the events database table)
                     [req] "list_id": "12"  (List's l_id in the list database table)
                     [opt] -> Any (all) of the profile parameters (display name, bio, age, location, pronouns, img)
@@ -751,7 +754,7 @@ class API{
         ============================================================================================================================
     */
     public function delete($req){
-        //Description: Delete event, review or list from database
+        //Description: Delete event, review, list or user profile from database
         $delete = $req["delete"];
         $user_id = $req["user_id"];
         if($delete == "event"){
@@ -796,6 +799,23 @@ class API{
                 $query = null;
             }
         }
+        else if($delete == "user"){
+            $profile_id = $req["profile_id"];
+            $query = $this->conn->prepare('DELETE FROM users WHERE u_id = ?;');
+            //error handling
+            try{
+                $query->execute(array($profile_id));
+                $this->respond("success", null, "User deleted successfully");
+                //set session to indicate the user has been deleted
+                $_SESSION["deleted"] = true;
+                $_SESSION["deleted_id"] = $profile_id;
+                $query = null;
+            }
+            catch(PDOException $e){
+                $this->respond("error", null, "Error: " . $e->getMessage());
+                $query = null;
+            }
+        }
         else{
             $this->respond("error", null, "Invalid DELETE request");
             return;
@@ -811,10 +831,10 @@ class API{
         $update = $req["update"];
         if($update === "user"){
             //update user
-            $query = $this->conn->prepare('UPDATE `users` SET `u_display_name`=?, `u_profile`=?, `u_bio`=?, `u_pronouns`=?, `u_location`=?, WHERE u_id=?;');
+            $query = $this->conn->prepare('UPDATE `users` SET `u_display_name`=?, `u_profile`=?, `u_bio`=?, `u_pronouns`=?, `u_location`=?, u_age=? WHERE u_id=?;');
             //error handling
             try{
-                $query->execute(array($req["u_display_name"], $req["u_profile"], $req["u_bio"], $req["u_pronouns"], $req["u_location"], $req["user_id"]));
+                $query->execute(array($req["u_display_name"], $req["u_profile"], $req["u_bio"], $req["u_pronouns"], $req["u_location"], $req["u_age"], $req["user_id"]));
                 $this->respond("success", null, "User updated successfully");
             }
             catch(PDOException $e){

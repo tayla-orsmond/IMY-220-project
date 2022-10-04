@@ -84,32 +84,33 @@
                     }else{
                         echo '
                         <div class="row">
-                        <div class="col-12"><h1>myfolio.</h1></div><!--Title-->
-                        <div class="col-9 p-5 d-flex border"><!--Profile Header card -> show details of the user-->
-                            <div class="flex-fill profile-photo">
+                        <div class="col-12"><h1>'. ($_SESSION['user_id'] == $user_id ? "my" : "art") .'folio.</h1></div><!--Title-->
+                        <div class="col-9 p-5 d-flex flex-wrap border"><!--Profile Header card -> show details of the user-->
+                            <div class="flex-1 profile-photo">
                                 <img src="media/uploads/profiles/'. $profile['u_profile'] .'" alt="..." class="img-fluid rounded-circle">
                             </div>
                             <div class="flex-fill p-3 m-1">
-                                <h2>' . $profile['u_display_name'] . '</h2>
+                                <h2 class="display-name">' . $profile['u_display_name'] . '</h2>
                                 <p class="pb-2 border-bottom">@<span id="username">' . $profile['u_name'] . '</span></p>
-                                <div class="d-flex justify-content-start gap-3">';
+                                <div class="d-flex justify-content-start gap-2 small text-secondary">';
                                 if($profile['u_pronouns'] != ""){
-                                    echo '<p>' . $profile['u_pronouns'] . '</p>';
+                                    echo '<p class="pronouns">' . $profile['u_pronouns'] . '</p>';
                                 }
                                 if($profile['u_age'] != ""){
-                                    echo '<p><i class="fa fa-calendar-alt"></i>' . $profile['u_age'] . '</p>';
+                                    echo '<p class="age"><i class="fa-regular fa-calendar"></i> ' . $profile['u_age'] . '</p>';
                                 }
                                 if($profile['u_location'] != ""){
-                                    echo '<p><i class="fa fa-map-marker-alt"></i>' . $profile['u_location'] . '</p>';
+                                    echo '<p class="location"><i class="fa fa-map-marker-alt"></i> ' . $profile['u_location'] . '</p>';
                                 }
                                 echo '</div>
-                                <p> ' . $profile['u_bio'] .' </p>
-                                <p><i class="fa fa-address-book"></i> <a href="mailto:' . $profile['u_email'] . '">' . $profile['u_email'] . '</a></p>
+                                <p class="bio"> ' . $profile['u_bio'] .' </p>
+                                <p><i class="fa fa-envelope"></i> <a href="mailto:' . $profile['u_email'] . '">' . $profile['u_email'] . '</a></p>
                             </div>
                         </div><!--End Profile Header card-->
                         <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
                             if(isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']){
-                                echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal">Edit Profile</a>';
+                                echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-paintbrush"></i> Edit Profile</a>
+                                <a href="messages.phpchat='. $_SESSION['user_id'].'"><i class="fas fa-inbox fa-xl"></i></a>';
                             }
                             //====================get the profile's followers
                             $body = array(
@@ -204,10 +205,10 @@
                                 <nav class="d-flex justify-content-between align-items-center px-3"><!--Nav-->
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="#" id="folios"><span class="h5">myfolios.</span></a>
+                                            <a class="nav-link active" aria-current="page" href="#" id="folios"><span class="h5">'. ($_SESSION['user_id'] == $user_id ? "my" : "art") .'folios.</span></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" aria-current="page" href="#" id="reviewed"><span class="h5">myreviews.</span></a>
+                                            <a class="nav-link" aria-current="page" href="#" id="reviewed"><span class="h5">'. ($_SESSION['user_id'] == $user_id ? "my" : "") .'reviews.</span></a>
                                         </li>
                                     </ul>
                                 </nav><!--End Nav-->
@@ -224,7 +225,7 @@
                             <div class="w-100" id="error-area"></div>
                         </div><!--End Event area-->
                         <div class="col-2 p-3">
-                            <p><span class="h5">my galleries.</span></p>
+                            <p><span class="h5">'. ($_SESSION['user_id'] == $user_id ? "my" : "art") .'galleries.</span></p>
                             <div class="list-group list-group-flush my-2 galleries-area-inner"><!--lists of users galleries (event lists)-->
                                 <div id="error-area-g"></div>
                             </div>

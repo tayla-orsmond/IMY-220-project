@@ -36,18 +36,10 @@ export const primary_event_template = ({e_img, e_name, e_location, e_date, e_des
     `
 }
 //gallery template list item for a list group 
-export const gallery_template = ({g_img, g_name, g_id}) => {
+export const gallery_template = ({l_name, l_id}) => {
     return `
-    <li class="list-group-item">
-        <div class="row">
-            <div class="col-4">
-                <img src="${g_img}" class="img-fluid" alt="...">
-            </div>
-            <div class="col-8">
-                <h5 class="card-title text-truncate">${g_name}</h5>
-                <a href="gallery.php?id=${g_id}" class="stretched-link"></a>
-            </div>
-        </div>
+    <li class="list-group-item my-2">
+        <a href="gallery.php?id=${l_id}">${l_name}</a>
     </li>
     `
 }

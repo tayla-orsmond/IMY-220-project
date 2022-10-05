@@ -24,7 +24,7 @@
             $this->email = $email;
             $this->psw = $psw;
             $this->repeat_psw = $repeat_psw;
-            $this->$display_name = $display_name;
+            $this->display_name = $display_name;
             $this->api = new API();
         }
 
@@ -132,7 +132,7 @@
                 return $success;
             }
             //sanitize the display name
-            $this->display_name = htmlspecialchars($this->display_name, ENT_SUBSTITUTE);
+            $this->display_name = addslashes($this->display_name);
             
             //signup user
             //direct function

@@ -16,7 +16,6 @@
         $psw = $_POST["password"];
         $repeat_psw = $_POST["confirm"];
         $display_name = $_POST["display_name"];
-        
         //create signup controller
         require_once "class/signup-ctrl.php";
 

@@ -96,8 +96,8 @@ class API{
     public $inst;
     public $conn;
     //common errors
-    public $user_dne_err = "Error: user does not exist";
-    public $no_events_err = "Error: No events found";
+    public $user_dne_err = "user does not exist";
+    public $no_events_err = "No events found";
     //response and resp error JSON objects
     public $curr_time;//curr time of request
     public $response = array(
@@ -188,7 +188,7 @@ class API{
 
         //handle if req has what it needs
         if(empty($req) || !in_array($req["type"], $req) || empty($req["type"]) || !in_array($req["user_id"], $req) || empty($req["user_id"])){
-            $this->respond("error", null, "Error: Bad Request - Required parameters missing or empty");
+            $this->respond("error", null, "Bad Request - Required parameters missing or empty");
             return;//don't continue
         }
         //check required request type
@@ -196,7 +196,7 @@ class API{
             //INFO REQ 
             if(!in_array($req["return"], $req) || empty($req["return"])){
                 //required return parameter not set
-                $this->respond("error", null, "Error: Bad Request - No return parameter specified");
+                $this->respond("error", null, "Bad Request - No return parameter specified");
             }
             else if($req["return"] === "search"){
                 $this->search($req);
@@ -235,7 +235,7 @@ class API{
             }
             else{
                 //invalid return parameter
-                $this->respond("error", null, "Error: Bad Request - Invalid return parameter");
+                $this->respond("error", null, "Bad Request - Invalid return parameter");
             }
         }
         else if($req["type"] === "login"){
@@ -249,7 +249,7 @@ class API{
         else if($req["type"] === "add"){
             if(!in_array($req["add"], $req) || empty($req["add"])){
                 //required add parameter not set
-                $this->respond("error", null, "Error: Bad Request - No add parameter specified");
+                $this->respond("error", null, "Bad Request - No add parameter specified");
             }
             else{
                 $this->add($req);
@@ -258,7 +258,7 @@ class API{
         else if($req["type"] === "delete"){
             if(!in_array($req["delete"], $req) || empty($req["delete"])){
                 //required delete parameter not set
-                $this->respond("error", null, "Error: Bad Request - No delete parameter specified");
+                $this->respond("error", null, "Bad Request - No delete parameter specified");
             }
             else{
                 $this->delete($req);
@@ -268,7 +268,7 @@ class API{
             //UPDATE REQ
             if(!in_array($req["update"], $req) || empty($req["update"])){
                 //required update parameter not set
-                $this->respond("error", null, "Error: Bad Request - No update parameter specified");
+                $this->respond("error", null, "Bad Request - No update parameter specified");
             }
             else{
                 $this->update($req);
@@ -289,7 +289,7 @@ class API{
         }
         else if($req["type"] === "follow"){
             if((!in_array($req["follow"], $req) || empty($req["follow"])) && (!in_array($req["user_name"], $req) || empty($req["user_name"])) && (!in_array($req["follow_id"], $req) || empty($req["follow_id"])) && (!in_array($req["follow_name"], $req) || empty($req["follow_name"]))){
-                $this->respond("error", null, "Error: Bad Request - Required follow parameters missing or empty");
+                $this->respond("error", null, "Bad Request - Required follow parameters missing or empty");
             }
             else{
                 $this->follow($req);
@@ -297,7 +297,7 @@ class API{
         }
         else{
             //random/bad request
-            $this->respond("error", null, "Error: Bad Request - Invalid Request Type");
+            $this->respond("error", null, "Bad Request - Invalid Request Type");
         }
     }
 
@@ -318,7 +318,7 @@ class API{
             $result = $query->rowCount() > 0 ? true : false;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
             $result = true;//don't allow user in if there was internal error
         }
@@ -355,7 +355,7 @@ class API{
             $query->execute($user_array);
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
         }
         $query = null; 
         $this->getUser($req);//get user info and send back
@@ -408,7 +408,7 @@ class API{
             }
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
         }
     }
     /*
@@ -461,7 +461,7 @@ class API{
             $query = null;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
         }
     }
@@ -492,7 +492,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -516,7 +516,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -537,7 +537,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -565,7 +565,7 @@ class API{
             $query = null;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
         }
     }
@@ -587,7 +587,7 @@ class API{
             $query = null;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
         }
     }
@@ -609,7 +609,7 @@ class API{
             $query = null;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
         }
     }
@@ -631,7 +631,7 @@ class API{
             $query = null;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
         }
     }
@@ -653,7 +653,7 @@ class API{
             $query = null;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
         }
     }
@@ -716,7 +716,7 @@ class API{
                 $this->respond("success", $event_array, "Event added successfully");
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
             }
             $query = null;
         }
@@ -739,7 +739,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -758,7 +758,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -786,7 +786,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -800,7 +800,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -814,7 +814,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -831,7 +831,7 @@ class API{
                 $query = null;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -857,7 +857,7 @@ class API{
                 $this->respond("success", null, "User updated successfully");
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
             }
             $query = null;
         }
@@ -879,7 +879,7 @@ class API{
                 $this->respond("success", $event_array, "Event updated successfully");
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
             }
             $query = null;
         }
@@ -898,7 +898,7 @@ class API{
                 $this->respond("success", $list_array, "List updated successfully");
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
             }
             $query = null;
         }
@@ -936,7 +936,7 @@ class API{
                         $this->respond("success", null, "Successfully followed user");
                     }
                     catch(PDOException $e){
-                        $this->respond("error", null, "Error: " . $e->getMessage());
+                        $this->respond("error", null,  $e->getMessage());
                         $query = null;
                         return;
                     }
@@ -944,7 +944,7 @@ class API{
                 }
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
             }
         }
@@ -956,7 +956,7 @@ class API{
                 $this->respond("success", null, "Successfully unfollowed user");
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
                 return;
             }
@@ -996,7 +996,7 @@ class API{
             $query = null;
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
             return;
         } 
@@ -1026,7 +1026,7 @@ class API{
                     $query = null;
                 }
                 catch(PDOException $e){
-                    $this->respond("error", null, "Error: " . $e->getMessage());
+                    $this->respond("error", null,  $e->getMessage());
                     $query = null;
                     return;
                 }
@@ -1041,14 +1041,14 @@ class API{
                     $query = null;
                 }
                 catch(PDOException $e){
-                    $this->respond("error", null, "Error: " . $e->getMessage());
+                    $this->respond("error", null,  $e->getMessage());
                     $query = null;
                     return;
                 }
             }
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
             return;
         }
@@ -1059,7 +1059,7 @@ class API{
             $query->execute(array($req["event_id"]));
             $result = $query->fetchAll();
             if(empty($result)){
-                $this->respond("error", null, "Error: No reviews found for event");
+                $this->respond("error", null, "No reviews found for event");
                 $query = null;
                 return;
             }
@@ -1075,13 +1075,13 @@ class API{
                 return;
             }
             catch(PDOException $e){
-                $this->respond("error", null, "Error: " . $e->getMessage());
+                $this->respond("error", null,  $e->getMessage());
                 $query = null;
                 return;
             }
         }
         catch(PDOException $e){
-            $this->respond("error", null, "Error: " . $e->getMessage());
+            $this->respond("error", null,  $e->getMessage());
             $query = null;
             return;
         }

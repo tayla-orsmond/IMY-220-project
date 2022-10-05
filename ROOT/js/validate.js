@@ -183,7 +183,7 @@ $("#e_desc").on("input", () => {
  * 
  */
 //globals
-let valid_l_name = false;
+let valid_l_name = $("#l_name").val() !== null;
 //validate the list (gallery) form
 //the list name must be between 3 and 50 characters and must not contain any special characters besides ","
 $('#l_name').on('input', () => {

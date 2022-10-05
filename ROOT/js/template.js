@@ -19,7 +19,7 @@ export const event_template = ({e_img, e_name, e_location, e_id}) => {
 //Primary event template
 export const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_id}) => {
     return `
-    <div class="card text-bg-dark" id="event_primary ${e_id}">
+    <div class="card text-bg-dark" id="event_primary">
         <img src="${e_img}" class="card-img" alt="...">
         <div class="card-img-overlay d-flex flex-column justify-content-between">
             <div class="card-header">Featured</div>
@@ -29,6 +29,7 @@ export const primary_event_template = ({e_img, e_name, e_location, e_date, e_des
                 <p class="card-text text-truncate ">
                     ${e_desc.replace(/#(\w+)/g, '<a href="home.php?search=$1">#$1</a>')}
                 </p>
+                <small class="card-text text-muted">'. $event['e_date'] .'</small>
                 <a href="event.php?id=${e_id}" class="stretched-link"></a>
             </div>
         </div>

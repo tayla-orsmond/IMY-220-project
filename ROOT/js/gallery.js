@@ -24,7 +24,6 @@ $(() => {
     };
     //update list details
     const edit_list = () => {
-        populate_edit_list_modal();
         //get the new list details
         const list_name = $('#l_name').val();
         const list_desc = $('#l_desc').val();
@@ -55,11 +54,9 @@ $(() => {
             }),
             success: (resp, status) => {
                 //if the response is successful, update the page with the new details
-                if(resp.status === "success" && resp.data.return.length > 0){
+                if(resp.status === "success"){
                     $('.list-name').text(list_name);
                     $('.list-description').text(list_desc);
-                    //close the modal
-                    $('#edit-list-modal').modal('hide');
                 } else{
                     console.log(resp.status);
                     console.log(resp.data.message);
@@ -91,6 +88,8 @@ $(() => {
     //when the submit_list button is clicked, update the gallery's details
     $('#submit_list').on('click', (e) => {
         if(validate_list()){
+            //close the modal
+            $('#list_modal').modal('hide');
             edit_list();
         }
         e.preventDefault();

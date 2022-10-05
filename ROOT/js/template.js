@@ -6,7 +6,7 @@
 //Event template
 export const event_template = ({e_img, e_name, e_location, e_id}) => {
     return `
-    <div class="card event-card">
+    <div class="card event-card" id="${e_id}">
         <img src="media/uploads/events/${e_img}" class="card-img-top img-fluid" alt="...">
         <div class="card-body">
             <h5 class="card-title text-truncate">${e_name}</h5>
@@ -17,9 +17,9 @@ export const event_template = ({e_img, e_name, e_location, e_id}) => {
     `
 }
 //Primary event template
-export const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_tag1, e_tag2, e_tag3, e_id}) => {
+export const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_id}) => {
     return `
-    <div class="card text-bg-dark" id="event_primary">
+    <div class="card text-bg-dark" id="event_primary ${e_id}">
         <img src="${e_img}" class="card-img" alt="...">
         <div class="card-img-overlay d-flex flex-column justify-content-between">
             <div class="card-header">Featured</div>

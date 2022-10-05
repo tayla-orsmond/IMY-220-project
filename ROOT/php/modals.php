@@ -12,12 +12,12 @@
 
     ---------------------------------------------------------
 -->
-<!-- Bootstrap Modal to add / edit / delete an event -->
+<!-- Bootstrap Modal to add / edit an event -->
 <div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="event_modal" tabindex="-1" role="dialog" aria-labelledby="event_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="event_modal_label">Add Event</h5>
+                <h5 class="modal-title" id="event_modal_label">Customize Your Event</h5>
             </div>
             <div class="modal-body">
                 <form id="event_form" method="post" action="upload.php" enctype="multipart/form-data">
@@ -103,7 +103,7 @@
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="list_modal_label">Add Gallery</h5>
+                <h5 class="modal-title" id="list_modal_label">Customize Gallery</h5>
             </div>
             <div class="modal-body">
                 <form id="list_form" method="post" action="../profile.php?id=<?=$_SESSION['user_id']?>">
@@ -120,6 +120,53 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-dark" form="list_form" id="submit_list">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal to add an event to a list -->
+<!-- Display all of the lists a user has so they can select one to add the event to -->
+<div class="modal modal-lg fade modal-fullscreen-sm" id="add_to_list_modal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" role="dialog" aria-labelledby="add_to_list_modal_label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add_to_list_modal_label">Add to a Gallery</h5>
+            </div>
+            <div class="modal-body">
+                <form id="add_to_list_form" method="post" action="../event.php?id=<?=$_GET['id']?>">
+                    <div class="form-group mb-3">
+                        <label for="l_id">Galleries</label>
+                        <select class="form-select" id="l_id" name="l_id" required>
+                            <option value="" selected disabled>Select a Gallery</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-dark" form="add_to_list_form" id="add_to_list">Add to Gallery</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal to delete a list -->
+<div class="modal modal-lg fade modal-fullscreen-sm" id="delete_list_modal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" role="dialog" aria-labelledby="delete_list_modal_label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete_list_modal_label">Delete Gallery</h5>
+            </div>
+            <div class="modal-body">
+                <form id="delete_list_form" method="post" action="php/delete-handler.php">
+                    <input type="hidden" id="l_rid" name="l_rid" value="<?=$_GET['id']?>">
+                    <p>Are you sure you want to delete this gallery? This action cannot be undone.</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" form="delete_list_form" id="delete_list" name="delete_list">Delete</button>
             </div>
         </div>
     </div>
@@ -284,61 +331,5 @@
     </div>
 </div>
 
-<!-- Bootstrap Modal to add an event to a list -->
-<!-- Display all of the lists a user has so they can select one to add the event to -->
-<div class="modal fade" id="add_to_list_modal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" role="dialog" aria-labelledby="add_to_list_modal_label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="add_to_list_modal_label">Add to a Gallery</h5>
-            </div>
-            <div class="modal-body">
-                <form id="add_to_list_form" method="post" action="../event.php">
-                    <div class="form-group mb-3">
-                        <label for="l_id">Galleries</label>
-                        <select class="form-select" id="l_id" name="l_id" required>
-                            <option value="" selected disabled>Select a Gallery</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="add_to_list_form">Add to Gallery</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Bootstrap Modal to add / edit / delete events out of a list -->
-<!-- Display all of the events in a list so they can be edited / deleted -->
-<!-- These events are displayed as bootstrap cards -->
-<div class="modal fade" id="list_events_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="list_events_modal_label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="list_events_modal_label">Edit Gallery</h5>
-            </div>
-            <div class="modal-body">
-                <div class="card-columns" id="list_events_card_columns">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Loading...</h5>
-                        </div>
-                        <!--remove from list button-->
-                        <div class="card-footer">
-                            <button type="button" class="btn btn-danger btn-sm" id="remove_from_list_btn">Remove from Gallery</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <!--delete list button-->
-                <button type="button" class="btn btn-danger" id="delete_list_btn">Delete Gallery</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="js/validate.js" type="module"></script>

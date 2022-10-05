@@ -5,7 +5,7 @@
 //e.g., editing an event, adding / editing / deleting a review, adding an event to a gallery, etc.
 
 import { validate_event, validate_review } from './validate.js';
-import { review_template, error_template_blank } from './template.js';
+import { review_template, error_template_blank, gallery_template } from './template.js';
 import { get_cookie } from './cookie.js';
 
 $(() => {
@@ -96,6 +96,77 @@ $(() => {
         $("#error").show();
         $("#error").append(error_template_blank(error));
     }
+    /**
+     * 
+     * FUNCTIONS FOR LISTS
+     * 
+     */
+    //add the event to a list
+    const add_event_to_list = () => {
+        //get the list id
+        let list_id = $("#l_id").val();
+        //make the ajax call
+        $.ajax({
+            url: api_url,
+            type: "POST",
+            accept: "application/json",
+            contentType: "application/json",
+            username: user_name,
+            password: api_key,
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "add",
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
+                "add": "event_to_list",
+                "e_id": event_id,
+                "l_id": list_id,
+            }),
+            success: function(resp, status){//succesful query
+                //submit form
+                $("#add_to_list_form").submit();
+            },
+            error: function(xhr,status,error){//error handling
+                error_handler(xhr,status,error);
+            }
+        });
+    }
+    //populate the add_event_to_list modal with the user's lists
+    const populate_add_event_to_list = () => {
+        //make the ajax call
+        $.ajax({
+            url: api_url,
+            type: "POST",
+            accept: "application/json",
+            contentType: "application/json",
+            username: user_name,
+            password: api_key,
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "info",
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
+                "return": "lists",
+                "id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+            }),
+            success: function(resp, status){//succesful query
+                if(resp.status === "success" && resp.data.return.length > 0){
+                    //add the lists to the modal
+                    resp.data.return.forEach(list => {
+                        $("#l_id").append(`<option value="${list.l_id}">${list.l_name}</option>`);
+                    });
+                }
+                else{
+                    console.log(resp.status);
+                    console.log(resp.data.message);
+                }
+            },
+            error: function(xhr,status,error){//error handling
+                error_handler(xhr,status,error);
+            }
+        });
+    }
+
     /**
      * 
      * RATING
@@ -222,5 +293,17 @@ $(() => {
     //when the edit review button is clicked, populate the form
     $('#edit_review').on('click', () => {
         populate_edit_review();
+    });
+    //when the add to list button is clicked, populate the modal
+    $('#add_event_to_list').on('click', () => {
+        populate_add_event_to_list();
+    });
+    //when the add-to-list button is clicked, add the event to the list
+    $('#add_to_list').on('click', (e) => {
+        if($('l_id').val() != " " || $('l_id').val() != null){
+            add_event_to_list();
+            console.log("added");
+        }
+        e.preventDefault();
     });
 });

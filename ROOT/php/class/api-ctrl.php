@@ -743,6 +743,25 @@ class API{
                 $query = null;
             }
         }
+        else if($add == "event_to_list"){
+            //update the l_events of the specific list with the event id followed by a comma
+            if(!isset($req['l_id']) || !isset($req['e_id'])){
+                $this->respond("error", null, "List id or event id not given");
+                return;
+            }
+            //get the l_events of the list with a specific list id and add the event id to the end of the string if it is not already there all in one query
+            $query = $this->conn->prepare('UPDATE lists SET l_events = CONCAT(l_events, ?) WHERE l_id = ? AND NOT FIND_IN_SET(?, l_events);');
+            //error handling
+            try{
+                $query->execute(array($req['e_id'] . ",", $req['l_id'], $req['e_id']));
+                $this->respond("success", null, "Event added to list successfully");
+                $query = null;
+            }
+            catch(PDOException $e){
+                $this->respond("error", null, "Error: " . $e->getMessage());
+                $query = null;
+            }
+        }
         else{
             $this->respond("error", null, "Invalid ADD request");
             return;
@@ -866,16 +885,16 @@ class API{
         }
         else if($update === "list"){
             //update list
-            $query = $this->conn->prepare('UPDATE `lists` SET `l_name`=?, `l_desc`=?, `l_events`=? WHERE l_id=?; AND u_rid=?;');
+            $query = $this->conn->prepare('UPDATE `lists` SET `l_name`=?, `l_desc`=?, `l_events`=? WHERE l_id=? AND u_rid=?;');
             //error handling
             try{
                 $list_array = array(
                     "l_name" => $req["l_name"],
                     "l_desc" => $req["l_desc"], 
                     "l_events" => $req["l_events"], 
-                    "list_id" => $req["list_id"]
+                    "l_id" => $req["l_id"]
                 );
-                $query->execute(array($req["l_name"], $req["l_desc"], $req["l_events"], $req["list_id"], $req["user_id"]));
+                $query->execute(array($req["l_name"], $req["l_desc"], $req["l_events"], $req["l_id"], $req["user_id"]));
                 $this->respond("success", $list_array, "List updated successfully");
             }
             catch(PDOException $e){

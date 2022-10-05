@@ -56,3 +56,16 @@
         $result = json_decode($api->getResponse(), true);
         header("Location: ../event.php?id=". $_POST['e_rid']);
     }
+    //do the same thing for deleting lists
+    if(isset($_POST['delete_list'])){
+        $req = array(
+            "type" => "delete",
+            "delete" => "list",
+            "user_id" => $_SESSION['user_id'],
+            "list_id" => $_POST['l_rid']
+        );
+        $api = new API();
+        $api->delete($req);
+        $result = json_decode($api->getResponse(), true);
+        header("Location: ../profile.php?id=". $_SESSION['user_id']);
+    }

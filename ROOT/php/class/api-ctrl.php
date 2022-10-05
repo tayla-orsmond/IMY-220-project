@@ -157,7 +157,7 @@ class API{
                     [req] "delete": "event" (Delete type. Can be of type: event, list, review, user)
                     [req] "event_id": "12"  (Event's e_id in the events database table)
                     [req] "list_id": "12"  (List's l_id in the list database table)
-                    [req] "review_id": "12"  (Rating's r_id in the review database table)
+                    [req] "review_id": "12"  (Review's r_id in the reviews database table)
                     [req] "profile_id": "12"  (User's u_id in the users database table)
                 }
                 UPDATE REQ{
@@ -276,7 +276,7 @@ class API{
         }
         else if($req["type"] === "rate"){
             //RATE REQ
-            if((!in_array($req["username"], $req) || empty($req["username"])) || (!in_array($req["event_id"], $req) || empty($req["event_id"])) || (!in_array($req["rating"], $req) || empty($req["rating"])) || (!in_array($req["r_name"], $req) || empty($req["r_name"])) || (!in_array($req["r_comment"], $req) || empty($req["r_comment"])) || (!in_array($req["r_img"], $req) || empty($req["r_img"]))){
+            if((!in_array($req["username"], $req) || empty($req["username"])) || (!in_array($req["event_id"], $req) || empty($req["event_id"])) || (!in_array($req["r_rating"], $req) || empty($req["r_rating"])) || (!in_array($req["r_name"], $req) || empty($req["r_name"])) || (!in_array($req["r_comment"], $req) || empty($req["r_comment"])) || (!in_array($req["r_img"], $req) || empty($req["r_img"]))){
                 $this->respond("error", null, "Nothing to rate, or review parameters missing.");
             }
             else{
@@ -786,8 +786,8 @@ class API{
             }
         }
         else if($delete == "review"){
-            $review_id = $req["review_id"];
-            $query = $this->conn->prepare('DELETE FROM reviews WHERE r_id = ? AND u_rid = ?;');
+            $review_id = $req["event_id"];
+            $query = $this->conn->prepare('DELETE FROM reviews WHERE e_rid = ? AND u_rid = ?;');
             //error handling
             try{
                 $query->execute(array($review_id, $user_id));
@@ -844,7 +844,7 @@ class API{
         }
         else if($update === "event"){
             //update event
-            $query = $this->conn->prepare('UPDATE `events` SET `e_name`=?, `e_desc`=?, `e_date`=?, `e_time`=?, `e_location`=?, `e_type`=?, `e_img`=? WHERE e_id=?; AND u_rid=?;');
+            $query = $this->conn->prepare('UPDATE `events` SET `e_name`=?, `e_desc`=?, `e_date`=?, `e_time`=?, `e_location`=?, `e_type`=?, `e_img`=? WHERE `e_id`=? AND `u_rid`=?;');
             //error handling
             try{
                 $event_array = array(

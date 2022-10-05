@@ -17,13 +17,13 @@
             </button>
             <div class="collapse navbar-collapse justify-content-md-end" id="navbarSupportedContent">
                 <?php
-                    // if (isset($_SESSION['deleted']) && $_SESSION['deleted'] == true) {
-                    //     if($_SESSION['user_id'] == $_SESSION['deleted_id']) {
-                    //         unset($_SESSION['deleted']);
-                    //         unset($_SESSION['deleted_id']);
-                    //         header("Location: logout.php");
-                    //     }
-                    // }
+                    if (isset($_SESSION['deleted']) && $_SESSION['deleted'] == true) {
+                        if($_SESSION['user_id'] == $_SESSION['deleted_id']) {
+                            unset($_SESSION['deleted']);
+                            unset($_SESSION['deleted_id']);
+                            header("Location: logout.php");
+                        }
+                    }
                     $logged_in = false;
                     if (isset($_SESSION['logged_in'])) {
                         $logged_in = true;
@@ -42,6 +42,11 @@
                                 <li class="nav-item mx-2">
                                     <a class="nav-link btn btn-secondary" href="logout.php">Log out</a>
                                 </li>
+                                '.
+                                ($_SESSION['user_admin'] == 1 ? '<li class="nav-item mx-2">
+                                    <a class="nav-link btn btn-secondary" href="admin.php">Admin Zone</a>
+                                </li>' : '')
+                                .'
                             </ul>';
                     } else {
                         echo '<ul class="navbar-nav me-2 mb-2 mb-lg-0">

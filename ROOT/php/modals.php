@@ -20,7 +20,7 @@
                 <h5 class="modal-title" id="event_modal_label">Add Event</h5>
             </div>
             <div class="modal-body">
-                <form id="event_form" method="post" action="php/upload-handler.php" enctype="multipart/form-data">
+                <form id="event_form" method="post" action="upload.php" enctype="multipart/form-data">
                     <div class="form-group mb-3">
                         <label for="e_name">Name *</label>
                         <input type="text" class="form-control" id="e_name" name="e_name" placeholder="Monet En-Plein-Air Event" required>
@@ -66,6 +66,7 @@
                         <div class="dropzone text-center bg-light p-5 m-1" id="e_img"><i class="text-primary fa fa-image fa-2xl"></i></div>
                         <input type="file" class="form-control" id="e_img_input" name="e_img_input" accept="image/*" size="50" style="display: none;">
                     </div>
+                    <input type="hidden" id="e_hidden_id" name="e_hidden_id">
                 </form>
             </div>
             <div class="modal-footer">
@@ -76,7 +77,28 @@
     </div>
 </div>
 
-<!-- Bootstrap Modal to add / edit / delete a list -->
+<!-- Bootstrap Modal to delete an event -->
+<div class="modal fade" id="delete_event_modal" tabindex="-1" role="dialog" aria-labelledby="delete_event_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete_event_modal_label">Delete Event</h5>
+            </div>
+            <div class="modal-body">
+                <form id="delete_event_form" method="post" action="php/delete-handler.php">
+                    <input type="hidden" id="e_id" name="e_id" value="<?=$_GET['id']?>">
+                    <p>Are you sure you want to delete this event? This action cannot be undone.</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-dark" form="delete_event_form" id="delete_event" name="delete_event">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal to add / edit a list -->
 <div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="list_modal" tabindex="-1" role="dialog" aria-labelledby="list_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -103,7 +125,7 @@
     </div>
 </div>
 
-<!-- Bootstrap Modal to add /edit / delete a review -->
+<!-- Bootstrap Modal to add /edit a review -->
 <div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="review_modal" tabindex="-1" role="dialog" aria-labelledby="review_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -111,7 +133,7 @@
                 <h5 class="modal-title" id="review_modal_label">Add Review</h5>
             </div>
             <div class="modal-body">
-                <form id="review_form" method="post" action=".">
+                <form id="review_form" method="post" action="upload.php" enctype="multipart/form-data">
                     <div class="form-group mb-3">
                         <label for="r_name">Name *</label>
                         <input type="text" class="form-control" id="r_name" name="r_name" placeholder="The best event I've ever been to!!!" required>
@@ -120,7 +142,7 @@
                         <label for="r_comment">Comment *</label>
                         <textarea class="form-control" id="r_comment" name="r_desc" rows="3" placeholder="I seriously loved this event. It was the best!"></textarea>
                     </div>
-                    <div class="rate mb-3">
+                    <div class="mb-3" id="rate">
                         <i class="fa-solid fa-star fa-2xl" data-index="0"></i>
                         <i class="fa-solid fa-star fa-2xl" data-index="1"></i>
                         <i class="fa-solid fa-star fa-2xl" data-index="2"></i>
@@ -130,13 +152,38 @@
                     <input type="hidden" id="r_rating" name="r_rating" value="0">
                     <div class="form-group mb-3">
                         <label for="r_img">Image</label>
-                        <input type="file" class="form-control-file" id="r_img" name="r_img" required>
+                            <!-- add an image using drag and drop or file input -->
+                        <p>Drag and drop an image here or click to select an image</p>
+                        <div class="dropzone text-center bg-light p-5 m-1" id="r_img"><i class="text-primary fa fa-image fa-2xl"></i></div>
+                        <input type="file" class="form-control" id="r_img_input" name="r_img_input" accept="image/*" size="50" style="display: none;">
                     </div>
+                    <input type="hidden" id="r_hidden_id" name="r_hidden_id" value="<?=$_GET['id']?>">
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="review_form">Save</button>
+                <button type="submit" class="btn btn-dark" form="review_form" id="submit_review">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal to delete a review -->
+<div class="modal fade" id="delete_review_modal" tabindex="-1" role="dialog" aria-labelledby="delete_review_modal_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete_review_modal_label">Delete Review</h5>
+            </div>
+            <div class="modal-body">
+                <form id="delete_review_form" method="post" action="php/delete-handler.php">
+                    <input type="hidden" id="e_rid" name="e_rid" value="<?=$_GET['id']?>">
+                    <p>Are you sure you want to delete this review? This action cannot be undone.</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-dark" form="delete_review_form" id="delete_review" name="delete_review">Delete</button>
             </div>
         </div>
     </div>
@@ -150,7 +197,7 @@
                 <h5 class="modal-title" id="edit_profile_modal_label">Edit Profile</h5>
             </div>
             <div class="modal-body">
-                <form id="edit_profile_form" method="post" action="php/upload-handler.php" enctype="multipart/form-data">
+                <form id="edit_profile_form" method="post" action="upload.php" enctype="multipart/form-data">
                     <!-- Profile Picture -->
                     <div class="form-group mb-3">
                         <label for="u_profile">Profile Picture *</label>
@@ -208,7 +255,7 @@
             <div class="modal-body">
                 <form id="delete_profile_form" method="post" action="php/delete-handler.php">
                     <input type="hidden" id="p_id" name="p_id" value="<?=$_GET['id']?>">
-                    <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+                    <p>Are you sure you want to delete this profile? This action cannot be undone.</p>
                 </form>
             </div>
             <div class="modal-footer">

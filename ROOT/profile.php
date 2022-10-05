@@ -108,7 +108,7 @@
                             </div>
                         </div><!--End Profile Header card-->
                         <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
-                            if(isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']){
+                            if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
                                 echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-paintbrush"></i> Edit Profile</a>
                                 <a href="messages.phpchat='. $_SESSION['user_id'].'"><i class="fas fa-inbox fa-xl"></i></a>';
                             }
@@ -215,7 +215,7 @@
                             </div>
                         </div>
                         <div class="col-10 d-flex flex-wrap p-3 gap-2 border event-area-inner"><!--Event area -> for users events-->';
-                            if(isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']){
+                            if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
                                 echo'
                                 <div class="w-100">
                                     <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#event_modal" id="add_event">Add Event</div>
@@ -230,7 +230,7 @@
                                 <div id="error-area-g"></div>
                             </div>
                             <div id="galleries-inner"></div>';
-                                if(isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']){
+                                if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
                                     echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#list_modal" id="add_gallery">Add Gallery</div>';
                                 }
                             echo'

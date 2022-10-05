@@ -30,3 +30,29 @@
             header("Location: ../profile.php?id=". $_SESSION['user_id']);
         }
     }
+    //do the same thing for deleting events
+    if(isset($_POST['delete_event'])){
+        $req = array(
+            "type" => "delete",
+            "delete" => "event",
+            "user_id" => $_SESSION['user_id'],
+            "event_id" => $_POST['e_id']
+        );
+        $api = new API();
+        $api->delete($req);
+        $result = json_decode($api->getResponse(), true);
+        header("Location: ../profile.php?id=". $_SESSION['user_id']);
+    }
+    //do the same thing for deleting reviews
+    if(isset($_POST['delete_review'])){
+        $req = array(
+            "type" => "delete",
+            "delete" => "review",
+            "user_id" => $_SESSION['user_id'],
+            "event_id" => $_POST['e_rid']
+        );
+        $api = new API();
+        $api->delete($req);
+        $result = json_decode($api->getResponse(), true);
+        header("Location: ../event.php?id=". $_POST['e_rid']);
+    }

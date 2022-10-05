@@ -11,18 +11,18 @@
  * 
  */
 //globals
-let valid_name = false;
-let valid_date = false;
-let valid_time = false;
-let valid_location = false;
-let valid_image = false;
+let valid_name =  $("#e_name") !== null;
+let valid_date = $("#e_date") !== null;
+let valid_time = $("#e_time") !== null;
+let valid_location = $("#e_location") !== null;
+let valid_image = $("#e_img_input") !== null;
 //validate the event form
 //validate the name
 //the name must be between 3 and 50 characters
 //the name must not contain any special characters besides !, ? and @
 $("#e_name").on("input", () => {
     let name = $("#e_name").val();
-    let name_regex = /^[a-zA-Z0-9!@? ]{3,50}$/;
+    let name_regex = /^[\w\s,!?.@]{3,50}$/;
     if (name_regex.test(name)) {
         $("#e_name").removeClass("invalid");
         $("#e_name").addClass("valid");
@@ -107,13 +107,15 @@ $("#e_img").on("dragleave", function (e) {
     e.preventDefault();
     e.stopPropagation();
     $("#e_img").removeClass("dragover");
+    //make the div normal
+    $("#e_img").css("opacity", "1");
 });
 $("#e_img").on("drop", function (e) {
     e.preventDefault();
     e.stopPropagation();
     $("#e_img").removeClass("dragover");
-    //put the opacity back to normal
-    $("#e_img").css("opacity", "1");
+    //make the div normal
+    $("#u_profile").css("opacity", "1");
     let file = e.originalEvent.dataTransfer.files[0];
     let file_regex = /\.(jpg|jpeg|png|gif)$/i;
     if (file.name != undefined && file_regex.test(file.name) && file.size < 2000000) {
@@ -186,7 +188,7 @@ let valid_l_name = false;
 //the list name must be between 3 and 50 characters and must not contain any special characters besides ","
 $('#l_name').on('input', () => {
     let name = $('#l_name').val();
-    let name_regex = /^[a-zA-Z0-9!@? ]{3,50}$/;
+    let name_regex = /^[\w\s,!?.@/\\]{3,50}$/;
     if (name_regex.test(name)) {
         $('#l_name').removeClass('invalid');
         $('#l_name').addClass('valid');
@@ -196,7 +198,7 @@ $('#l_name').on('input', () => {
         $('#l_name').removeClass('valid');
         $('#l_name').addClass('invalid');
         if (!$('#l_name_err').html()) {
-            $('<div class="error" id="l_name_err">The name must be between 3 and 50 characters and must not contain any special characters besides !, ? and @</div>').insertAfter('#l_name');
+            $('<div class="error" id="l_name_err">The name must be between 3 and 50 characters and must not contain any special characters besides "!", "?" and "@"</div>').insertAfter('#l_name');
         }
         valid_l_name = false;
     }
@@ -214,7 +216,7 @@ let valid_u_profile = true;
 //validate the edit profile form
 $('#u_display_name').on('input', () => {
     let display_name = $('#u_display_name').val();
-    let display_name_regex = /^[a-zA-Z0-9]{3,50}$/;
+    let display_name_regex = /^[\w@]{3,50}$/;
     if (display_name_regex.test(display_name)) {
         $('#u_display_name').removeClass('invalid');
         $('#u_display_name').addClass('valid');
@@ -224,7 +226,7 @@ $('#u_display_name').on('input', () => {
         $('#u_display_name').removeClass('valid');
         $('#u_display_name').addClass('invalid');
         if (!$('#u_display_name_err').html()) {
-            $('<div class="error" id="u_display_name_err">The display name must be between 3 and 50 characters and must not contain any special characters</div>').insertAfter('#u_display_name');
+            $('<div class="error" id="u_display_name_err">The display name must be between 3 and 50 characters and must not contain any special characters besides "@"</div>').insertAfter('#u_display_name');
         }
         valid_u_display_name = false;
     }
@@ -243,12 +245,14 @@ $("#u_profile").on("dragleave", (e) => {
     e.preventDefault();
     e.stopPropagation();
     $("#u_profile").removeClass("dragover");
+    //make the div normal
+    $("#u_profile").css("opacity", "1");
 });
 $("#u_profile").on("drop", (e) => {
     e.preventDefault();
     e.stopPropagation();
     $("#u_profile").removeClass("dragover");
-    //put the opacity back to normal
+    //make the div normal
     $("#u_profile").css("opacity", "1");
     let file = e.originalEvent.dataTransfer.files[0];
     let file_regex = /\.(jpg|jpeg|png|gif)$/i;
@@ -301,7 +305,149 @@ $("#u_profile_input").on("change", () => {
         }
         valid_image = false;
     }
-});   
+});
+/**
+ * 
+ * VALIDATE REVIEW MODAL
+ * 
+ */
+//globals
+let valid_r_name =  $("#r_name") !== null;
+let valid_r_rating = $("#r_rating") !== null;
+let valid_r_comment = $("#r_comment") !== null;
+
+//validate the review name
+$("#r_name").on("input", () => {
+    let name = $("#r_name").val();
+    let name_regex = /^[\w\s,!?.@]{3,50}$/;
+    if (name_regex.test(name)) {
+        $("#r_name").removeClass("invalid");
+        $("#r_name").addClass("valid");
+        $("#r_name_err").remove();
+        valid_r_name = true;
+    } else {
+        $("#r_name").removeClass("valid");
+        $("#r_name").addClass("invalid");
+        if(!$("#r_name_err").html()) {
+            $('<div class="error" id="r_name_err">The name must be between 3 and 50 characters and must not contain any special characters</div>').insertAfter("#r_name");
+        }
+        valid_r_name = false;
+    }
+});
+
+//validate the review rating
+$("#r_rating").on("input", () => {
+    let rating = $("#r_rating").val();
+    let rating_regex = /^[0-5]{1}$/;
+    if (rating_regex.test(rating)) {
+        $("#r_rating").removeClass("invalid");
+        $("#r_rating").addClass("valid");
+        $("#r_rating_err").remove();
+        valid_r_rating = true;
+    } else {
+        $("#r_rating").removeClass("valid");
+        $("#r_rating").addClass("invalid");
+        if(!$("#r_rating_err").html()) {
+            $('<div class="error" id="r_rating_err">The rating must be between 0 and 5</div>').insertAfter("#r_rating");
+        }
+        valid_r_rating = false;
+    }
+});
+
+//validate the review comment
+$("#r_comment").on("input", () => {
+    let comment = $("#r_comment").val();
+    let comment_regex = /^[\w\s,!?.@/\\#]{3,500}$/;
+    if (comment_regex.test(comment)) {
+        $("#r_comment").removeClass("invalid");
+        $("#r_comment").addClass("valid");
+        $("#r_comment_err").remove();
+        valid_r_comment = true;
+    } else {
+        $("#r_comment").removeClass("valid");
+        $("#r_comment").addClass("invalid");
+        if(!$("#r_comment_err").html()) {
+            $('<div class="error" id="r_comment_err">The comment must be between 3 and 500 characters</div>').insertAfter("#r_comment");
+        }
+        valid_r_comment = false;
+    }
+});
+
+//validate the review image drag and drop
+$("#r_img").on("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#e_img").addClass("dragover");
+    //make the div lighter
+    $("#e_img").css("opacity", "0.3");
+});
+$("#r_img").on("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#e_img").removeClass("dragover");
+    //make the div darker
+    $("#e_img").css("opacity", "1");
+});
+$("#r_img").on("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    $("#e_img").removeClass("dragover");
+    //make the div darker
+    $("#e_img").css("opacity", "1");
+    let file = e.originalEvent.dataTransfer.files[0];
+    let file_regex = /\.(jpg|jpeg|png|gif)$/i;
+    if (file.name != undefined && file_regex.test(file.name) && file.size < 2000000) {
+        $("#r_img").removeClass("invalid");
+        $("#r_img").addClass("valid");
+        //set the image input value to the file name
+        $("#r_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
+        //make the image a background image of the img div
+        $("#r_img").css("background-image", "url(" + URL.createObjectURL(file) + ")");
+        $("#r_img_err").remove();
+        valid_image = true;
+    } else {
+        $("#r_img").removeClass("valid");
+        $("#r_img").addClass("invalid");
+        //remove the image input value
+        $("#r_img").html('<i class="text-primary fa fa-image fa-2xl"></i>');
+        //remove the background image
+        $("#r_img").css("background-image", "none");
+        if(!$("#r_img_err").html()) {
+            $('<div class="error" id="r_img_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#r_img");
+        }
+        valid_image = false;
+    }
+});
+$("#r_img").on("click", () => {
+    $("#r_img_input").click();
+});
+$("#r_img_input").on("change", () => {
+    let file = $("#r_img_input").prop("files")[0];
+    let file_regex = /\.(jpg|jpeg|png|gif)$/i;
+    if (file.name != undefined && file_regex.test(file.name) && file.size < 2000000) {
+        $("#r_img").removeClass("invalid");
+        $("#r_img").addClass("valid");
+        //set the image input value to the file name
+        $("#r_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
+        //make the image a background image of the img div
+        $("#r_img").css("background-image", "url(" + URL.createObjectURL(file) + ")");
+        $("#r_img_err").remove();
+        valid_image = true;
+    } else {
+        $("#r_img").removeClass("valid");
+        $("#r_img").addClass("invalid");
+        //remove the image input value
+        $("#r_img").html('<i class="text-primary fa fa-image fa-2xl"></i>');
+        //remove the background image
+        $("#r_img").css("background-image", "none");
+        if(!$("#r_img_err").html()) {
+            $('<div class="error" id="r_img_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#r_img");
+        }
+        valid_image = false;
+    }
+});
+
+
 //FUNCTIONS
 export const validate_event = () => {
     return valid_name && valid_date && valid_time && valid_location && valid_image;
@@ -311,6 +457,9 @@ export const validate_list = () => {
 }
 export const validate_edit_profile = () => {
     return valid_u_display_name && valid_u_profile;
+}
+export const validate_review = () => {
+    return valid_r_name && valid_r_rating && valid_r_comment;
 }
 export const validate_username = (username) => {
     const rg = new RegExp(/^(?=[a-zA-Z0-9_.]{3,20}$)(?!.*[_.]{2}).*$/);

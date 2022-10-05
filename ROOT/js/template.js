@@ -59,6 +59,27 @@ export const following_template = ({u_rname, u_rid}) => {
     </li>
     `
 }
+//review template
+export const review_template = ({u_rid, u_rname, r_name, r_comment, r_rating}) => {
+    let stars = "";
+    for(var i = 0; i < r_rating; i++){
+        stars += `<i class="fa fa-star fa-xl"></i>`;
+    }
+    for(var i = 0; i < 5 - r_rating; i++){
+        stars += `<i class="fa fa-star-o fa-xl"></i>`;
+    }
+    return `<div class="p-1 mt-2 review-box">
+        <p class="h5 review-name">${r_name}</p>
+        <div class="d-flex justify-content-between">
+            <p><a href="profile.php?id=${u_rid}">@${u_rname}</a></p>
+            <p>${stars}</p>
+            <span class="d-none review-rating">${r_rating}</span></div>
+        </div>
+        <p class="review-comment">${r_comment}</p>
+        <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#review_modal" id="edit_review">Edit Review</div>
+    </div>`;
+}
+
 //error template
 export const error_template = (error) => {
     return `

@@ -447,7 +447,6 @@ $("#r_img_input").on("change", () => {
     }
 });
 
-
 //FUNCTIONS
 export const validate_event = () => {
     return valid_name && valid_date && valid_time && valid_location && valid_image;
@@ -472,6 +471,12 @@ export const validate_email = (email) => {
 export const validate_password = (psw) => {
     const rg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=~`-])[A-Za-z\d!@#$%^&*()_+=~`-]{8,}$/);
     return rg.test(psw);
+}
+export const format_filename = (filename) => {
+    //add a timestamp to the filename to to prevent files with the same name being overwritten
+    let date = new Date();
+    let timestamp = date.getTime();
+    return timestamp + '_' + filename;
 }
 
 //ERROR MESSAGES

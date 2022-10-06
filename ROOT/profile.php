@@ -110,7 +110,7 @@
                         <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
                             if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
                                 echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-paintbrush"></i> Edit Profile</a>
-                                <a href="messages.phpchat='. $_SESSION['user_id'].'"><i class="fas fa-inbox fa-xl"></i></a>';
+                                <a href="messages.php?chat='. $_SESSION['user_id'].'&chatn='. $profile['u_name'] .'"><i class="fas fa-inbox fa-xl"></i></a>';
                             }
                             //====================get the profile's followers
                             $body = array(
@@ -192,7 +192,7 @@
                             if(isset($_SESSION['user_id']) && $user_id != $_SESSION['user_id']){
                                 //check if the user is following the profile
                                 echo '<div class="btn btn-light ' . ($is_follower ? "" : "d-none") . '" id="unfollow">Following</div>
-                                <a href="message.php?chat="'. $profile['u_id'] .'" class=" ' . ($is_follower ? "" : "d-none") . '" id="DM"><i class="fa fa-paper-plane fa-xl"></i></a>
+                                <a href="messages.php?chat='. $profile['u_id'] .'&chatn='. $profile['u_name'] .'" class=" ' . ($is_follower ? "" : "d-none") . '" id="DM"><i class="fa fa-paper-plane fa-xl"></i></a>
                                 <div class="btn btn-dark ' . ($is_follower ? "d-none" : "") . '" id="follow">Follow</div>';
                             }
                         echo '<div class="">

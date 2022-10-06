@@ -92,6 +92,18 @@ class API{
             FOREIGN KEY (u_fname) REFERENCES users(u_name) ON DELETE CASCADE
         );
     */
+    /*
+        Database table for chats looks like:
+        CREATE TABLE chats(
+            c_id BIGINT PRIMARY KEY AUTO_INCREMENT not null,
+            u_rid BIGINT not null,
+            FOREIGN KEY (u_rid) REFERENCES users(u_id) ON DELETE CASCADE,
+            u_sid BIGINT not null,
+            FOREIGN KEY (u_sid) REFERENCES users(u_id) ON DELETE CASCADE,
+            c_message VARCHAR(1000) not null,
+            c_timestamp DATETIME not null
+        );
+    */
     //connection
     public $inst;
     public $conn;
@@ -174,8 +186,8 @@ class API{
                     [req] -> All parameters for adding reviews (name *, comment *, image *, rating*)
                 }
                 CHAT REQ{
-                    [req] "chat_id": 12 (User u_id with which you wanna chat)
-                    [req] "message" : "hello" (the message you want to send)
+                    [req] "receiver_id" : "15" (User's u_id in the users database table)
+                    [req] "message" : "Hello" (Message to send)
                 }
                 FOLLOW REQ{
                     [req] "follow" : "follow" (Follow type. Can be of type: follow, unfollow)
@@ -201,9 +213,17 @@ class API{
             else if($req["return"] === "search"){
                 $this->search($req);
             }
-            else if($req["return"] === "profile" || $req["return"] === "event" || $req["return"] === "list" || $req["return"] === "review" || $req["return"] === "chat"){
+            else if($req["return"] === "profile" || $req["return"] === "event" || $req["return"] === "list" || $req["return"] === "review"){
                 //single object get request (a profile, an event, a list, a review or a chat)
                 $this->get($req);
+            }
+            else if($req["return"] === "chat"){
+                if(!in_array($req["receiver_id"], $req) || empty($req["receiver_id"])){
+                    $this->respond("error", null, "Bad Request - No receiver_id parameter specified");
+                }
+                else {
+                    $this->getMessages($req);
+                }
             }
             else if($req["return"] === "events"){
                 //get multiple event's for a user's home / global feed OR for a specific profile
@@ -222,8 +242,8 @@ class API{
                 $this->getReviews($req);
             }
             else if($req["return"] === "chats"){
-                //get multiple chats for a user
-                //$this->getChats($req);
+                //get multiple "chats" for a user i.e., a list of users they are following and who are following them
+                $this->getChats($req);
             }
             else if($req["return"] === "followers"){
                 //get followers for a specific user profile
@@ -285,7 +305,7 @@ class API{
         }
         else if($req["type"] === "chat"){
             //CHAT REQ
-            $this->respond("error", null, "The API type chat does not exist yet");
+            $this->chat($req);
         }
         else if($req["type"] === "follow"){
             if((!in_array($req["follow"], $req) || empty($req["follow"])) && (!in_array($req["user_name"], $req) || empty($req["user_name"])) && (!in_array($req["follow_id"], $req) || empty($req["follow_id"])) && (!in_array($req["follow_name"], $req) || empty($req["follow_name"]))){
@@ -417,7 +437,7 @@ class API{
         ===========================================================================================================================
     */
     public function get($req){
-        //Description: Handle GET requests for profile, events, lists, reviews, etc
+        //Description: Handle GET requests for profile, events, lists, reviews, chats etc
         //This is a single object request (not multiple objects)
         $return = $req["return"];
         //get return type
@@ -649,6 +669,61 @@ class API{
             }
             else{
                 $this->respond("error", null, "No following");
+            }
+            $query = null;
+        }
+        catch(PDOException $e){
+            $this->respond("error", null,  $e->getMessage());
+            $query = null;
+        }
+    }
+    public function getChats($req){
+        //Description: Get all "chats" for a specific user (chats are just a list of users that user follows and that follow user)
+        $user_id = $req["user_id"];
+        $query = $this->conn->prepare('SELECT u_fid, u_fname FROM followers WHERE u_rid = ? UNION SELECT u_rid, u_rname FROM followers WHERE u_fid = ?;');
+        //error handling
+        try{
+            $query->execute(array($user_id, $user_id));
+            $chats = $query->fetchAll();
+            if(!empty($chats)){
+                //get all chats for user
+                //remove duplicates (where user follows and is followed by same user)
+                $chats = array_map("unserialize", array_unique(array_map("serialize", $chats)));
+                //map all u_fid to u_rid and all u_fname to u_rname
+                $chats = array_map(function($chat){
+                    $chat["u_rid"] = $chat["u_fid"];
+                    $chat["u_rname"] = $chat["u_fname"];
+                    unset($chat["u_fid"]);
+                    unset($chat["u_fname"]);
+                    return $chat;
+                }, $chats);
+                $this->respond("success", $chats, "User's chats returned successfully");
+            }
+            else{
+                $this->respond("error", null, "No chats");
+            }
+            $query = null;
+        }
+        catch(PDOException $e){
+            $this->respond("error", null,  $e->getMessage());
+            $query = null;
+        }
+    }
+    public function getMessages($req){
+        //Description: Get all messages from a chat between two users
+        $sender_id = $req["user_id"];
+        $receiver_id = $req["receiver_id"];
+        $query = $this->conn->prepare('SELECT * FROM chats WHERE (u_rid = ? AND u_sid = ?) OR (u_rid = ? AND u_sid = ?) ORDER BY c_timestamp DESC;');
+        //error handling
+        try{
+            $query->execute(array($sender_id, $receiver_id, $receiver_id, $sender_id));
+            $messages = $query->fetchAll();
+            if(!empty($messages)){
+                //get all messages from chat
+                $this->respond("success", $messages, "Chat's messages returned successfully");
+            }
+            else{
+                $this->respond("error", null, "No messages");
             }
             $query = null;
         }
@@ -1086,7 +1161,34 @@ class API{
             return;
         }
     }
-
+    /*
+    
+        CHAT - HANDLE CHAT REQ
+        ===========================================================================================================================
+    
+    */
+    public function chat($req){
+        //Description: Send message to another user (add it to the chats table)
+        //get parameters
+        if(!isset($req["receiver_id"]) || empty($req["receiver_id"]) || !isset($req["message"]) || empty($req["message"])){
+            $this->respond("error", null, "Invalid Chat Request - Missing Parameters");
+            return;
+        }
+        //insert message into chats table
+        $query = $this->conn->prepare('INSERT INTO chats (u_sid, u_rid, c_message, c_timestamp) VALUES (?, ?, ?, ?);');
+        //error handling
+        try{
+            $query->execute(array($req["user_id"], $req["receiver_id"], $req["message"], date("Y-m-d H:i:s")));
+            $this->respond("success", null, "Message sent");
+            $query = null;
+            return;
+        }
+        catch(PDOException $e){
+            $this->respond("error", null,  $e->getMessage());
+            $query = null;
+            return;
+        }
+    }
     /*
         
         RESPOND - CREATE AND RETURN RESPONSE JSON OBJECT

@@ -4,9 +4,9 @@
 //Description: This file contains the javascript code for the profile page
 //e.g., adding an event, adding a gallery (list), following, unfollowing, viewing your events and your reviewed events etc.
 
-import { validate_event, validate_list, validate_edit_profile} from "./validate.js";
+import { validate_event, validate_list, validate_edit_profile, format_filename} from "./validate.js";
 import { get_cookie } from "./cookie.js";
-import { event_template, gallery_template, follower_template, following_template, error_template_blank} from "./template.js";
+import { event_template, gallery_template, follower_template, following_template, error_template_blank } from "./template.js";
 
 $(() => {
     //GLOBALS
@@ -136,7 +136,7 @@ $(() => {
         let e_time = $("#e_time").val();
         let e_location = $("#e_location").val();
         //get the image filename from the form
-        let e_img = $("#e_img_input").val().split("\\").pop();
+        let e_img = format_filename($("#e_img_input").val().split("\\").pop());
         let e_type = $("#e_type").val();
         //make the ajax call
         $.ajax({
@@ -379,7 +379,7 @@ $(() => {
                 "u_pronouns": $("#u_pronouns").val(),
                 "u_location": $("#u_location").val(),
                 "u_age": $("#u_age").val(),
-                "u_profile": $("#u_profile").text(),
+                "u_profile": format_filename($("#u_profile").text()),
             }),
             success: function(resp, status){//succesful query
                 if(resp.status === "success"){

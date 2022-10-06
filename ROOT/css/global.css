@@ -21,6 +21,15 @@
     scrollbar-color: var(--dark) transparent;
     scrollbar-width: thin;
 }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--main-font);
+    font-size: 1rem;
+    color: var(--main);
+    overflow-wrap: break-word;
+}
 /* BODY */
 body{
     background-color: var(--light);

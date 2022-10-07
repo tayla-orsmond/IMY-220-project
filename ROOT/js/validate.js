@@ -22,7 +22,7 @@ let valid_image = $("#e_img_input") !== null;
 //the name must not contain any special characters besides !, ? and @
 $("#e_name").on("input", () => {
     let name = $("#e_name").val();
-    let name_regex = /^[\w\s,!?.@-']{3,50}$/;
+    let name_regex = /^[\w\s,!?.@\-\']{3,50}$/;
     if (name_regex.test(name)) {
         $("#e_name").removeClass("invalid");
         $("#e_name").addClass("valid");
@@ -78,7 +78,7 @@ $("#e_time").on("input", () => {
 //the location must not contain any special characters
 $("#e_location").on("input", () => {
     let location = $("#e_location").val();
-    let location_regex = /^[\w\s,-']{3,50}$/;
+    let location_regex = /^[\w\s,\-\']{3,50}$/;
     if (location_regex.test(location)) {
         $("#e_location").removeClass("invalid");
         $("#e_location").addClass("valid");
@@ -170,7 +170,7 @@ let valid_l_name = $("#l_name").val() !== null;
 //the list name must be between 3 and 50 characters and must not contain any special characters besides ","
 $('#l_name').on('input', () => {
     let name = $('#l_name').val();
-    let name_regex = /^[\w\s,!?.@-'/\\]{3,50}$/;
+    let name_regex = /^[\w\s,!?.@\-\'/\\]{3,50}$/;
     if (name_regex.test(name)) {
         $('#l_name').removeClass('invalid');
         $('#l_name').addClass('valid');
@@ -198,7 +198,7 @@ let valid_u_profile = true;
 //validate the edit profile form
 $('#u_display_name').on('input', () => {
     let display_name = $('#u_display_name').val();
-    let display_name_regex = /^[\w\s,!?@-'/\\]{3,50}$/;
+    let display_name_regex = /^[\w\s,!?@\-'/\\]{3,50}$/;
     if (display_name_regex.test(display_name)) {
         $('#u_display_name').removeClass('invalid');
         $('#u_display_name').addClass('valid');
@@ -280,7 +280,7 @@ let valid_r_comment = $("#r_comment") !== null;
 //validate the review name
 $("#r_name").on("input", () => {
     let name = $("#r_name").val();
-    let name_regex = /^[\w\s,!?.@-'/\\]{3,50}$/;
+    let name_regex = /^[\w\s,!?.@\-\'/\\]{3,50}$/;
     if (name_regex.test(name)) {
         $("#r_name").removeClass("invalid");
         $("#r_name").addClass("valid");
@@ -318,7 +318,7 @@ $("#r_rating").on("input", () => {
 //validate the review comment
 $("#r_comment").on("input", () => {
     let comment = $("#r_comment").val();
-    let comment_regex = /^[\w\s,!?.@'/\\#]{3,500}$/;
+    let comment_regex = /^[\w\s,!?.@\-\'/\\#]{3,500}$/;
     if (comment_regex.test(comment)) {
         $("#r_comment").removeClass("invalid");
         $("#r_comment").addClass("valid");

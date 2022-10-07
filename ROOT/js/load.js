@@ -37,11 +37,11 @@ $(()=> {
     //search for events
     const search_events = (search) => {
         $.ajax({
-            url: 'api.php',
+            url: api_url,
             type: "POST",
             accept: "application/json",
             contentType: "application/json",
-            username: "root",
+            username: user_name,
             password: api_key,
             dataType: "json",
             data: JSON.stringify({

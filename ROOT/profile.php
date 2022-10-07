@@ -5,14 +5,13 @@
         <meta name="author" content="Tayla Orsmond">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <title>artfolio | myfolio</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="css/global.css">
         <link rel="stylesheet" href="css/events.css">
         <link rel="stylesheet" href="css/profile.css">
         <link rel="stylesheet" href="css/form.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-        <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <!-- Tayla Orsmond u21467456 -->
@@ -28,7 +27,7 @@
         <?php 
             require_once 'php/header.php';
         ?>
-        <div class="container px-5">
+        <div class="container px-5 container-box">
             <div id="error"></div>
             <?php
                 //echo out the appropriate profile page for the user dpending on the user id in the url
@@ -104,12 +103,12 @@
                                 }
                                 echo '</div>
                                 <p class="bio"> ' . $profile['u_bio'] .' </p>
-                                <p><i class="fa fa-envelope"></i> <a href="mailto:' . $profile['u_email'] . '">' . $profile['u_email'] . '</a></p>
+                                <p><i class="fa-regular fa-envelope"></i> <a href="mailto:' . $profile['u_email'] . '">' . $profile['u_email'] . '</a></p>
                             </div>
                         </div><!--End Profile Header card-->
                         <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
                             if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
-                                echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-paintbrush"></i> Edit Profile</a>
+                                echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-palette fa-xl"></i> Edit Profile</a>
                                 <a href="messages.php?chat='. $_SESSION['user_id'].'&chatn='. $profile['u_name'] .'"><i class="fas fa-inbox fa-xl"></i></a>';
                             }
                             //====================get the profile's followers
@@ -214,26 +213,26 @@
                                 </nav><!--End Nav-->
                             </div>
                         </div>
-                        <div class="col-10 d-flex flex-wrap p-3 gap-2 border event-area-inner"><!--Event area -> for users events-->';
+                        <div class="col-10 border"><!--Event area -> for users events-->';
                             if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
                                 echo'
                                 <div class="w-100">
-                                    <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#event_modal" id="add_event">Add Event</div>
+                                    <div class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#event_modal" id="add_event"><i class="fa-solid fa-paintbrush"></i> Add Event</div>
                                 </div>';
                             }
-                        echo '<div id="events-inner"></div>
+                        echo '<div id="events_inner"></div>
                             <div class="w-100" id="error-area"></div>
                         </div><!--End Event area-->
                         <div class="col-2 p-3">
-                            <p><span class="h5">'. ($_SESSION['user_id'] == $user_id ? "my" : "art") .'galleries.</span></p>
+                            <p><span class="h5">'. ($_SESSION['user_id'] == $user_id ? "my" : "art") .'galleries.</span></p>';
+                            if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
+                                echo '<div class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#list_modal" id="add_gallery"><i class="fa-solid fa-paint-roller"></i> Add Gallery</div>';
+                            }
+                            echo'
                             <div class="list-group list-group-flush my-2 galleries-area-inner"><!--lists of users galleries (event lists)-->
                                 <div id="error-area-g"></div>
+                                <div id="galleries_inner"></div>
                             </div>
-                            <div id="galleries-inner"></div>';
-                                if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
-                                    echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#list_modal" id="add_gallery">Add Gallery</div>';
-                                }
-                            echo'
                             </div><!--End galleries-->
                         </div>';
                     }

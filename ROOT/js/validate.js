@@ -117,28 +117,8 @@ $("#e_img").on("drop", function (e) {
     //make the div normal
     $("#u_profile").css("opacity", "1");
     let file = e.originalEvent.dataTransfer.files[0];
-    let file_regex = /\.(jpg|jpeg|png|gif)$/i;
-    if (file.name != undefined && file_regex.test(file.name) && file.size < 2000000) {
-        $("#e_img").removeClass("invalid");
-        $("#e_img").addClass("valid");
-        //set the image input value to the file name
-        $("#e_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
-        //make the image a background image of the img div
-        $("#e_img").css("background-image", "url(" + URL.createObjectURL(file) + ")");
-        $("#e_img_err").remove();
-        valid_image = true;
-    } else {
-        $("#e_img").removeClass("valid");
-        $("#e_img").addClass("invalid");
-        //remove the image input value
-        $("#e_img").html('<i class="text-primary fa fa-image fa-2xl"></i>');
-        //remove the background image
-        $("#e_img").css("background-image", "none");
-        if(!$("#e_img_err").html()) {
-            $('<div class="error" id="e_img_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#e_img");
-        }
-        valid_image = false;
-    }
+    $("#e_img_input").prop("files", e.originalEvent.dataTransfer.files);
+    $("#e_img_input").trigger("change");
 });
 $("#e_img").on("click", () => {
     $("#e_img_input").click();
@@ -255,28 +235,8 @@ $("#u_profile").on("drop", (e) => {
     //make the div normal
     $("#u_profile").css("opacity", "1");
     let file = e.originalEvent.dataTransfer.files[0];
-    let file_regex = /\.(jpg|jpeg|png|gif)$/i;
-    if (file.name != undefined && file_regex.test(file.name) && file.size < 2000000) {
-        $("#u_profile").removeClass("invalid");
-        $("#u_profile").addClass("valid");
-        //set the image input value to the file name
-        $("#u_profile").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
-        //make the image a background image of the img div
-        $("#u_profile").css("background-image", "url(" + URL.createObjectURL(file) + ")");
-        $("#u_profile_err").remove();
-        valid_image = true;
-    } else {
-        $("#u_profile").removeClass("valid");
-        $("#u_profile").addClass("invalid");
-        //remove the image input value
-        $("#u_profile").html('<i class="text-primary fa fa-image fa-2xl"></i>');
-        //remove the background image
-        $("#u_profile").css("background-image", "none");
-        if(!$("#u_profile_err").html()) {
-            $('<div class="error" id="u_profile_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#u_profile");
-        }
-        valid_image = false;
-    }
+    $("#u_profile_input").prop("files", e.originalEvent.dataTransfer.files);
+    $("#u_profile_input").trigger("change"); 
 });
 $("#u_profile").on("click", () => {
     $("#u_profile_input").click();
@@ -377,46 +337,26 @@ $("#r_comment").on("input", () => {
 $("#r_img").on("dragover", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    $("#e_img").addClass("dragover");
+    $("#r_img").addClass("dragover");
     //make the div lighter
-    $("#e_img").css("opacity", "0.3");
+    $("#r_img").css("opacity", "0.3");
 });
 $("#r_img").on("dragleave", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    $("#e_img").removeClass("dragover");
+    $("#r_img").removeClass("dragover");
     //make the div darker
-    $("#e_img").css("opacity", "1");
+    $("#r_img").css("opacity", "1");
 });
 $("#r_img").on("drop", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    $("#e_img").removeClass("dragover");
+    $("#r_img").removeClass("dragover");
     //make the div darker
-    $("#e_img").css("opacity", "1");
+    $("#r_img").css("opacity", "1");
     let file = e.originalEvent.dataTransfer.files[0];
-    let file_regex = /\.(jpg|jpeg|png|gif)$/i;
-    if (file.name != undefined && file_regex.test(file.name) && file.size < 2000000) {
-        $("#r_img").removeClass("invalid");
-        $("#r_img").addClass("valid");
-        //set the image input value to the file name
-        $("#r_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
-        //make the image a background image of the img div
-        $("#r_img").css("background-image", "url(" + URL.createObjectURL(file) + ")");
-        $("#r_img_err").remove();
-        valid_image = true;
-    } else {
-        $("#r_img").removeClass("valid");
-        $("#r_img").addClass("invalid");
-        //remove the image input value
-        $("#r_img").html('<i class="text-primary fa fa-image fa-2xl"></i>');
-        //remove the background image
-        $("#r_img").css("background-image", "none");
-        if(!$("#r_img_err").html()) {
-            $('<div class="error" id="r_img_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#r_img");
-        }
-        valid_image = false;
-    }
+    $("#r_img_input").prop("files", e.originalEvent.dataTransfer.files);
+    $("#r_img_input").trigger("change");    
 });
 $("#r_img").on("click", () => {
     $("#r_img_input").click();

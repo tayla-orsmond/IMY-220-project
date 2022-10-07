@@ -23,5 +23,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const features = document.querySelectorAll('.feature');
     features.forEach((el) => {
       io.observe(el);
-    })
+    });
 });

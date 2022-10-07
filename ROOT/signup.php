@@ -5,12 +5,11 @@
         <meta name="author" content="Tayla Orsmond">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <title>artfolio | Sign up</title>
-        <link rel="stylesheet" href="css/global.css">
-        <link rel="stylesheet" href="css/form.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/form.css">
     </head>
     <body>
         <!-- Tayla Orsmond u21467456 -->
@@ -79,7 +78,7 @@
                         <input class="form-check-input" type="checkbox" value="true" id="tscs" required>
                         <label class="form-check-label" for="tscs">I agree to the <a href="https://www.lingscars.com/">terms and conditions</a>.</label>
                     </div>
-                    <p>Already have an account? <a href="login.php">Log in</a>.</p>
+                    <p class="text-primary">Already have an account? <a class="text-secondary" href="login.php">Log in</a>.</p>
                     <button type="submit" class="btn submit-btn align-self-end" name="signup" id="signup"><span class="h1">sign up.</span></button>
                 </form>
                 <img src="https://images.unsplash.com/photo-1631383591182-aa24205c089a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80" class="img-fluid" alt="Image by Girl with red hat on Unsplash">

@@ -34,7 +34,7 @@ $(() => {
         }
         e.preventDefault();
     });
-    email_field.on('blur', () => {
+    email_field.on('input', () => {
         email = email_field.val();
         if (validate_email(email)) {
             email_field.removeClass('invalid');
@@ -48,7 +48,7 @@ $(() => {
             valid_email = false;
         }
     });
-    psw_field.on('blur', () => {
+    psw_field.on('input', () => {
         psw = psw_field.val();
         if (validate_password(psw)) {
             psw_field.removeClass('invalid');

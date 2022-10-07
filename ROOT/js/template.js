@@ -20,7 +20,7 @@ export const event_template = ({e_img, e_name, e_location, e_id}) => {
 export const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_id}) => {
     return `
     <div class="card text-bg-dark" id="event_primary">
-        <img src="${e_img}" class="card-img" alt="...">
+        <img src="media/uploads/events/${e_img}" class="card-img" alt="...">
         <div class="card-img-overlay d-flex flex-column justify-content-between">
             <div class="card-header">Featured</div>
             <div>
@@ -29,7 +29,7 @@ export const primary_event_template = ({e_img, e_name, e_location, e_date, e_des
                 <p class="card-text text-truncate ">
                     ${e_desc.replace(/#(\w+)/g, '<a href="home.php?search=$1">#$1</a>')}
                 </p>
-                <small class="card-text text-muted">${e_date}</small>
+                <p class="card-text small">${e_date}</p>
                 <a href="event.php?id=${e_id}" class="stretched-link"></a>
             </div>
         </div>
@@ -86,7 +86,7 @@ export const chat_template = ({u_rid, u_rname}) => {
     return `
     <div class="chat" id="${u_rid}">
         <div class="d-flex justify-content-between">
-            <i class="fa-solid fa-palette"></i>
+            <i class="fa-solid fa-earth-africa fa-xl"></i>
             <p><a href="profile.php?id=${u_rid}">@${u_rname}</a></p>
         </div>
     </div>
@@ -96,16 +96,17 @@ export const chat_template = ({u_rid, u_rname}) => {
 export const message_template = ({u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp}, reciever_id) => {
     //replace links with anchor tags
     //replace youtube links with embedded video
+    c_message = c_message.replace(/(https?:\/\/www.youtube.com\/watch\?v=([^\s]+))/g, '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
     c_message = c_message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
-    c_message = c_message.replace(/(https?:\/\/www.youtube.com\/watch\?v=([^\s]+))/g, '<iframe width="560" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+    
     //if the message is from the reciever
-    let align = u_rid == reciever_id ? "left" : "right";      
+    let align = u_rid == reciever_id ? "right offset-5" : "left";      
     return `
-    <div class="message-box w-50" class="${u_sid} ${align}">
+    <div class="message-box col-6 ${u_sid} ${align}">
         <div class="bg-light p-3 rounded">
             <p>${c_message}</p>
         </div>
-        <p class="text-muted text-end">${c_timestamp}</p>
+        <p class="text-muted ${align}">${new Date(c_timestamp).toLocaleTimeString()}</p>
     </div>
     `;
 }

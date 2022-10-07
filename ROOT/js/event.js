@@ -4,7 +4,7 @@
 //Description: This file contains the code for the event page
 //e.g., editing an event, adding / editing / deleting a review, adding an event to a gallery, etc.
 
-import { format_filename, validate_event, validate_review } from './validate.js';
+import { validate_event, validate_review } from './validate.js';
 import { review_template, error_template_blank } from './template.js';
 import { get_cookie } from './cookie.js';
 
@@ -40,7 +40,7 @@ $(() => {
         let e_time = $("#e_time").val();
         let e_location = $("#e_location").val();
         //get the image filename from the form
-        let e_img = format_filename($("#e_img_input").val().split("\\").pop());
+        let e_img = $("#e_img_input").val().split("\\").pop();
         let e_type = $("#e_type").val();
         //make the ajax call
         $.ajax({
@@ -199,7 +199,7 @@ $(() => {
         let r_rating = $('#r_rating').val();
         let r_name = $('#r_name').val();
         let r_comment = $('#r_comment').val();
-        let r_img = format_filename($("#r_img_input").val().split("\\").pop());
+        let r_img = $("#r_img_input").val().split("\\").pop();
         const review = {
             "r_rating": r_rating,
             "r_name": r_name,

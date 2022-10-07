@@ -5,11 +5,14 @@
         <meta name="author" content="Tayla Orsmond">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>artfolio | myfolio</title>
-        <link rel="stylesheet" href="css/global.css">
+        <title>artfolio | Chats</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/events.css">
+        <link rel="stylesheet" href="css/form.css">
+        <link rel="stylesheet" href="css/profile.css">
+        <link rel="stylesheet" href="css/messages.css">
     </head>
     <body>
         <!-- Tayla Orsmond u21467456 -->
@@ -22,7 +25,7 @@
         <?php 
             require_once 'php/header.php';
         ?>
-        <div class="container p-5">
+        <div class="container p-5 container-box">
             <div id="error"></div>
             <div class="row">
                 <div class="col-4">

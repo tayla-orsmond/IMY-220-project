@@ -1,7 +1,10 @@
 /* Tayla Orsmond u21467456 */
 /* 
- * Profile photo styling
+ * 
+ * Profile page styling
+ * 
  */
+/* PROFILE PHOTO */
 img[class*="rounded-circle"] {
     width: 40rem;
     height: 15rem;
@@ -11,4 +14,17 @@ img[class*="rounded-circle"] {
     max-width: 15rem;
     max-height: 15rem;
     object-fit: cover;
+}
+.btn-primary,
+.btn-secondary{
+    color: var(--dark);
+}
+#events_inner{
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    padding: 0.5rem;
+}
+#events_inner .event-card{
+    flex-basis: 33%;
 }

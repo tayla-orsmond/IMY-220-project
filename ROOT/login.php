@@ -5,12 +5,11 @@
         <meta name="author" content="Tayla Orsmond">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <title>artfolio | Log in</title>
-        <link rel="stylesheet" href="css/global.css">
-        <link rel="stylesheet" href="css/form.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/8ab8fd8eb6.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="css/global.css">
+        <link rel="stylesheet" href="css/form.css">
     </head>
     <body>
         <!-- Tayla Orsmond u21467456 -->
@@ -61,7 +60,7 @@
                         <input type="password" class="form-control border-0 border-bottom" id="password" name="password" placeholder="(Shhh... this is secret)" required>
                         <label for="password">password</label>
                     </div>
-                    <p>Don't have an account? <a href="signup.php">Sign up</a>.</p>
+                    <p class="text-primary">Don't have an account? <a class="text-secondary" href="signup.php">Sign up</a>.</p>
                     <button type="submit" class="btn submit-btn align-self-end" name="login" id="login"><span class="h1">log in.</span></button>
                 </form>
                 <img src="https://images.unsplash.com/photo-1604140193916-187755174ecf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=692&q=80" alt="..." class="img-fluid"/>

@@ -1,44 +1,82 @@
 /* Tayla Orsmond u21467456 */
-/* 
- * Splash screen styling
+/*  
+ *
+ * Splash page styles
+ *
  */
+ /* SPLASH */
+.container-fluid{
+    --bs-gutter-x: 0;
+}
 .splash-outer{
-    width: 100vw;
-    height: 100vh;
+    height: 80vh;
 }
 .splash-txt{
-    margin-top: 15%;
-    margin-left: 30%;
+    margin-top: 25vh;
+    margin-left: 32vw;
+    animation: forward 10s 1s infinite ease-in-out;
 }
-.splash {
+.splash{
     position: absolute;
-    top: 10%;
-    left: 40%;
+    top: 14vh;
+    left: 40vw;
     z-index: -1;
+    animation: hover 10s 1s infinite ease-in-out;
+}
+.splash div{
+    position: relative;
 }
 .splash-content{
     background-color: var(--accR);
     position: absolute;
-    top: 60%;
-    left: 50%;
+    top: 0;
+    left: 0;
     min-width: 22rem;
     min-height: 22rem;
 }
 .splash-content:last-of-type{
     background-color: var(--accY);
     opacity: 0.7;
-    transform: translate(30%, 30%);
+    transform: translate(30%, -70%);
 }
-/* 
- * Features (parallax) styling 
- */
+@keyframes hover{
+    10%{
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    40%{
+        opacity: 0.5;
+        filter: blur(0.1rem);
+        transform: translate(-1.5rem, -1.5rem);
+    }
+    60%{
+        opacity: 0.5;
+        filter: blur(0.1rem);
+        transform: translate(-1.5rem, -1.5rem);
+    }
+    100%{
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+@keyframes forward {
+    10%{
+        transform: translate(0, 0);
+    }
+    50%{
+        transform: translate(1rem, -2rem);
+    }
+    100%{
+        transform: translate(0, 0);
+    }
+}
+/* FEATURES */
 .feature{
     opacity: 0;
     position: relative;
-    transform: translateY(-50%);
     transition: all 0.8s ease-in-out;
     min-width: 50vw;
-    min-height: 100vh;
+    min-height: 100%;
     align-items: flex-end;
 }
 .feature:nth-of-type(2){
@@ -49,7 +87,7 @@
 }
 .feature:nth-child(even){
     justify-content: flex-end;
-    transform: translateX(-50%);
+    transform: translateX(-50vw);
 }
 .feature:nth-child(odd){
     text-align: right;

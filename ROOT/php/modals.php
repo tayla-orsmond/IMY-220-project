@@ -91,8 +91,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="delete_event_form" id="delete_event" name="delete_event">Delete</button>
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="delete_event_form" id="delete_event" name="delete_event">Delete</button>
             </div>
         </div>
     </div>
@@ -165,8 +165,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger" form="delete_list_form" id="delete_list" name="delete_list">Delete</button>
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="delete_list_form" id="delete_list" name="delete_list">Delete</button>
             </div>
         </div>
     </div>
@@ -229,8 +229,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark" form="delete_review_form" id="delete_review" name="delete_review">Delete</button>
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="delete_review_form" id="delete_review" name="delete_review">Delete</button>
             </div>
         </div>
     </div>
@@ -286,7 +286,7 @@
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-dark" form="edit_profile_form" id="submit_edit_profile">Save</button>
                 <!--delete profile button -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_profile_modal">Delete Profile</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_profile_modal">Delete Profile</button>
             </div>
         </div>
     </div>
@@ -306,8 +306,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger" form="delete_profile_form" id="delete_profile" name="delete_profile">Delete</button>
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="delete_profile_form" id="delete_profile" name="delete_profile">Delete</button>
             </div>
         </div>
     </div>

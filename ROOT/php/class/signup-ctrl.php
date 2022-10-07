@@ -132,7 +132,7 @@
                 return $success;
             }
             //sanitize the display name
-            $this->display_name = addslashes($this->display_name);
+            $this->display_name = htmlspecialchars($this->display_name, ENT_COMPAT, 'UTF-8');
             
             //signup user
             //direct function

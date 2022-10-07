@@ -3,13 +3,13 @@
  * Form styles
  * to be referenced by all forms
  */
-button[class*="submit-btn"]{
-    transition: all 0.4s ease-in-out;
+button[class*="btn"]{
+    border: none;
+    transition: all 0.4s ease-in-out !important;
 }
 button[class*="submit-btn"]:hover{
-    border-color: var(--accR);
-    border-width: 0.2rem;
-    text-decoration: none;
+    border: solid 0.2rem var(--accR) !important;
+    color: var(--dark) !important;
 }
 input[class*="form-control"]{
     border-bottom: 0.1rem solid var(--dark) !important;
@@ -24,8 +24,30 @@ input[class*="form-control"]:focus{
 input[class*="form-control"]:focus ~ label{
     color: var(--accR) !important;
 }
+input[class*="form-check"]:checked{
+    background-color: var(--accY) !important;
+    outline: none;
+    box-shadow: none;
+    border: 0.1rem solid var(--accY) !important;
+}
+input[class*="form-check"]{
+    background-color: var(--dark) !important;
+    outline: none;
+    box-shadow: none;
+}
 div[class*="bg-warning"]{
     border-radius: 0 0 0.5rem 0.5rem;
+    animation: drop 0.8s ease;
+}
+@keyframes drop{
+    0%{
+        opacity: 0;
+        transform: translateY(-0.2rem);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 .valid{
     color: var(--valid) !important;
@@ -38,4 +60,9 @@ div[class*="bg-warning"]{
 }
 .invalid ~ label{
     color: var(--invalid) !important;
+}
+div[class*="bg-danger"]{
+    background-color: var(--invalid) !important;
+    color: var(--main) !important;
+    border-radius: 0.5rem 0.5rem 0 0;
 }

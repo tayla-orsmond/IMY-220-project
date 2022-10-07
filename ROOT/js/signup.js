@@ -45,7 +45,7 @@ $(() => {
         }
         e.preventDefault();
     });
-    username_field.on('blur', () => {
+    username_field.on('input', () => {
         username = username_field.val();
         if (validate_username(username)) {
             username_field.removeClass('invalid');
@@ -59,7 +59,7 @@ $(() => {
             valid_username = false;
         }
     });
-    email_field.on('blur', () => {
+    email_field.on('input', () => {
         email = email_field.val();
         if (validate_email(email)) {
             email_field.removeClass('invalid');
@@ -73,7 +73,7 @@ $(() => {
             valid_email = false;
         }
     });
-    psw_field.on('blur', () => {
+    psw_field.on('input', () => {
         psw = psw_field.val();
         if (validate_password(psw)) {
             psw_field.removeClass('invalid');
@@ -87,7 +87,7 @@ $(() => {
             valid_psw = false;
         }
     });
-    repeat_psw_field.on('blur', () => {
+    repeat_psw_field.on('input', () => {
         repeat_psw = repeat_psw_field.val();
         if (validate_password(repeat_psw) && psw === repeat_psw) {
             repeat_psw_field.removeClass('invalid');

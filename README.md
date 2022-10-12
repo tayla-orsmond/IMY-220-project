@@ -26,9 +26,9 @@ The figma file with the initial wireframe can be found [here](https://www.figma.
 ```sh
 git clone
 ```
-2. Create a database in MySQL
+2. Create a database in MySQL (this project has been configured with my student number)
 ```sh
-CREATE DATABASE artfolio;
+CREATE DATABASE u21467456;
 ```
 3. Import the database from the `artfolio.sql` file
 4. Update the database connection details in `db.php`

@@ -288,7 +288,7 @@ div[class*="bg-dark"] a:hover {
 }
 
 /* TEXT */
-*[class*="text-secondary"],
+*[class*="text-primary"],
 em[class*="text-primary"],
 div[class*="text-primary"],
 svg[class*="text-secondary"] {

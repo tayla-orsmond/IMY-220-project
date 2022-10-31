@@ -348,7 +348,7 @@ $(() => {
      */
     //populate the edit_profile modal with the user's info that we have on the page
     const populate_edit_profile = () => {
-        if($("#u_profile").text() !== ""){
+        if($("#username").text() !== ""){
             $("#u_profile").text($(".profile-photo img").attr("src").split("/").pop());
             //make the background image the same as the profile photo
             $("#u_profile").css("background-image", "url(" + $(".profile-photo img").attr("src") + ")");

@@ -102,11 +102,7 @@ div[class*="card"]{
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-/*
-* 
-* BUTTONS AND LINKS 
-*
-*/
+/* BUTTONS AND LINKS */
 a{
     font-family: var(--main-font);
     color: var(--dark) !important;
@@ -243,6 +239,10 @@ div[class*="border"]{
 }
 div[class*="bg-dark"] a:hover{
     color: var(--accR);
+}
+/* BG LIGHT */
+*[class*="bg-light"]{
+    background-color: var(--light) !important;
 }
 /* TEXT */
 *[class*="text-primary"],

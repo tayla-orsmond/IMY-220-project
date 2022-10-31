@@ -28,6 +28,9 @@
              -->
         <?php 
             require_once 'php/header.php';
+            if (!isset($_SESSION['user_id'])) {
+                header("Location: index.php");
+            }
         ?>
         <div class="container px-5 container-box">
             <div id="error"></div>
@@ -41,9 +44,9 @@
                     $user_id = null;
                     if (isset($_GET['id'])) {
                         $user_id = $_GET['id'];
-                    } else if(isset($_COOKIE['user_id'])){
+                    } elseif (isset($_COOKIE['user_id'])){
                         $user_id = $_COOKIE['user_id'];
-                    } else{//last resort
+                    } else {//last resort
                         $user_id = $_SESSION['user_id'];
                     }
                     //make a curl request to the api to get the profile data
@@ -58,8 +61,8 @@
                     $curl = curl_init();
                     curl_setopt_array($curl, array(
                         CURLOPT_URL => $api_url,
-                        CURLOPT_POST => TRUE,
-                        CURLOPT_RETURNTRANSFER => TRUE,
+                        CURLOPT_POST => true,
+                        CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_HTTPHEADER => $api_headers,
                         CURLOPT_POSTFIELDS => json_encode($body),
                         CURLOPT_USERPWD => $api_key,
@@ -67,22 +70,38 @@
                     //Send the request
                     $r = curl_exec($curl);
                     
-                    if(!$r){//some kind of error occurred
+                    if (!$r) {//some kind of error occurred
                         echo "Error: " . curl_error($curl);
                     }
-    
-                    $result = json_decode($r, true);
+                    try {
+                        $result = json_decode($r, true);
+                    } catch (Exception $e) {
+                        $result = null;
+                    }
     
                     //close the request
                     curl_close($curl);
     
-                    //get the event details from the response
-                    $profile = $result['data']['return'];
+                    if (!empty($result)){
+                        //get the event details from the response
+                        $profile = $result['data']['return'];
+                    }
+                    else {
+                        $profile = null;
+                    }
 
                     //display the profile
-                    if(empty($profile)){
-                        echo '<h1 class="text-center">User not found</h1>'. '<p class="text-center">'. $result["data"]["message"] . '</p>';
-                    }else{
+                    if (empty($profile) && !empty($result)) {
+                        echo '<h1 class="text-center">User not found</h1> 
+                        <p class="text-center">'. $result["data"]["message"] . '</p>';
+                    } elseif (empty($profile)) {
+                        echo '<h1 class="text-center">User not found</h1> 
+                        <p class="text-center">This user is not the droid you are looking for.</p>
+                        <div class="d-flex flex-column align-items-center">
+                            <img src="http://cdn.shopify.com/s/files/1/0601/0883/2974/products/star-wars-vi-bb-8-pop-art-10x10-287247-23041750761650.jpg?v=1648785618" class="img-fluid" alt="BB8">
+                            <a href="index.php" class="btn btn-primary">Go home</a>
+                        </div>';
+                    } else {
                         echo '
                         <div class="row">
                         <div class="col-12"><h1>'. ($_SESSION['user_id'] == $user_id ? "my" : "art") .'folio.</h1></div><!--Title-->
@@ -109,7 +128,7 @@
                             </div>
                         </div><!--End Profile Header card-->
                         <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-3 py-2"><!--Actions (follow, DM, edit etc.) -->';
-                            if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
+                            if ((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1) {
                                 echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-palette fa-xl"></i> Edit Profile</a>
                                 <a href="messages.php?chat='. $_SESSION['user_id'].'&chatn='. $profile['u_name'] .'"><i class="fas fa-inbox fa-xl"></i></a>';
                             }
@@ -123,8 +142,8 @@
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
                                 CURLOPT_URL => $api_url,
-                                CURLOPT_POST => TRUE,
-                                CURLOPT_RETURNTRANSFER => TRUE,
+                                CURLOPT_POST => true,
+                                CURLOPT_RETURNTRANSFER => true,
                                 CURLOPT_HTTPHEADER => $api_headers,
                                 CURLOPT_POSTFIELDS => json_encode($body),
                                 CURLOPT_USERPWD => $api_key,
@@ -132,7 +151,7 @@
                             //Send the request
                             $r = curl_exec($curl);
                             
-                            if(!$r){//some kind of error occurred
+                            if (!$r) {//some kind of error occurred
                                 echo "Error: " . curl_error($curl);
                             }
 
@@ -141,9 +160,9 @@
                             //close the request
                             curl_close($curl);
 
-                            if(!empty($result) && $result['status'] == "success"){
+                            if (!empty($result) && $result['status'] == "success") {
                                 $followers = $result['data']['return'];
-                            }else{
+                            } else {
                                 $followers = array();
                             }
 
@@ -157,8 +176,8 @@
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
                                 CURLOPT_URL => $api_url,
-                                CURLOPT_POST => TRUE,
-                                CURLOPT_RETURNTRANSFER => TRUE,
+                                CURLOPT_POST => true,
+                                CURLOPT_RETURNTRANSFER => true,
                                 CURLOPT_HTTPHEADER => $api_headers,
                                 CURLOPT_POSTFIELDS => json_encode($body),
                                 CURLOPT_USERPWD => $api_key,
@@ -166,7 +185,7 @@
                             //Send the request
                             $r = curl_exec($curl);
 
-                            if(!$r){//some kind of error occurred
+                            if (!$r) {//some kind of error occurred
                                 echo "Error: " . curl_error($curl);
                             }
 
@@ -174,32 +193,34 @@
 
                             //close the request
                             curl_close($curl);
-                            if(!empty($result) && $result['status'] == "success"){
+                            if (!empty($result) && $result['status'] == "success") {
                                 $following = $result['data']['return'];
-                            }else{
+                            } else {
                                 $following = array();
                             }
 
                             //check if the user is following the profile
                             $is_follower = false;
-                            if(!empty($followers)){
-                                foreach($followers as $follower){
-                                    if($follower['u_fid'] == $_SESSION['user_id']){
+                            if (!empty($followers)) {
+                                foreach ($followers as $follower) {
+                                    if ($follower['u_fid'] == $_SESSION['user_id']) {
                                         $is_follower = true;
                                     }
                                 }
                             }
                             //check if the user logged in is not the current profile
-                            if(isset($_SESSION['user_id']) && $user_id != $_SESSION['user_id']){
+                            if (isset($_SESSION['user_id']) && $user_id != $_SESSION['user_id']) {
                                 //check if the user is following the profile
                                 echo '<div class="btn btn-light ' . ($is_follower ? "" : "d-none") . '" id="unfollow">Following</div>
                                 <a href="messages.php?chat='. $profile['u_id'] .'&chatn='. $profile['u_name'] .'" class=" ' . ($is_follower ? "" : "d-none") . '" id="DM"><i class="fa fa-paper-plane fa-xl"></i></a>
-                                <div class="btn btn-dark ' . ($is_follower ? "d-none" : "") . '" id="follow">Follow</div>';
+                                <div class="btn btn-dark ' . ($is_follower ? "d-none" : "") . '" id="follow">Follow</div>
+                                ';
                             }
-                        echo '<div class="">
-                                <p><span class="fw-bold followers">' . count($followers) . ' </span> <a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_followers">Followers</a></p>
-                                <p><span class="fw-bold following">' . count($following) . '</span> <a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_following">Following</a></p>
-                            </div>
+                        echo '
+                        <div>
+                            <p class="followers-wrapper"><span class="fw-bold followers">' . count($followers) . '</span> ' . (!$is_follower && $user_id != $_SESSION['user_id'] && !$_SESSION['user_admin'] ? "Followers" : '<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_followers">Followers</a>') . '</p>
+                            <p class="following-wrapper"><span class="fw-bold following">' . count($following) . '</span> ' . (!$is_follower && $user_id != $_SESSION['user_id'] ? "Following" : '<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_following">Following</a>') . '</p>
+                        </div>
                         </div><!--End Actions -->
                         <div class="col-12 row mt-2">
                             <div class="col-12">
@@ -216,23 +237,23 @@
                             </div>
                         </div>
                         <div class="col-10 border"><!--Event area -> for users events-->';
-                            if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
+                            if ((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1) {
                                 echo'
                                 <div class="w-100">
                                     <div class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#event_modal" id="add_event"><i class="fa-solid fa-paintbrush"></i> Add Event</div>
                                 </div>';
                             }
                         echo '<div id="events_inner"></div>
-                            <div class="w-100" id="error-area"></div>
+                            <div class="w-100" id="error_e"></div>
                         </div><!--End Event area-->
                         <div class="col-2 p-3">
                             <p><span class="h5">'. ($_SESSION['user_id'] == $user_id ? "my" : "art") .'galleries.</span></p>';
-                            if((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1){
+                            if ((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1) {
                                 echo '<div class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#list_modal" id="add_gallery"><i class="fa-solid fa-paint-roller"></i> Add Gallery</div>';
                             }
                             echo'
                             <div class="list-group list-group-flush my-2 galleries-area-inner"><!--lists of users galleries (event lists)-->
-                                <div id="error-area-g"></div>
+                                <div id="error_g"></div>
                                 <div id="galleries_inner"></div>
                             </div>
                             </div><!--End galleries-->

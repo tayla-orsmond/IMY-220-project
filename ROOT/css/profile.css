@@ -20,6 +20,7 @@ img[class*="rounded-circle"] {
     color: var(--dark);
 }
 #events_inner{
+    min-height: 30rem;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;

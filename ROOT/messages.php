@@ -26,6 +26,9 @@
              -->
         <?php 
             require_once 'php/header.php';
+            if (!isset($_SESSION['user_id'])) {
+                header("Location: index.php");
+            }
         ?>
         <div class="container p-5 container-box">
             <div id="error"></div>

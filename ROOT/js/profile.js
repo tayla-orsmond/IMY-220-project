@@ -103,10 +103,8 @@ $(() => {
             });
         }
         else{
-            console.log(resp.status);
-            console.log(resp.data.message);
-            $("#error-area").show();
-            $("#error-area").append(error_template_blank("It's a still life over here. " + resp.data.message));
+            $("#error_e").show();
+            $("#error_e").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
     }
     //populate galleries
@@ -121,10 +119,8 @@ $(() => {
             });
         }
         else{
-            console.log(resp.status);
-            console.log(resp.data.message);
-            $("#error-area-g").show();
-            $("#error-area-g").append(error_template_blank("It's a still life over here. " + resp.data.message));
+            $("#error_g").show();
+            $("#error_g").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
     }
     //add a new event
@@ -176,8 +172,8 @@ $(() => {
                     load_events();
                 }
                 else{
-                    console.log(resp.status);
-                    console.log(resp.data.message);
+                    //append an error message
+                    $("#event_form").append(error_template(resp.data.message));
                 }
             },
             error: function(xhr,status,error){//error handling
@@ -209,6 +205,8 @@ $(() => {
             }),
             success: function(resp, status){//succesful query
                 if(resp.status == "success"){
+                    //submit the form
+                    $("#gallery_form").submit();
                     //clear the form
                     $("#g_name").val("");
                     $("#g_desc").val("");
@@ -216,8 +214,8 @@ $(() => {
                     load_galleries();
                 }
                 else{
-                    console.log(resp.status);
-                    console.log(resp.data.message);
+                    //append an error message
+                    $("#gallery_form").append(error_template(resp.data.message));
                 }
             },
             error: function(xhr,status,error){//error handling
@@ -231,26 +229,26 @@ $(() => {
         $("#error").hide();
         $("#events_inner").empty();
         $("#events_inner").empty();
-        $("#error-area").empty();
-        $("#error-area").hide();
+        $("#error_e").empty();
+        $("#error_e").hide();
     };
     //clear the galleries
     const clear_galleries = () => {
         $("#error").empty();
         $("#error").hide();
-        $("#error-area-g").empty();
-        $("#error-area-g").hide();
+        $("#error_g").empty();
+        $("#error_g").hide();
         $("#galleries_inner").empty();
     };
     //error handler
     const error_handler = (xhr,status,error) => {
-        console.log(status);
-        console.log(xhr['responseText']);
-        console.log(error);
+        //console.log(status);
+        //console.log(xhr['responseText']);
+        //console.log(error);
         //clear events
         clear_events();
-        $("#error").show();
-        $("#error").append(error_template_blank(error));
+        // $("#error").show();
+        // $("#error").append(error_template_blank("An unexpected error occurred, please try again later."));
     }
     /**
      * 
@@ -281,12 +279,18 @@ $(() => {
                     $("#unfollow").removeClass('d-none');
                     $("#DM").removeClass('d-none');
                     $(".followers").html(parseInt(count) + 1);
+                    //replace the text after .followers and .following with a trigger
+                    $(".followers-wrapper").html($(".followers-wrapper").html().replace('Followers', '<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_followers">Followers</a>'));
+                    $(".following-wrapper").html($(".following-wrapper").html().replace('Following', '<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_following">Following</a>'));
                 } 
                 else if(f === "unfollow"){
                     $("#follow").removeClass('d-none');
                     $("#unfollow").addClass('d-none');
                     $("#DM").addClass('d-none');
                     $(".followers").html(parseInt(count) - 1);
+                    //replace the trigger with the text
+                    $(".followers-wrapper").html($(".followers-wrapper").html().replace('<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_followers">Followers</a>', 'Followers'));
+                    $(".following-wrapper").html($(".following-wrapper").html().replace('<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_following">Following</a>', 'Following'));
                 }
             },
             error: function(xhr,status,error){//error handling
@@ -323,7 +327,7 @@ $(() => {
         $("#follow_list").empty();
         $("#follow_modal_label").empty();
         $("#follow_modal_label").text("F" + f.slice(1));
-        console.log(resp.data.return);
+        //console.log(resp.data.return);
         if(resp.status === "success" && resp.data.return.length > 0){
             let follow = resp.data.return;
             if(f === "followers"){
@@ -338,8 +342,8 @@ $(() => {
             }
         }
         else{
-            console.log(resp.status);
-            console.log(resp.data.message);
+            //console.log(resp.status);
+            //console.log(resp.data.message);
             $("#follow_list").append(error_template_blank(resp.data.message));
         }
     }
@@ -350,14 +354,16 @@ $(() => {
      */
     //populate the edit_profile modal with the user's info that we have on the page
     const populate_edit_profile = () => {
-        $("#u_profile").text($(".profile-photo img").attr("src").split("/").pop());
-        //make the background image the same as the profile photo
-        $("#u_profile").css("background-image", "url(" + $(".profile-photo img").attr("src") + ")");
-        $("#u_display_name").val($(".display-name").text());
-        $("#u_bio").val($(".bio").text());
-        $("#u_pronouns").val($(".pronouns").text());
-        $("#u_location").val($(".location").text());
-        $("#u_age").val(parseInt($(".age").text()));
+        if($("#u_profile").text() !== ""){
+            $("#u_profile").text($(".profile-photo img").attr("src").split("/").pop());
+            //make the background image the same as the profile photo
+            $("#u_profile").css("background-image", "url(" + $(".profile-photo img").attr("src") + ")");
+            $("#u_display_name").val($(".display-name").text());
+            $("#u_bio").val($(".bio").text());
+            $("#u_pronouns").val($(".pronouns").text());
+            $("#u_location").val($(".location").text());
+            $("#u_age").val(parseInt($(".age").text()));
+        }
     }
     //edit the user's profile by sending a request to the api
     const edit_profile = () => {
@@ -394,8 +400,8 @@ $(() => {
                     $(".profile-photo img").attr("src", "media/uploads/profiles/" + $("#u_profile").text());
                 }
                 else{
-                    console.log(resp.status);
-                    console.log(resp.data.message);
+                    //console.log(resp.status);
+                    //console.log(resp.data.message);
                     $("#edit_profile").modal("hide");
                 }
             },
@@ -436,7 +442,6 @@ $(() => {
     });
     //if the following tab is clicked, load the user's following
     $("#show_following").on("click", () => {
-        console.log("show following");
         load_followers_following("following");
     });
     //if the followers tab is clicked, load the user's followers

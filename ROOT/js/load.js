@@ -25,8 +25,8 @@ $(()=> {
                 "id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";"))
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
+                //console.log(status);
+                //console.log(resp.data);
                 populate_events(resp);
             },
             error: function(xhr,status,error){//error handling
@@ -52,8 +52,8 @@ $(()=> {
                 "id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";"))
             }),
             success: function(resp, status){//succesful query
-                console.log(status);
-                console.log(resp.data);
+                //console.log(status);
+                //console.log(resp.data);
                 populate_events(resp);
             },
             error: function(xhr,status,error){//error handling
@@ -63,6 +63,7 @@ $(()=> {
     }
     //clear the events
     const clear_events = () => {
+        $(".primary-event-outer").hide();
         $("#event_primary").empty();
         $("#event_primary").hide();
         $("#ea_1").empty();
@@ -76,6 +77,7 @@ $(()=> {
         clear_events();
         if(resp.status == "success" && resp.data.return.length > 0){
             //Load the events
+            $(".primary-event-outer").show();
             $("#event_primary").show();        
             let events = resp.data.return;
             let primary_event = events.shift();
@@ -101,9 +103,9 @@ $(()=> {
     }
     //error handler
     const error_handler = (xhr,status,error) => {
-        console.log(status);
-        console.log(xhr['responseText']);
-        console.log(error);
+        //console.log(status);
+        //console.log(xhr['responseText']);
+        //console.log(error);
         //clear events
         clear_events();
         $("#error_area").show();
@@ -125,7 +127,7 @@ $(()=> {
 
     //on search, search for events
     $("#search").on("click", (e) => {
-        console.log("searching");
+        //console.log("searching");
         if($("#search-input").val().length > 0){
             search_events($("#search-input").val());
             $("#global").addClass("active");

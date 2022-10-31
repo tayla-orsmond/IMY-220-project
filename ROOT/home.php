@@ -23,7 +23,10 @@
              -->
         <?php 
             require_once 'php/header.php';
-        ?>
+            if (!isset($_SESSION['user_id'])) {
+                header("Location: index.php");
+            }
+        ?>                
         <div class="container my-5">
             <div class="row">
                 <div class="col-12"><h1>home.</h1></div><!--Title-->

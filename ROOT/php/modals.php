@@ -64,7 +64,7 @@
                         <!-- add an image using drag and drop or file input -->
                         <p>Drag and drop an image here or click to select an image</p>
                         <div class="dropzone text-center bg-light p-5 m-1" id="e_img"><i class="text-primary fa fa-image fa-2xl"></i></div>
-                        <input type="file" class="form-control" id="e_img_input" name="e_img_input" accept="image/*" size="50" style="display: none;">
+                        <input type="file" class="form-control" id="e_img_input" name="e_img_input" accept="image/*" size="50" style="display: none;" required>
                     </div>
                     <input type="hidden" id="e_hidden_id" name="e_hidden_id">
                 </form>
@@ -182,7 +182,7 @@
             <div class="modal-body">
                 <form id="review_form" method="post" action="upload.php" enctype="multipart/form-data">
                     <div class="form-group mb-3">
-                        <label for="r_name">Name *</label>
+                        <label for="r_name">Title *</label>
                         <input type="text" class="form-control" id="r_name" name="r_name" placeholder="The best event I've ever been to!!!" required>
                     </div>
                     <div class="form-group mb-3">
@@ -202,7 +202,7 @@
                             <!-- add an image using drag and drop or file input -->
                         <p>Drag and drop an image here or click to select an image</p>
                         <div class="dropzone text-center bg-light p-5 m-1" id="r_img"><i class="text-primary fa fa-image fa-2xl"></i></div>
-                        <input type="file" class="form-control" id="r_img_input" name="r_img_input" accept="image/*" size="50" style="display: none;">
+                        <input type="file" class="form-control" id="r_img_input" name="r_img_input" accept="image/*" size="50" style="display: none;" required>
                     </div>
                     <input type="hidden" id="r_hidden_id" name="r_hidden_id" value="<?=$_GET['id']?>">
                 </form>
@@ -251,7 +251,7 @@
                         <!-- add an image using drag and drop or file input -->
                         <p>Drag and drop an image here or click to select an image</p>
                         <div class="dropzone text-center bg-light p-5 m-1" id="u_profile"><i class="text-primary fa fa-image fa-2xl"></i></div>
-                        <input type="file" class="form-control" id="u_profile_input" name="u_profile_input" accept="image/*" size="50" style="display: none;">
+                        <input type="file" class="form-control" id="u_profile_input" name="u_profile_input" accept="image/*" size="50" style="display: none;" required>
                     </div>
                     <!-- Display Name -->
                     <div class="form-group mb-3">

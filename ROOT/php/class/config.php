@@ -27,14 +27,14 @@ class DBH
         This class is a singleton that handles the database connection
     */
     //connection info
-    // private $host = 'localhost';
-    // private $dbname = 'u21467456';
-    // private $username = 'u21467456';
-    // private $password = 'ejimskut';
     private $host = 'localhost';
     private $dbname = 'u21467456';
-    private $username = 'root';
-    private $password = '';
+    private $username = 'u21467456';
+    private $password = 'ejimskut';
+    // private $host = 'localhost';
+    // private $dbname = 'u21467456';
+    // private $username = 'root';
+    // private $password = '';
     private $charset = 'utf8mb4';
     private $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

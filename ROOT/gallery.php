@@ -134,19 +134,21 @@
                     //display the event details
                     if ($event != null) {
                         echo '
-                                    <div>
-                                        <span class="btn btn-dark align-self-start remove_event" id="remove_' . $event['e_id'] . '"><i class="fa fa-trash"></i></span>
-                                        <div class="card event-card" id="' . $event['e_id'] . '">
-                                            <img src="media/uploads/events/' . $event['e_img'] . '" class="card-img-top img-fluid" alt="...">
-                                            <div class="card-body">
-                                                <h5 class="card-title text-truncate">' . $event['e_name'] . '</h5>
-                                                <p class="card-text text-truncate">' . $event['e_location'] . '</p>
-                                                <small class="card-text text-muted">' . $event['e_date'] . '</small>
-                                                <a href="event.php?id=' . $event['e_id'] . '" class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ';
+                                    <div>';
+                        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $list['u_rid'] || $_SESSION['user_admin'] == 1) {
+                            echo '<span class="btn btn-dark align-self-start remove_event" id="remove_' . $event['e_id'] . '"><i class="fa fa-trash"></i></span>';
+                        }
+                        echo '                                        
+                            <div class="card event-card" id="' . $event['e_id'] . '">
+                                <img src="media/uploads/events/' . $event['e_img'] . '" class="card-img-top img-fluid" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate">' . $event['e_name'] . '</h5>
+                                    <p class="card-text text-truncate">' . $event['e_location'] . '</p>
+                                    <small class="card-text text-muted">' . $event['e_date'] . '</small>
+                                    <a href="event.php?id=' . $event['e_id'] . '" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        </div>';
                     }
                 }
             } else {

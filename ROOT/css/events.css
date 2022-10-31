@@ -98,3 +98,10 @@ div[class~="carousel-item"] img {
     padding: 0.2rem 0.5rem;
     border-radius: 0.5rem;
 }
+
+.review-comment{
+    padding-bottom: 1rem;
+    border-bottom: 0.1rem solid var(--dark);
+    border-radius: 0.5rem;
+    margin-bottom: 0.2rem;
+}

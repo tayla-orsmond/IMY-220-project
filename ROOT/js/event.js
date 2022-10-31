@@ -238,6 +238,40 @@ $(() => {
             }
         });
     }
+    //populate the view reviews modal with all of the reviews for the event
+    const populate_view_reviews = () => {
+        //make the ajax call
+        $.ajax({
+            url: api_url,
+            type: "POST",
+            accept: "application/json",
+            contentType: "application/json",
+            username: user_name,
+            password: api_key,
+            dataType: "json",
+            data: JSON.stringify({
+                "type": "info",
+                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
+                "return": "reviews",
+                "id": event_id,
+            }),
+            success: function(resp, status){//succesful query
+                if(resp.status === "success" && resp.data.return.length > 0){
+                    //add the reviews to the modal
+                    resp.data.return.forEach(review => {
+                        $('#view_reviews_modal #reviews').append(review_template(review));
+                    });
+                }
+                else{
+                    $('#view_reviews_modal #reviews').append(`<p class="text-muted text-center">No reviews found</p>`);
+                }
+            },
+            error: function(xhr,status,error){//error handling
+                error_handler(xhr,status,error);
+            }
+        });
+    }
     /**
      * 
      * EVENT HANDLERS
@@ -295,5 +329,9 @@ $(() => {
             add_event_to_list();
         }
         e.preventDefault();
+    });
+    //when the view_reviews button is clicked, populate the modal
+    $('#view_reviews').on('click', () => {
+        populate_view_reviews();
     });
 });

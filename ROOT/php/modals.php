@@ -236,6 +236,25 @@
     </div>
 </div>
 
+<!-- Bootstrap Modal to view all reviews for an event -->
+<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="view_reviews_modal" tabindex="-1" role="dialog" aria-labelledby="view_reviews_modal_label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="view_reviews_modal_label">Reviews</h5>
+            </div>
+            <div class="modal-body">
+                <div id="reviews">
+                    <!--Reviews go here-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap Modal to edit a profile -->
 <div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="edit_profile_modal" tabindex="-1" role="dialog" aria-labelledby="edit_profile_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">

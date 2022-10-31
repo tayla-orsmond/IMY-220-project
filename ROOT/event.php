@@ -165,7 +165,7 @@
                                         <p>There are no reviews for this event yet.</p>
                                     </div>';
             } else {
-                for ($i = 0; $i < count($reviews) && $i < 10; $i++) {
+                for ($i = 0; $i < count($reviews) && $i < 3; $i++) {
                     echo '<div class="p-1 mt-2 review-box">
                                             <p class="h5 review-name">' . $reviews[$i]["r_name"] . '</p>
                                             <div class="d-flex justify-content-between">
@@ -179,27 +179,34 @@
                         echo '<i class="fa fa-star-o fa-xl"></i>';
                     }
                     echo '</p>
-                                                <span class="d-none review-rating">' . $reviews[$i]["r_rating"] . '</span>
-                                            </div>
-                                            <p class="review-comment">' . $reviews[$i]["r_comment"] . '</p>';
+                            <span class="d-none review-rating">' . $reviews[$i]["r_rating"] . '</span>
+                        </div>
+                        <p class="review-comment">' . $reviews[$i]["r_comment"] . '</p>';
                     if ($reviews[$i]["u_rid"] == $_SESSION['user_id'] || $_SESSION['user_admin'] == 1) {
-                        echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#review_modal" id="edit_review">Edit Review</div>
-                                            <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#delete_review_modal" id="delete_review">Delete Review</div>';
+                        echo '<div class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#review_modal" id="edit_review">Edit Review</div>';
+                    }
+                    if ($reviews[$i]["u_rid"] == $_SESSION['user_id'] || $_SESSION['user_admin'] == 1 || $event["u_rid"] == $_SESSION['user_id']) {
+                        echo '<div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_review_modal" id="delete_review">Delete Review</div>';
                     }
                     echo '</div>';
                 }
+                if (count($reviews) > 3) {
+                    //display reviews modal toggle
+                    echo '<div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#view_reviews_modal" id="view_reviews">View More Reviews</div>';
+                }
+                echo '</div>';
             }
             //echo out the review images
-            echo '</div>
-                    <hr>
+            echo '<hr>
                     <div>
                         <h3>Images</h3>';
             //if there are no reviews, display a message
             if (empty($reviews)) {
-                echo '<p>There are no images for this event yet.</p>';
+                echo '<p>There are no images for this event yet.</p>
+                </div>';
             } else {
                 echo '<div id="event_images" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">';
+                    <div class="carousel-inner">';
                 for ($i = 0; $i < count($reviews) && $i < 10; $i++) {
                     if ($i == 0) {
                         echo '<div class="carousel-item active">
@@ -211,21 +218,21 @@
                                     </div>';
                     }
                 }
+                echo '</div>';
                 if (count($reviews) > 1) {
-                    echo '</div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#event_images" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#event_images" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
-                                </div>';
+                    echo '
+                            <button class="carousel-control-prev" type="button" data-bs-target="#event_images" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#event_images" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>';
                 }
             }
-            echo '</div>
-                    </div></div>';
+            echo '</div></div></div></div>';
         }
         ?>
     </div>

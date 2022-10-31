@@ -16,7 +16,8 @@
     --accB: #279AF1;
     --valid: rgb(115, 175, 115);
     --invalid: rgb(170, 81, 81);
-    --message: #a0d2f8;
+    --message-sent: #d8eeff;
+    --message-recieved: #fff2c7;
     --main-font: 'Poppins', sans-serif;
     --title-font: 'Yeseva One', cursive;
     scrollbar-color: var(--dark) transparent;
@@ -287,14 +288,18 @@ div[class*="bg-dark"] a:hover {
 }
 
 /* TEXT */
-*[class*="text-primary"],
+*[class*="text-secondary"],
+em[class*="text-primary"],
+div[class*="text-primary"],
 svg[class*="text-secondary"] {
-    color: var(--accR);
+    color: var(--accR) !important;
 }
 
 *[class*="text-secondary"],
+em[class*="text-secondary"],
+div[class*="text-secondary"],
 svg[class*="text-primary"] {
-    color: var(--accB);
+    color: var(--accB) !important;  
 }
 
 button[class*="btn-outline-dark"] {

@@ -147,7 +147,18 @@ $(() => {
                 $("#chat_send").prop("disabled", false);
             }).catch((error) => {
                 error_handler(error);
-            })
+            });
+            setInterval(() => {
+                //get the chat id
+                const chat_id = $("#chat_header h3").attr("id");
+                const chat_name = $("#chat_header h3").text().split("@")[1];
+                //load the users messages for the chat
+                load_messages(chat_id).then((resp) => {
+                    populate_messages(resp, chat_id, chat_name);
+                }).catch((error) => {
+                    error_handler(error);
+                })
+            }, 1000);
         }
     }).catch((error) => {
         error_handler(error);
@@ -166,7 +177,19 @@ $(() => {
             $("#chat_send").prop("disabled", false);
         }).catch((error) => {
             error_handler(error);
-        })
+        });
+        clearInterval();
+        setInterval(() => {
+            //get the chat id
+            const chat_id = $("#chat_header h3").attr("id");
+            const chat_name = $("#chat_header h3").text().split("@")[1];
+            //load the users messages for the chat
+            load_messages(chat_id).then((resp) => {
+                populate_messages(resp, chat_id, chat_name);
+            }).catch((error) => {
+                error_handler(error);
+            })
+        }, 1000);
     });
     //send a message when the send button is clicked
     $(document).on("click", "#chat_send", (e) =>{
@@ -190,5 +213,8 @@ $(() => {
                 error_handler(error);
             })
         }
+        //clear the message input
+        $("#chat_message").val("");
     });
+
 });

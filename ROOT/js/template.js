@@ -167,7 +167,7 @@ export const event_template_admin = ({e_id, e_name, u_rid, u_rname, e_location, 
 
 //user template for admin page
 //table row
-export const user_template_admin = ({u_id, u_name, u_display_name, u_email, u_profile}) => {
+export const user_template_admin = ({u_id, u_name, u_display_name, u_profile}) => {
     return `
     <tr>
         <th scope="row">${u_id}</th>

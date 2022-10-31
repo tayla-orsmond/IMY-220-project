@@ -214,7 +214,7 @@ $(() => {
         load_events();
         load_users();
         load_galleries();
-    }, 1000);
+    }, 5000);
 
     //delete event handler
     $(document).on("click", ".delete_event", function(){

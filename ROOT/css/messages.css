@@ -5,9 +5,10 @@
  * 
  */
 /* MESSAGES */
-#chat_messages {
+#chat_messages,
+#chats {
     height: 100%;
-    max-height: 40rem;
+    max-height: 30rem !important;
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 0.5rem;
@@ -16,8 +17,20 @@
     flex-direction: column;
 }
 
+/* CONTAINER */
+.container-box {
+    min-height: 90vh;
+}
+
+/* MESSAGE */
 .message-box .bg-light {
-    background-color: var(--message) !important;
+    background-color: var(--message-sent) !important;
+    border-radius: 0.5rem 0.5rem 0 0.5rem !important;
+}
+
+.left .bg-light{
+    background-color: var(--message-recieved) !important;
+    border-radius: 0.5rem 0.5rem 0.5rem 0 !important;
 }
 
 .left {

@@ -52,8 +52,8 @@
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $api_url,
-            CURLOPT_POST => TRUE,
-            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => $api_headers,
             CURLOPT_POSTFIELDS => json_encode($body),
             CURLOPT_USERPWD => $api_key,
@@ -128,8 +128,8 @@
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => $api_url,
-                CURLOPT_POST => TRUE,
-                CURLOPT_RETURNTRANSFER => TRUE,
+                CURLOPT_POST => true,
+                CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HTTPHEADER => $api_headers,
                 CURLOPT_POSTFIELDS => json_encode($body),
                 CURLOPT_USERPWD => $api_key

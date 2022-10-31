@@ -305,11 +305,11 @@
             //Description: check if user already exists (for signup / login)
             $result = true; //assume user already exists
             //prepare statement 
-            $stmt = $username != NULL ? "u_email = ? OR u_name = ?" : "u_email = ?";
+            $stmt = $username != null ? "u_email = ? OR u_name = ?" : "u_email = ?";
             $query = $this->conn->prepare('SELECT u_id FROM users WHERE ' . $stmt);
             //error handling
             try {
-                if ($username != NULL) {
+                if ($username != null) {
                     $query->execute(array($email, $username));
                 } else {
                     $query->execute(array($email));
@@ -904,7 +904,6 @@
                 }
             } else {
                 $this->respond("error", null, "Invalid DELETE request");
-                return;
             }
         }
         /*

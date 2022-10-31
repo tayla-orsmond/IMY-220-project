@@ -11,8 +11,8 @@ ini_set('upload_max_filesize', '2M');
 
 session_start();
 //globals
-// $api_url = "http://imy.up.ac.za/IMY220/u21467456/api.php";
-$api_url = "http://localhost/api.php";
+$api_url = "http://imy.up.ac.za/IMY220/u21467456/api.php";
+// $api_url = "http://localhost/api.php";
 $api_headers = array(
     "Accept: application/json",
     "Content-Type: application/json",

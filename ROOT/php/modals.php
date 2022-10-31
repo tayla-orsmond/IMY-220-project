@@ -13,7 +13,7 @@
     ---------------------------------------------------------
 -->
 <!-- Bootstrap Modal to add / edit an event -->
-<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="event_modal" tabindex="-1" role="dialog" aria-labelledby="event_modal_label" aria-hidden="true">
+<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="event_modal" tabindex="-1" role="dialog" aria-labelledby="event_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -86,7 +86,7 @@
             </div>
             <div class="modal-body">
                 <form id="delete_event_form" method="post" action="php/delete-handler.php">
-                    <input type="hidden" id="e_id" name="e_id" value="<?=$_GET['id']?>">
+                    <input type="hidden" id="e_id" name="e_id" value="<?= $_GET['id'] ?>">
                     <p>Are you sure you want to delete this event? This action cannot be undone.</p>
                 </form>
             </div>
@@ -99,14 +99,14 @@
 </div>
 
 <!-- Bootstrap Modal to add / edit a list -->
-<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="list_modal" tabindex="-1" role="dialog" aria-labelledby="list_modal_label" aria-hidden="true">
+<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="list_modal" tabindex="-1" role="dialog" aria-labelledby="list_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="list_modal_label">Customize Gallery</h5>
             </div>
             <div class="modal-body">
-                <form id="list_form" method="post" action="../profile.php?id=<?=$_SESSION['user_id']?>">
+                <form id="list_form" method="post" action="../profile.php?id=<?= $_SESSION['user_id'] ?>">
                     <div class="form-group mb-3">
                         <label for="l_name">Name *</label>
                         <input type="text" class="form-control" id="l_name" name="l_name" placeholder="Romanticism Sightseeing trip" required>
@@ -127,14 +127,14 @@
 
 <!-- Bootstrap Modal to add an event to a list -->
 <!-- Display all of the lists a user has so they can select one to add the event to -->
-<div class="modal modal-lg fade modal-fullscreen-sm" id="add_to_list_modal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" role="dialog" aria-labelledby="add_to_list_modal_label" aria-hidden="true">
+<div class="modal modal-lg fade modal-fullscreen-sm" id="add_to_list_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="add_to_list_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="add_to_list_modal_label">Add to a Gallery</h5>
             </div>
             <div class="modal-body">
-                <form id="add_to_list_form" method="post" action="../event.php?id=<?=$_GET['id']?>">
+                <form id="add_to_list_form" method="post" action="../event.php?id=<?= $_GET['id'] ?>">
                     <div class="form-group mb-3">
                         <label for="l_id">Galleries</label>
                         <select class="form-select" id="l_id" name="l_id" required>
@@ -152,7 +152,7 @@
 </div>
 
 <!-- Bootstrap Modal to delete a list -->
-<div class="modal modal-lg fade modal-fullscreen-sm" id="delete_list_modal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" role="dialog" aria-labelledby="delete_list_modal_label" aria-hidden="true">
+<div class="modal modal-lg fade modal-fullscreen-sm" id="delete_list_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="delete_list_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -160,7 +160,7 @@
             </div>
             <div class="modal-body">
                 <form id="delete_list_form" method="post" action="php/delete-handler.php">
-                    <input type="hidden" id="l_rid" name="l_rid" value="<?=$_GET['id']?>">
+                    <input type="hidden" id="l_rid" name="l_rid" value="<?= $_GET['id'] ?>">
                     <p>Are you sure you want to delete this gallery? This action cannot be undone.</p>
                 </form>
             </div>
@@ -173,7 +173,7 @@
 </div>
 
 <!-- Bootstrap Modal to add /edit a review -->
-<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="review_modal" tabindex="-1" role="dialog" aria-labelledby="review_modal_label" aria-hidden="true">
+<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="review_modal" tabindex="-1" role="dialog" aria-labelledby="review_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -199,12 +199,12 @@
                     <input type="hidden" id="r_rating" name="r_rating" value="0">
                     <div class="form-group mb-3">
                         <label for="r_img">Image</label>
-                            <!-- add an image using drag and drop or file input -->
+                        <!-- add an image using drag and drop or file input -->
                         <p>Drag and drop an image here or click to select an image</p>
                         <div class="dropzone text-center bg-light p-5 m-1" id="r_img"><i class="text-primary fa fa-image fa-2xl"></i></div>
                         <input type="file" class="form-control" id="r_img_input" name="r_img_input" accept="image/*" size="50" style="display: none;" required>
                     </div>
-                    <input type="hidden" id="r_hidden_id" name="r_hidden_id" value="<?=$_GET['id']?>">
+                    <input type="hidden" id="r_hidden_id" name="r_hidden_id" value="<?= $_GET['id'] ?>">
                 </form>
             </div>
             <div class="modal-footer">
@@ -224,7 +224,7 @@
             </div>
             <div class="modal-body">
                 <form id="delete_review_form" method="post" action="php/delete-handler.php">
-                    <input type="hidden" id="e_rid" name="e_rid" value="<?=$_GET['id']?>">
+                    <input type="hidden" id="e_rid" name="e_rid" value="<?= $_GET['id'] ?>">
                     <p>Are you sure you want to delete this review? This action cannot be undone.</p>
                 </form>
             </div>
@@ -237,7 +237,7 @@
 </div>
 
 <!-- Bootstrap Modal to edit a profile -->
-<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="edit_profile_modal" tabindex="-1" role="dialog" aria-labelledby="edit_profile_modal_label" aria-hidden="true">
+<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="edit_profile_modal" tabindex="-1" role="dialog" aria-labelledby="edit_profile_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -293,7 +293,7 @@
 </div>
 
 <!-- Bootstrap Modal to delete a profile -->
-<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false"  id="delete_profile_modal" tabindex="-1" role="dialog" aria-labelledby="delete_profile_modal_label" aria-hidden="true">
+<div class="modal modal-lg fade modal-fullscreen-sm" data-bs-backdrop="static" data-bs-keyboard="false" id="delete_profile_modal" tabindex="-1" role="dialog" aria-labelledby="delete_profile_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -301,7 +301,7 @@
             </div>
             <div class="modal-body">
                 <form id="delete_profile_form" method="post" action="php/delete-handler.php">
-                    <input type="hidden" id="p_id" name="p_id" value="<?=$_GET['id']?>">
+                    <input type="hidden" id="p_id" name="p_id" value="<?= $_GET['id'] ?>">
                     <p>Are you sure you want to delete this profile? This action cannot be undone.</p>
                 </form>
             </div>

@@ -18,7 +18,7 @@
     Username Regex
 
 */
-import {validate_username, validate_email, validate_password, username_err, email_err, psw_err, repeat_psw_err, submit_err} from './validate.js';
+import { validate_username, validate_email, validate_password, username_err, email_err, psw_err, repeat_psw_err, submit_err } from './validate.js';
 
 $(() => {
     //VARIABLES

@@ -3,65 +3,79 @@
  * Form styles
  * to be referenced by all forms
  */
-button[class*="btn"]{
+button[class*="btn"] {
     border: none;
     transition: all 0.4s ease-in-out !important;
 }
-button[class*="submit-btn"]:hover{
+
+button[class*="submit-btn"]:hover {
     border: solid 0.2rem var(--accR) !important;
     color: var(--dark) !important;
 }
-input[class*="form-control"]{
+
+input[class*="form-control"] {
     border-bottom: 0.1rem solid var(--dark) !important;
     transition: all 0.4s ease-in-out;
     outline: none;
 }
-input[class*="form-control"]:focus{
+
+input[class*="form-control"]:focus {
     border: none !important;
     outline: none !important;
     box-shadow: 0 0 0 0.2rem var(--accY) !important;
 }
-input[class*="form-control"]:focus ~ label{
+
+input[class*="form-control"]:focus~label {
     color: var(--accR) !important;
 }
-input[class*="form-check"]:checked{
+
+input[class*="form-check"]:checked {
     background-color: var(--accY) !important;
     outline: none;
     box-shadow: none;
     border: 0.1rem solid var(--accY) !important;
 }
-input[class*="form-check"]{
+
+input[class*="form-check"] {
     background-color: var(--dark) !important;
     outline: none;
     box-shadow: none;
 }
-div[class*="bg-warning"]{
+
+div[class*="bg-warning"] {
     border-radius: 0 0 0.5rem 0.5rem;
     animation: drop 0.8s ease;
 }
-@keyframes drop{
-    0%{
+
+@keyframes drop {
+    0% {
         opacity: 0;
         transform: translateY(-0.2rem);
     }
-    100%{
+
+    100% {
         opacity: 1;
         transform: translateY(0);
     }
 }
-.valid{
+
+.valid {
     color: var(--valid) !important;
 }
-.valid ~ label{
+
+.valid~label {
     color: var(--valid) !important;
 }
-.invalid{
+
+.invalid {
     color: var(--invalid) !important;
 }
-.invalid ~ label{
+
+.invalid~label {
     color: var(--invalid) !important;
 }
-div[class*="bg-danger"]{
+
+div[class*="bg-danger"] {
     background-color: var(--invalid) !important;
     color: var(--main) !important;
     border-radius: 0.5rem 0.5rem 0 0;

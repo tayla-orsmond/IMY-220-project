@@ -7,7 +7,7 @@
 
 /**
  * 
- * VALIDATE EVENT MODAL
+ * ========================================================================= VALIDATE EVENT MODAL
  * 
  */
 //globals
@@ -129,7 +129,7 @@ $("#e_img_input").on("change", () => {
         $("#e_img").removeClass("invalid");
         $("#e_img").addClass("valid");
         //set the image input value to the file name
-        $("#e_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
+        $("#e_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>');
         //make the image a background image of the img div
         $("#e_img").css("background-image", "url(" + URL.createObjectURL(file) + ")");
         $("#e_img_err").remove();
@@ -188,7 +188,7 @@ $('#l_name').on('input', () => {
 
 /**
  * 
- * VALIDATE EDIT PROFILE MODAL
+ * ========================================================================= VALIDATE EDIT PROFILE MODAL
  * 
  */
 //globals
@@ -249,11 +249,11 @@ $("#u_profile_input").on("change", () => {
         $("#u_profile").removeClass("invalid");
         $("#u_profile").addClass("valid");
         //set the image input value to the file name
-        $("#u_profile").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
+        $("#u_profile").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>');
         //make the image a background image of the img div
         $("#u_profile").css("background-image", "url(" + URL.createObjectURL(file) + ")");
         $("#u_profile_err").remove();
-        valid_image = true;
+        valid_u_profile = true;
     } else {
         $("#u_profile").removeClass("valid");
         $("#u_profile").addClass("invalid");
@@ -264,18 +264,19 @@ $("#u_profile_input").on("change", () => {
         if(!$("#u_profile_err").html()) {
             $('<div class="error" id="u_profile_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#u_profile");
         }
-        valid_image = false;
+        valid_u_profile = false;
     }
 });
 /**
  * 
- * VALIDATE REVIEW MODAL
+ * ========================================================================= VALIDATE REVIEW MODAL
  * 
  */
 //globals
 let valid_r_name =  $("#r_name") !== null;
 let valid_r_rating = $("#r_rating") !== null;
 let valid_r_comment = $("#r_comment") !== null;
+let valid_r_image = $("#r_img_input") !== null;
 
 //validate the review name
 $("#r_name").on("input", () => {
@@ -368,11 +369,11 @@ $("#r_img_input").on("change", () => {
         $("#r_img").removeClass("invalid");
         $("#r_img").addClass("valid");
         //set the image input value to the file name
-        $("#r_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>' + file.name);
+        $("#r_img").html('<i class="text-secondary me-2 fa fa-arrow-up-from-bracket fa-2xl"></i>');
         //make the image a background image of the img div
         $("#r_img").css("background-image", "url(" + URL.createObjectURL(file) + ")");
         $("#r_img_err").remove();
-        valid_image = true;
+        valid_r_image = true;
     } else {
         $("#r_img").removeClass("valid");
         $("#r_img").addClass("invalid");
@@ -383,7 +384,7 @@ $("#r_img_input").on("change", () => {
         if(!$("#r_img_err").html()) {
             $('<div class="error" id="r_img_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#r_img");
         }
-        valid_image = false;
+        valid_r_image = false;
     }
 });
 
@@ -398,7 +399,7 @@ export const validate_edit_profile = () => {
     return valid_u_display_name && valid_u_profile;
 }
 export const validate_review = () => {
-    return valid_r_name && valid_r_rating && valid_r_comment;
+    return valid_r_name && valid_r_rating && valid_r_comment && valid_r_image;
 }
 export const validate_username = (username) => {
     const rg = new RegExp(/^(?=[a-zA-Z0-9_.]{3,20}$)(?!.*[_.]{2}).*$/);

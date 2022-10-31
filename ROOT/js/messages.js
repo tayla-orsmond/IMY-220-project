@@ -42,8 +42,6 @@ $(() => {
             });
         }
         else{
-            console.log(resp.status);
-            console.log(resp.data.message);
             $("#chats").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
     }
@@ -87,8 +85,6 @@ $(() => {
             });
         }
         else{
-            console.log(resp.status);
-            console.log(resp.data.message);
             $("#chat_messages").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
     }
@@ -111,7 +107,6 @@ $(() => {
                     "message": message
                 }),
                 success: function(resp, status){//succesful query
-                    console.log(resp.data.message);
                     resolve(resp);
                 },
                 error: function(error){//error handling
@@ -122,10 +117,9 @@ $(() => {
     }
     //error handler
     const error_handler = (error) => {
-        console.log(error);
         $("#error").empty();
         $("#error").show();
-        $("#error").append(error_template_blank(error));
+        $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
     }
     /**
      * 
@@ -183,7 +177,6 @@ $(() => {
         const chat_name = $("#chat_header h3").text().split("@")[1];
         let message = $("#chat_message").val();
         message = message.trim();
-        console.log("yuh > " + chat_id + " " + chat_name + " " + message);
         //send the message if not empty
         if(message != ""){
             send_message(message, chat_id).then((resp) => {

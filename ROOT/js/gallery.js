@@ -57,9 +57,6 @@ $(() => {
                 if(resp.status === "success"){
                     $('.list-name').text(list_name);
                     $('.list-description').text(list_desc);
-                } else{
-                    console.log(resp.status);
-                    console.log(resp.data.message);
                 }
             },
             error: function(xhr,status,error){//error handling
@@ -69,11 +66,8 @@ $(() => {
     }
     //error handler
     const error_handler = (xhr,status,error) => {
-        console.log(status);
-        console.log(xhr['responseText']);
-        console.log(error);
         $("#error").show();
-        $("#error").append(error_template_blank(error));
+        $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
     }
     /**
      * 
@@ -98,7 +92,6 @@ $(() => {
     $('.events-area-inner').on('click', '.remove_event', (e) => {
         //get the event id from the button
         const event_id = $(e.currentTarget).attr('id').split('_')[1];
-        console.log("yuh > " + event_id);
         $(`#${event_id}`).remove();
         e.currentTarget.remove();
         edit_list();

@@ -78,10 +78,6 @@ $(() => {
                     $('.event-location').text(e_location);
                     $('.event-type').text(e_type);
                 }
-                else{
-                    console.log(resp.status);
-                    console.log(resp.data.message);
-                }
             },
             error: function(xhr,status,error){//error handling
                 error_handler(xhr,status,error);
@@ -90,11 +86,8 @@ $(() => {
     }
     //error handler
     const error_handler = (xhr,status,error) => {
-        console.log(status);
-        console.log(xhr['responseText']);
-        console.log(error);
         $("#error").show();
-        $("#error").append(error_template_blank(error));
+        $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
     }
     /**
      * 
@@ -133,6 +126,7 @@ $(() => {
     }
     //populate the add_event_to_list modal with the user's lists
     const populate_add_event_to_list = () => {
+        const u_id = get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";"))
         //make the ajax call
         $.ajax({
             url: api_url,
@@ -144,10 +138,10 @@ $(() => {
             dataType: "json",
             data: JSON.stringify({
                 "type": "info",
-                "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "user_id": u_id,
                 "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
                 "return": "lists",
-                "id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                "id": u_id,
             }),
             success: function(resp, status){//succesful query
                 if(resp.status === "success" && resp.data.return.length > 0){
@@ -155,10 +149,14 @@ $(() => {
                     resp.data.return.forEach(list => {
                         $("#l_id").append(`<option value="${list.l_id}">${list.l_name}</option>`);
                     });
+                    $("#add_to_list_btn").prop("disabled", false);
                 }
                 else{
-                    console.log(resp.status);
-                    console.log(resp.data.message);
+                    $("#l_id").append(`<option value="-1">No galleries found</option>`);
+                    $("#add_to_list_btn").prop("disabled", true);
+                    $("#add_to_list_btn").prop("title", "You must create a gallery first");
+                    $("#add_to_list_btn").tooltip();
+                    $("#l_id").after(`<p class="text-muted">You must create a gallery first, greate a gallery <a href="profile.php?id=${u_id}">here</a></p>`);
                 }
             },
             error: function(xhr,status,error){//error handling
@@ -234,10 +232,6 @@ $(() => {
                     //update the page with the new info
                     $('.reviews').append(review_template(review));
                 }
-                else{
-                    console.log(resp.status);
-                    console.log(resp.data.message);
-                }
             },
             error: function(xhr,status,error){//error handling
                 error_handler(xhr,status,error);
@@ -264,9 +258,7 @@ $(() => {
     });
     //when a star is clicked on, rate the event
     $('#rate').on('click', '.fa-star', function(e) {
-        console.log("clicked");
         rating = parseInt($(this).data('index'));
-        console.log(rating);
         rate_event(rating);
     });
     //when the mouse leaves the stars, clear the stars
@@ -280,7 +272,6 @@ $(() => {
     $('#rate').on('mouseover', '.fa-star', function(e){
         clear_stars();
         rating = parseInt($(this).data('index'));
-        console.log(rating);
         rate_event(rating);
     });
     //when the submit review button is clicked, submit the review
@@ -302,7 +293,6 @@ $(() => {
     $('#add_to_list').on('click', (e) => {
         if($('l_id').val() != " " || $('l_id').val() != null){
             add_event_to_list();
-            console.log("added");
         }
         e.preventDefault();
     });

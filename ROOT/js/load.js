@@ -25,8 +25,6 @@ $(()=> {
                 "id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";"))
             }),
             success: function(resp, status){//succesful query
-                //console.log(status);
-                //console.log(resp.data);
                 populate_events(resp);
             },
             error: function(xhr,status,error){//error handling
@@ -52,8 +50,7 @@ $(()=> {
                 "id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";"))
             }),
             success: function(resp, status){//succesful query
-                //console.log(status);
-                //console.log(resp.data);
+                $("#search-input").val(search);
                 populate_events(resp);
             },
             error: function(xhr,status,error){//error handling
@@ -85,11 +82,11 @@ $(()=> {
             const half = Math.ceil(events.length / 2.0);
             let e1 = events.slice(0, half);
             let e2 = events.slice(half, events.length);
-            e1.forEach(event => {
-                $("#ea_1").append(event_template(event));
+            e1.forEach((event, index) => {
+                $("#ea_1").append(event_template(event, index));
             });
-            e2.forEach(event => {
-                $("#ea_2").append(event_template(event));
+            e2.forEach((event, index) => {
+                $("#ea_2").append(event_template(event, index));
             });
         }
         else if(resp.status == "error"){
@@ -103,13 +100,10 @@ $(()=> {
     }
     //error handler
     const error_handler = (xhr,status,error) => {
-        //console.log(status);
-        //console.log(xhr['responseText']);
-        //console.log(error);
         //clear events
         clear_events();
         $("#error_area").show();
-        $("#error_area").append(error_template("Error loading events"));
+        $("#error_area").append(error_template("An unexpected error occured. Please try again later."));
     }
     //on page load, load the events for the local feed
     //if there is a get parameter, load the events for the search
@@ -127,7 +121,6 @@ $(()=> {
 
     //on search, search for events
     $("#search").on("click", (e) => {
-        //console.log("searching");
         if($("#search-input").val().length > 0){
             search_events($("#search-input").val());
             $("#global").addClass("active");

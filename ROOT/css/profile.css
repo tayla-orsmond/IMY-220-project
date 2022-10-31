@@ -10,22 +10,26 @@ img[class*="rounded-circle"] {
     height: 15rem;
     object-fit: cover;
 }
-.profile-photo img{
+
+.profile-photo img {
     max-width: 15rem;
     max-height: 15rem;
     object-fit: cover;
 }
+
 .btn-primary,
-.btn-secondary{
+.btn-secondary {
     color: var(--dark);
 }
-#events_inner{
+
+#events_inner {
     min-height: 30rem;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
     padding: 0.5rem;
 }
-#events_inner .event-card{
+
+#events_inner .event-card {
     flex-basis: 33%;
 }

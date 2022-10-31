@@ -98,8 +98,8 @@ $(() => {
         if(resp.status == "success" && resp.data.return.length > 0){
             //Load the events
             let events = resp.data.return;
-            events.forEach((event) => {
-                $("#events_inner").append(event_template(event));
+            events.forEach((event, index) => {
+                $("#events_inner").append(event_template(event, index));
             });
         }
         else{
@@ -242,13 +242,10 @@ $(() => {
     };
     //error handler
     const error_handler = (xhr,status,error) => {
-        //console.log(status);
-        //console.log(xhr['responseText']);
-        //console.log(error);
         //clear events
         clear_events();
-        // $("#error").show();
-        // $("#error").append(error_template_blank("An unexpected error occurred, please try again later."));
+        $("#error").show();
+        $("#error").append(error_template_blank("An unexpected error occurred, please try again later."));
     }
     /**
      * 
@@ -327,7 +324,6 @@ $(() => {
         $("#follow_list").empty();
         $("#follow_modal_label").empty();
         $("#follow_modal_label").text("F" + f.slice(1));
-        //console.log(resp.data.return);
         if(resp.status === "success" && resp.data.return.length > 0){
             let follow = resp.data.return;
             if(f === "followers"){
@@ -342,8 +338,6 @@ $(() => {
             }
         }
         else{
-            //console.log(resp.status);
-            //console.log(resp.data.message);
             $("#follow_list").append(error_template_blank(resp.data.message));
         }
     }
@@ -400,8 +394,6 @@ $(() => {
                     $(".profile-photo img").attr("src", "media/uploads/profiles/" + $("#u_profile").text());
                 }
                 else{
-                    //console.log(resp.status);
-                    //console.log(resp.data.message);
                     $("#edit_profile").modal("hide");
                 }
             },

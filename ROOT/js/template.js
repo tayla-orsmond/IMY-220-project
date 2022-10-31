@@ -4,12 +4,20 @@
 //Description: This file contains js templates.
 
 //Event template
-export const event_template = ({e_img, e_name, e_location, e_id}) => {
+export const event_template = ({e_img, e_name, e_location, e_rating, e_id}, index) => {
     return `
     <div class="card event-card" id="${e_id}">
         <img src="media/uploads/events/${e_img}" class="card-img-top img-fluid" alt="...">
         <div class="card-body">
+            <p>${index < 2 ? `<span class="badge badge-new">New</span>` : ``}</p>
             <h5 class="card-title text-truncate">${e_name}</h5>
+            <div class="rating">
+                <span class="fa fa-star ${e_rating >= 1 ? "checked" : ""}"></span>
+                <span class="fa fa-star ${e_rating >= 2 ? "checked" : ""}"></span>
+                <span class="fa fa-star ${e_rating >= 3 ? "checked" : ""}"></span>
+                <span class="fa fa-star ${e_rating >= 4 ? "checked" : ""}"></span>
+                <span class="fa fa-star ${e_rating >= 5 ? "checked" : ""}"></span>
+            </div>
             <p class="card-text text-truncate">${e_location}</p>
             <a href="event.php?id=${e_id}" class="stretched-link"></a>
         </div>
@@ -17,19 +25,25 @@ export const event_template = ({e_img, e_name, e_location, e_id}) => {
     `;
 }
 //Primary event template
-export const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_id}) => {
+export const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_rating, e_id}) => {
     return `
     <div class="card text-bg-dark" id="event_primary">
         <img src="media/uploads/events/${e_img}" class="card-img" alt="...">
         <div class="card-img-overlay d-flex flex-column justify-content-between">
             <div class="card-header">Featured</div>
             <div>
+                <div class="rating">
+                    <span class="fa fa-star ${e_rating >= 1 ? "checked" : ""}"></span>
+                    <span class="fa fa-star ${e_rating >= 2 ? "checked" : ""}"></span>
+                    <span class="fa fa-star ${e_rating >= 3 ? "checked" : ""}"></span>
+                    <span class="fa fa-star ${e_rating >= 4 ? "checked" : ""}"></span>
+                    <span class="fa fa-star ${e_rating >= 5 ? "checked" : ""}"></span>
+                </div>
                 <h5 class="card-title text-truncate">${e_name}</h5>
                 <p class="card-text h6 text-truncate">${e_location} | ${e_date}</p>
                 <p class="card-text text-truncate ">
                     ${e_desc.replace(/#(\w+)/g, '<a href="home.php?search=$1">#$1</a>')}
                 </p>
-                <p class="card-text small">${e_date}</p>
                 <a href="event.php?id=${e_id}" class="stretched-link"></a>
             </div>
         </div>
@@ -125,5 +139,64 @@ export const error_template_blank = (error) => {
         <div class="d-flex flex-column bg-light p-3 text-center">
             ${error}
         </div>
+    `;
+}
+
+//event template for admin page
+//table row
+export const event_template_admin = ({e_id, e_name, u_rid, u_rname, e_location, e_date, e_time, e_img}) => {
+    return `
+    <tr>
+        <th scope="row">${e_id}</th>
+        <td><img src="${e_img}" class="img-fluid rounded" alt="..."></td>
+        <td class="text-truncate">
+            <a href="event.php?id=${e_id}">${e_name}</a>
+        </td>
+        <td class="text-truncate">
+            <a href="profile.php?id=${u_rid}">@${u_rname}</a>
+        </td>
+        <td class="text-truncate">${e_date}</td>
+        <td class="text-truncate">${e_time}</td>
+        <td class="text-truncate">${e_location}</td>
+        <td>
+            <div class="btn btn-primary delete_event" data-id="${e_id}">Delete</div>
+        </td>
+    </tr>
+    `;
+}
+
+//user template for admin page
+//table row
+export const user_template_admin = ({u_id, u_name, u_display_name, u_email, u_profile}) => {
+    return `
+    <tr>
+        <th scope="row">${u_id}</th>
+        <td><img src="${u_profile}" class="img-fluid rounded" alt="..."></td>
+        <td class="text-truncate">
+            <a href="profile.php?id=${u_id}">@${u_name}</a>
+        </td>
+        <td class="text-truncate">${u_display_name}</td>
+        <td>
+            <div class="btn btn-primary delete_user" data-id="${u_id}">Delete</div>
+        </td>
+    </tr>
+    `;
+}
+
+//list template for admin page
+//table row
+export const gallery_template_admin = ({l_id, u_rid, u_rname, l_name, l_desc}) => {
+    return `
+    <tr>
+        <th scope="row">${l_id}</th>
+        <td class="text-truncate">${l_name}</td>
+        <td class="text-truncate">
+            <a href="profile.php?id=${u_rid}">@${u_rname}</a>
+        </td>
+        <td class="text-truncate">${l_desc}</td>
+        <td>
+            <div class="btn btn-primary delete_gallery" data-id="${l_id}">Delete</div>
+        </td>
+    </tr>
     `;
 }

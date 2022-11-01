@@ -62,7 +62,7 @@ $(() => {
                 "e_date": e_date,
                 "e_time": e_time,
                 "e_location": e_location,
-                "e_img": e_img,
+                "e_img": e_img === "" ? $("#e_img").text() : e_img,
                 "e_type": e_type,
             }),
             success: function (resp, status) {//succesful query
@@ -152,11 +152,13 @@ $(() => {
                     $("#add_to_list_btn").prop("disabled", false);
                 }
                 else {
-                    $("#l_id").append(`<option value="-1">No galleries found</option>`);
-                    $("#add_to_list_btn").prop("disabled", true);
-                    $("#add_to_list_btn").prop("title", "You must create a gallery first");
-                    $("#add_to_list_btn").tooltip();
-                    $("#l_id").after(`<p class="text-muted">You must create a gallery first, greate a gallery <a href="profile.php?id=${u_id}">here</a></p>`);
+                    $("#l_id").html(`<option value="-1">No galleries found</option>`);
+                    $("#add_to_list").prop("disabled", true);
+                    $("#add_to_list").prop("title", "You must create a gallery first");
+                    $("#add_to_list").tooltip();
+                    if($("#add_to_list_form").find("p").length === 0){
+                        $("#l_id").after(`<p class="text-muted">You must create a gallery first, greate a gallery <a href="profile.php?id=${u_id}">here</a></p>`);
+                    }
                 }
             },
             error: function (xhr, status, error) {//error handling
@@ -223,7 +225,7 @@ $(() => {
                 "r_rating": r_rating,
                 "r_name": r_name,
                 "r_comment": r_comment,
-                "r_img": r_img,
+                "r_img": r_img === "" ? $("#r_img").text() : r_img,
             }),
             success: function (resp, status) {//succesful query
                 if (resp.status === "success") {

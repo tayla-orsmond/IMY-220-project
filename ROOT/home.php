@@ -29,7 +29,7 @@
         header("Location: index.php");
     }
     ?>
-    <div class="container my-5">
+    <div class="container container-box my-5">
         <div class="row">
             <div class="col-12">
                 <h1>home.</h1>
@@ -67,6 +67,9 @@
             <!--EVENT AREA-->
             <div class="col-6 offset-3" id="error_area"></div>
             <div class="col-4 primary-event-outer">
+                <p class="h3 text-light">Welcome Home</p>
+                <p class="text-light">Here you will find events from people you know and people all across the globe. Discover new events, review events and make new friends, all right here on this nifty little dash.</p>
+                <p class="h4 text-light">Featured Event:</p>
                 <!--Primary event (featured)-->
                 <div id="event_primary"></div>
             </div>
@@ -80,7 +83,6 @@
                 <!--END EA INNER 1-->
                 <div id="ea_2" class="align-items-center event-area-inner">
                     <!--EVENT AREA INNER 2 (where the 2nd row of events are loaded-->
-
                 </div>
                 <!--END EA INNER 2-->
             </div>

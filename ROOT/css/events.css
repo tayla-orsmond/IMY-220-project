@@ -1,14 +1,13 @@
 /* Tayla Orsmond u21467456 */
 /* 
  * 
- * Event card / page styling
+ * Events styling
  * 
  */
 /* EVENT CARDS */
 #event_area {
-    min-height: 30rem;
+    min-height: 15rem;
 }
-
 .event-area-inner,
 .user-area-inner {
     display: grid;
@@ -18,7 +17,6 @@
 }
 
 .event-card {
-    flex-basis: 24%;
     color: var(--dark);
     transition: all 0.4s ease;
 }
@@ -132,6 +130,10 @@ div[class~="carousel-item"] img {
 .review-comment {
     padding-bottom: 1rem;
     border-bottom: 0.1rem solid var(--dark);
-    border-radius: 0.5rem;
     margin-bottom: 0.2rem;
+}
+
+#edit_review,
+#delete_review {
+    font-size: 0.8rem;
 }

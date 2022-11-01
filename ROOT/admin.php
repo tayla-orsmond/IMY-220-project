@@ -42,6 +42,7 @@
             <div class="col-12">
                 <h1>Admin Dashboard</h1>
                 <div class="lead">Here is where you can access all users, events and galleries on the site.<br/><em class="text-primary">Proceed with caution if you want to delete something. You cannot go back!</em></div>
+                <p>It may take a few seconds for changes to reflect</p>
                 <hr />
             </div>
             <div class="col-4">

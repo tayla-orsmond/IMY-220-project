@@ -153,7 +153,7 @@ $(() => {
                 "e_date": e_date,
                 "e_time": e_time,
                 "e_location": e_location,
-                "e_img": e_img,
+                "e_img": e_img === "" ? null : e_img,
                 "e_type": e_type,
             }),
             success: function (resp, status) {//succesful query
@@ -379,7 +379,7 @@ $(() => {
                 "u_pronouns": $("#u_pronouns").val(),
                 "u_location": $("#u_location").val(),
                 "u_age": $("#u_age").val(),
-                "u_profile": $("#u_profile").text(),
+                "u_profile": $("#u_profile_input").val().split("\\").pop() === "" ?  $("#u_profile").text() : $("#u_profile_input").val().split("\\").pop(),
             }),
             success: function (resp, status) {//succesful query
                 if (resp.status === "success") {

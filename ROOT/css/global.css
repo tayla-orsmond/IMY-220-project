@@ -74,7 +74,9 @@ img[class*="img-fluid"] {
 
 /* STYLING */
 *[class*="display-1"],
-h1 {
+h1,
+.h3,
+.h4 {
     font-family: var(--title-font);
 }
 
@@ -300,6 +302,14 @@ em[class*="text-secondary"],
 div[class*="text-secondary"],
 svg[class*="text-primary"] {
     color: var(--accB) !important;  
+}
+
+*[class*="text-dark"] {
+    color: var(--dark) !important;
+}
+
+*[class*="text-light"] {
+    color: var(--light) !important;
 }
 
 button[class*="btn-outline-dark"] {

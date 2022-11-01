@@ -21,9 +21,8 @@ img[class*="rounded-circle"] {
 .btn-secondary {
     color: var(--dark);
 }
-
+/* EVENT CARDS */
 #events_inner {
-    min-height: 30rem;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;

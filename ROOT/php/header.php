@@ -30,7 +30,7 @@ require_once 'class/config.php';
                 }
                 if ($logged_in) {
                     echo '<ul class="navbar-nav me-2 mb-2 mb-lg-0 align-items-center">
-                                <li class="nav-item mx-2">
+                                <li class="nav-item mx-2 text-secondary">
                                     Welcome @' . $_SESSION['user_name'] . '
                                 </li>
                                 <li class="nav-item mx-2">

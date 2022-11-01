@@ -11,7 +11,7 @@
  * 
  */
 //globals
-let valid_name =  $("#e_name") !== null;
+let valid_name = $("#e_name") !== null;
 let valid_date = $("#e_date") !== null;
 let valid_time = $("#e_time") !== null;
 let valid_location = $("#e_location") !== null;
@@ -31,7 +31,7 @@ $("#e_name").on("input", () => {
     } else {
         $("#e_name").removeClass("valid");
         $("#e_name").addClass("invalid");
-        if(!$("#e_name_err").html()) {
+        if (!$("#e_name_err").html()) {
             $('<div class="error" id="e_name_err">The name must be between 3 and 50 characters and must not contain any special characters besides "!", "?", "-", "\'" and "@"</div>').insertAfter("#e_name");
         }
         valid_name = false;
@@ -49,7 +49,7 @@ $("#e_date").on("input", () => {
     } else {
         $("#e_date").removeClass("valid");
         $("#e_date").addClass("invalid");
-        if(!$("#e_date_err").html()) {
+        if (!$("#e_date_err").html()) {
             $('<div class="error" id="e_date_err">The date is required</div>').insertAfter("#e_date");
         }
         valid_date = false;
@@ -67,7 +67,7 @@ $("#e_time").on("input", () => {
     } else {
         $("#e_time").removeClass("valid");
         $("#e_time").addClass("invalid");
-        if(!$("#e_time_err").html()) {
+        if (!$("#e_time_err").html()) {
             $('<div class="error" id="e_time_err">The time is required</div>').insertAfter("#e_time");
         }
         valid_time = false;
@@ -87,7 +87,7 @@ $("#e_location").on("input", () => {
     } else {
         $("#e_location").removeClass("valid");
         $("#e_location").addClass("invalid");
-        if(!$("#e_location_err").html()) {
+        if (!$("#e_location_err").html()) {
             $('<div class="error" id="e_location_err">The location must be between 3 and 50 characters and must not contain any special characters besides ",", "-" or "\'"</div>').insertAfter("#e_location");
         }
         valid_location = false;
@@ -141,7 +141,7 @@ $("#e_img_input").on("change", () => {
         $("#e_img").html('<i class="text-primary fa fa-image fa-2xl"></i>');
         //remove the background image
         $("#e_img").css("background-image", "none");
-        if(!$("#e_img_err").html()) {
+        if (!$("#e_img_err").html()) {
             $('<div class="error" id="e_img_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#e_img");
         }
         valid_image = false;
@@ -237,7 +237,7 @@ $("#u_profile").on("drop", (e) => {
     //make the div normal
     $("#u_profile").css("opacity", "1");
     $("#u_profile_input").prop("files", e.originalEvent.dataTransfer.files);
-    $("#u_profile_input").trigger("change"); 
+    $("#u_profile_input").trigger("change");
 });
 $("#u_profile").on("click", () => {
     $("#u_profile_input").click();
@@ -261,7 +261,7 @@ $("#u_profile_input").on("change", () => {
         $("#u_profile").html('<i class="text-primary fa fa-image fa-2xl"></i>');
         //remove the background image
         $("#u_profile").css("background-image", "none");
-        if(!$("#u_profile_err").html()) {
+        if (!$("#u_profile_err").html()) {
             $('<div class="error" id="u_profile_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#u_profile");
         }
         valid_u_profile = false;
@@ -273,7 +273,7 @@ $("#u_profile_input").on("change", () => {
  * 
  */
 //globals
-let valid_r_name =  $("#r_name") !== null;
+let valid_r_name = $("#r_name") !== null;
 let valid_r_rating = $("#r_rating") !== null;
 let valid_r_comment = $("#r_comment") !== null;
 let valid_r_image = $("#r_img_input") !== null;
@@ -290,7 +290,7 @@ $("#r_name").on("input", () => {
     } else {
         $("#r_name").removeClass("valid");
         $("#r_name").addClass("invalid");
-        if(!$("#r_name_err").html()) {
+        if (!$("#r_name_err").html()) {
             $('<div class="error" id="r_name_err">The name must be between 3 and 50 characters</div>').insertAfter("#r_name");
         }
         valid_r_name = false;
@@ -309,7 +309,7 @@ $("#r_rating").on("input", () => {
     } else {
         $("#r_rating").removeClass("valid");
         $("#r_rating").addClass("invalid");
-        if(!$("#r_rating_err").html()) {
+        if (!$("#r_rating_err").html()) {
             $('<div class="error" id="r_rating_err">The rating must be between 0 and 5</div>').insertAfter("#r_rating");
         }
         valid_r_rating = false;
@@ -328,7 +328,7 @@ $("#r_comment").on("input", () => {
     } else {
         $("#r_comment").removeClass("valid");
         $("#r_comment").addClass("invalid");
-        if(!$("#r_comment_err").html()) {
+        if (!$("#r_comment_err").html()) {
             $('<div class="error" id="r_comment_err">The comment must be between 3 and 500 characters</div>').insertAfter("#r_comment");
         }
         valid_r_comment = false;
@@ -357,7 +357,7 @@ $("#r_img").on("drop", (e) => {
     //make the div darker
     $("#r_img").css("opacity", "1");
     $("#r_img_input").prop("files", e.originalEvent.dataTransfer.files);
-    $("#r_img_input").trigger("change");    
+    $("#r_img_input").trigger("change");
 });
 $("#r_img").on("click", () => {
     $("#r_img_input").click();
@@ -381,7 +381,7 @@ $("#r_img_input").on("change", () => {
         $("#r_img").html('<i class="text-primary fa fa-image fa-2xl"></i>');
         //remove the background image
         $("#r_img").css("background-image", "none");
-        if(!$("#r_img_err").html()) {
+        if (!$("#r_img_err").html()) {
             $('<div class="error" id="r_img_err">The image must be a jpg, jpeg, png or gif less than 2MB</div>').insertAfter("#r_img");
         }
         valid_r_image = false;

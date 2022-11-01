@@ -11,8 +11,8 @@ ini_set('upload_max_filesize', '2M');
 
 session_start();
 //globals
-$api_url = "http://imy.up.ac.za/IMY220/u21467456/api.php";
-// $api_url = "http://localhost/api.php";
+// $api_url = "http://imy.up.ac.za/IMY220/u21467456/api.php";
+$api_url = "http://localhost/api.php";
 $api_headers = array(
     "Accept: application/json",
     "Content-Type: application/json",
@@ -27,14 +27,14 @@ class DBH
         This class is a singleton that handles the database connection
     */
     //connection info
-    private $host = 'localhost';
-    private $dbname = 'u21467456';
-    private $username = 'u21467456';
-    private $password = 'ejimskut';
     // private $host = 'localhost';
     // private $dbname = 'u21467456';
-    // private $username = 'root';
-    // private $password = '';
+    // private $username = 'u21467456';
+    // private $password = 'ejimskut';
+    private $host = 'localhost';
+    private $dbname = 'u21467456';
+    private $username = 'root';
+    private $password = '';
     private $charset = 'utf8mb4';
     private $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

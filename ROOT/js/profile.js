@@ -35,11 +35,11 @@ $(() => {
                 "scope": "self",
                 "id": user_id,
             }),
-            success: function(resp, status){//succesful query
+            success: function (resp, status) {//succesful query
                 populate_events(resp);
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
@@ -59,11 +59,11 @@ $(() => {
                 "return": "reviewed",
                 "id": user_id,
             }),
-            success: function(resp, status){//succesful query
+            success: function (resp, status) {//succesful query
                 populate_events(resp);
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
@@ -83,26 +83,26 @@ $(() => {
                 "return": "lists",
                 "id": user_id,
             }),
-            success: function(resp, status){//succesful query
+            success: function (resp, status) {//succesful query
                 populate_galleries(resp);
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
     //populate the events
     const populate_events = (resp) => {
         //clear events
-        clear_events();       
-        if(resp.status == "success" && resp.data.return.length > 0){
+        clear_events();
+        if (resp.status == "success" && resp.data.return.length > 0) {
             //Load the events
             let events = resp.data.return;
             events.forEach((event, index) => {
                 $("#events_inner").append(event_template(event, index));
             });
         }
-        else{
+        else {
             $("#error_e").show();
             $("#error_e").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
@@ -111,14 +111,14 @@ $(() => {
     const populate_galleries = (resp) => {
         //clear galleries
         clear_galleries();
-        if(resp.status == "success" && resp.data.return.length > 0){
+        if (resp.status == "success" && resp.data.return.length > 0) {
             //Load the galleries
             let galleries = resp.data.return;
             galleries.forEach((gallery) => {
                 $("#galleries_inner").append(gallery_template(gallery));
             });
         }
-        else{
+        else {
             $("#error_g").show();
             $("#error_g").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
@@ -156,8 +156,8 @@ $(() => {
                 "e_img": e_img,
                 "e_type": e_type,
             }),
-            success: function(resp, status){//succesful query
-                if(resp.status == "success"){
+            success: function (resp, status) {//succesful query
+                if (resp.status == "success") {
                     //submit the form
                     $("#event_form").submit();
                     //clear the form
@@ -167,17 +167,17 @@ $(() => {
                     $("#e_time").val("");
                     $("#e_location").val("");
                     $("#e_img").val("");
-                    $("#e_type").val("");       
+                    $("#e_type").val("");
                     //load the events
                     load_events();
                 }
-                else{
+                else {
                     //append an error message
                     $("#event_form").append(error_template(resp.data.message));
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
@@ -203,8 +203,8 @@ $(() => {
                 "l_name": g_name,
                 "l_desc": g_desc,
             }),
-            success: function(resp, status){//succesful query
-                if(resp.status == "success"){
+            success: function (resp, status) {//succesful query
+                if (resp.status == "success") {
                     //submit the form
                     $("#gallery_form").submit();
                     //clear the form
@@ -213,13 +213,13 @@ $(() => {
                     //load the galleries
                     load_galleries();
                 }
-                else{
+                else {
                     //append an error message
                     $("#gallery_form").append(error_template(resp.data.message));
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
@@ -241,7 +241,7 @@ $(() => {
         $("#galleries_inner").empty();
     };
     //error handler
-    const error_handler = (xhr,status,error) => {
+    const error_handler = (xhr, status, error) => {
         //clear events
         clear_events();
         $("#error").show();
@@ -269,9 +269,9 @@ $(() => {
                 "follow_id": user_id,
                 "follow_name": $("#username").html(),
             }),
-            success: function(resp, status){//succesful query
+            success: function (resp, status) {//succesful query
                 let count = $(".followers").html();
-                if(f === "follow"){
+                if (f === "follow") {
                     $("#follow").addClass('d-none');
                     $("#unfollow").removeClass('d-none');
                     $("#DM").removeClass('d-none');
@@ -279,8 +279,8 @@ $(() => {
                     //replace the text after .followers and .following with a trigger
                     $(".followers-wrapper").html($(".followers-wrapper").html().replace('Followers', '<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_followers">Followers</a>'));
                     $(".following-wrapper").html($(".following-wrapper").html().replace('Following', '<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_following">Following</a>'));
-                } 
-                else if(f === "unfollow"){
+                }
+                else if (f === "unfollow") {
                     $("#follow").removeClass('d-none');
                     $("#unfollow").addClass('d-none');
                     $("#DM").addClass('d-none');
@@ -290,8 +290,8 @@ $(() => {
                     $(".following-wrapper").html($(".following-wrapper").html().replace('<a href="" data-bs-toggle="modal" data-bs-target="#follow_modal" id="show_following">Following</a>', 'Following'));
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
@@ -311,11 +311,11 @@ $(() => {
                 "return": f,
                 "id": user_id,
             }),
-            success: function(resp, status){//succesful query     
+            success: function (resp, status) {//succesful query     
                 populate_followers_following(resp, f);
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
@@ -324,20 +324,20 @@ $(() => {
         $("#follow_list").empty();
         $("#follow_modal_label").empty();
         $("#follow_modal_label").text("F" + f.slice(1));
-        if(resp.status === "success" && resp.data.return.length > 0){
+        if (resp.status === "success" && resp.data.return.length > 0) {
             let follow = resp.data.return;
-            if(f === "followers"){
+            if (f === "followers") {
                 follow.forEach(user => {
                     $("#follow_list").append(follower_template(user));
                 });
             }
-            else{
+            else {
                 follow.forEach(user => {
                     $("#follow_list").append(following_template(user));
                 });
             }
         }
-        else{
+        else {
             $("#follow_list").append(error_template_blank(resp.data.message));
         }
     }
@@ -348,7 +348,7 @@ $(() => {
      */
     //populate the edit_profile modal with the user's info that we have on the page
     const populate_edit_profile = () => {
-        if($("#username").text() !== ""){
+        if ($("#username").text() !== "") {
             $("#u_profile").text($(".profile-photo img").attr("src").split("/").pop());
             //make the background image the same as the profile photo
             $("#u_profile").css("background-image", "url(" + $(".profile-photo img").attr("src") + ")");
@@ -381,8 +381,8 @@ $(() => {
                 "u_age": $("#u_age").val(),
                 "u_profile": $("#u_profile").text(),
             }),
-            success: function(resp, status){//succesful query
-                if(resp.status === "success"){
+            success: function (resp, status) {//succesful query
+                if (resp.status === "success") {
                     //submit the form to upload the profile picture
                     $("#edit_profile_form").submit();
                     //update the page with the new info
@@ -393,12 +393,12 @@ $(() => {
                     $(".age").text($("#u_age").val());
                     $(".profile-photo img").attr("src", "media/uploads/profiles/" + $("#u_profile").text());
                 }
-                else{
+                else {
                     $("#edit_profile").modal("hide");
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         })
     }
@@ -430,7 +430,7 @@ $(() => {
         follow_unfollow("follow");
     });
     $("#unfollow").on("click", () => {
-        follow_unfollow("unfollow");        
+        follow_unfollow("unfollow");
     });
     //if the following tab is clicked, load the user's following
     $("#show_following").on("click", () => {
@@ -442,27 +442,27 @@ $(() => {
     });
     //if the submit_event button is clicked, validate and submit the event
     $("#submit_event").on("click", (e) => {
-        if(validate_event()){
+        if (validate_event()) {
             //hide the modal
-            $("#event_modal").modal("hide"); 
+            $("#event_modal").modal("hide");
             add_event();
         }
         e.preventDefault();
     });
     //if the submit_list button is clicked, validate and submit the gallery
     $("#submit_list").on("click", (e) => {
-        if(validate_list()){
+        if (validate_list()) {
             //hide the modal
-            $("#list_modal").modal("hide"); 
+            $("#list_modal").modal("hide");
             add_list();
         }
         e.preventDefault();
     });
     //if the submit_edit_profile button is clicked, validate and submit the profile edit
     $("#submit_edit_profile").on("click", (e) => {
-        if(validate_edit_profile()){
+        if (validate_edit_profile()) {
             //hide the modal
-            $("#edit_profile_modal").modal("hide"); 
+            $("#edit_profile_modal").modal("hide");
             edit_profile();
         }
         e.preventDefault();

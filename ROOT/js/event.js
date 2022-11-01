@@ -65,8 +65,8 @@ $(() => {
                 "e_img": e_img,
                 "e_type": e_type,
             }),
-            success: function(resp, status){//succesful query
-                if(resp.status === "success"){
+            success: function (resp, status) {//succesful query
+                if (resp.status === "success") {
                     //submit the form to upload the profile picture
                     $("#event_form").submit();
                     //update the page with the new info
@@ -79,13 +79,13 @@ $(() => {
                     $('.event-type').text(e_type);
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         });
     }
     //error handler
-    const error_handler = (xhr,status,error) => {
+    const error_handler = (xhr, status, error) => {
         $("#error").show();
         $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
     }
@@ -115,12 +115,12 @@ $(() => {
                 "e_id": event_id,
                 "l_id": list_id,
             }),
-            success: function(resp, status){//succesful query
+            success: function (resp, status) {//succesful query
                 //submit form
                 $("#add_to_list_form").submit();
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         });
     }
@@ -143,15 +143,15 @@ $(() => {
                 "return": "lists",
                 "id": u_id,
             }),
-            success: function(resp, status){//succesful query
-                if(resp.status === "success" && resp.data.return.length > 0){
+            success: function (resp, status) {//succesful query
+                if (resp.status === "success" && resp.data.return.length > 0) {
                     //add the lists to the modal
                     resp.data.return.forEach(list => {
                         $("#l_id").append(`<option value="${list.l_id}">${list.l_name}</option>`);
                     });
                     $("#add_to_list_btn").prop("disabled", false);
                 }
-                else{
+                else {
                     $("#l_id").append(`<option value="-1">No galleries found</option>`);
                     $("#add_to_list_btn").prop("disabled", true);
                     $("#add_to_list_btn").prop("title", "You must create a gallery first");
@@ -159,8 +159,8 @@ $(() => {
                     $("#l_id").after(`<p class="text-muted">You must create a gallery first, greate a gallery <a href="profile.php?id=${u_id}">here</a></p>`);
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         });
     }
@@ -181,10 +181,10 @@ $(() => {
     }
     //rate the event
     const rate_event = (max) => {
-        for(var i = 0; i <= max; i++){
-            $('#rate .fa-star:eq('+i+')').css('color', 'var(--accB)');
+        for (var i = 0; i <= max; i++) {
+            $('#rate .fa-star:eq(' + i + ')').css('color', 'var(--accB)');
         }
-        $('#r_rating').val(max+1);
+        $('#r_rating').val(max + 1);
     }
     //clear the stars
     const clear_stars = () => {
@@ -225,16 +225,16 @@ $(() => {
                 "r_comment": r_comment,
                 "r_img": r_img,
             }),
-            success: function(resp, status){//succesful query
-                if(resp.status === "success"){
+            success: function (resp, status) {//succesful query
+                if (resp.status === "success") {
                     //submit the form to upload the review picture
                     $("#review_form").submit();
                     //update the page with the new info
                     $('.reviews').append(review_template(review));
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         });
     }
@@ -256,19 +256,19 @@ $(() => {
                 "return": "reviews",
                 "id": event_id,
             }),
-            success: function(resp, status){//succesful query
-                if(resp.status === "success" && resp.data.return.length > 0){
+            success: function (resp, status) {//succesful query
+                if (resp.status === "success" && resp.data.return.length > 0) {
                     //add the reviews to the modal
                     resp.data.return.forEach(review => {
                         $('#view_reviews_modal #reviews').append(review_template(review));
                     });
                 }
-                else{
+                else {
                     $('#view_reviews_modal #reviews').append(`<p class="text-muted text-center">No reviews found</p>`);
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         });
     }
@@ -283,7 +283,7 @@ $(() => {
     clear_stars();
     //when the submit button is clicked, edit and submit the event
     $("#submit_event").on("click", (e) => {
-        if(validate_event()){
+        if (validate_event()) {
             //hide the modal
             $("#event_modal").modal("hide");
             edit_event();
@@ -291,26 +291,26 @@ $(() => {
         e.preventDefault();
     });
     //when a star is clicked on, rate the event
-    $('#rate').on('click', '.fa-star', function(e) {
+    $('#rate').on('click', '.fa-star', function (e) {
         rating = parseInt($(this).data('index'));
         rate_event(rating);
     });
     //when the mouse leaves the stars, clear the stars
     $('#rate').on('mouseleave', '.fa-star', () => {
         clear_stars();
-        if(rating != -1){
+        if (rating != -1) {
             rate_event(rating);
         }
     });
     //when a star is hovered over, change the color
-    $('#rate').on('mouseover', '.fa-star', function(e){
+    $('#rate').on('mouseover', '.fa-star', function (e) {
         clear_stars();
         rating = parseInt($(this).data('index'));
         rate_event(rating);
     });
     //when the submit review button is clicked, submit the review
     $('#submit_review').on('click', (e) => {
-        if(validate_review()){
+        if (validate_review()) {
             review_event();
         }
         e.preventDefault();
@@ -325,7 +325,7 @@ $(() => {
     });
     //when the add-to-list button is clicked, add the event to the list
     $('#add_to_list').on('click', (e) => {
-        if($('l_id').val() != " " || $('l_id').val() != null){
+        if ($('l_id').val() != " " || $('l_id').val() != null) {
             add_event_to_list();
         }
         e.preventDefault();

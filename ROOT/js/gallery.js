@@ -29,7 +29,7 @@ $(() => {
         const list_desc = $('#l_desc').val();
         //make an array of all the event card id's on the page (all the events in the gallery)
         const event_ids = [];
-        $('.event-card').each(function(){
+        $('.event-card').each(function () {
             event_ids.push($(this).attr('id'));
         });
         const l_events = event_ids.join(',');
@@ -54,18 +54,18 @@ $(() => {
             }),
             success: (resp, status) => {
                 //if the response is successful, update the page with the new details
-                if(resp.status === "success"){
+                if (resp.status === "success") {
                     $('.list-name').text(list_name);
                     $('.list-description').text(list_desc);
                 }
             },
-            error: function(xhr,status,error){//error handling
-                error_handler(xhr,status,error);
+            error: function (xhr, status, error) {//error handling
+                error_handler(xhr, status, error);
             }
         });
     }
     //error handler
-    const error_handler = (xhr,status,error) => {
+    const error_handler = (xhr, status, error) => {
         $("#error").show();
         $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
     }
@@ -74,14 +74,14 @@ $(() => {
      * EVENT HANDLERS
      * 
      */
-     populate_edit_list_modal();
+    populate_edit_list_modal();
     //when the edit_list button is clicked, populate the modal with the gallery's details
     $('#edit_list').on('click', () => {
         populate_edit_list_modal();
     });
     //when the submit_list button is clicked, update the gallery's details
     $('#submit_list').on('click', (e) => {
-        if(validate_list()){
+        if (validate_list()) {
             //close the modal
             $('#list_modal').modal('hide');
             edit_list();

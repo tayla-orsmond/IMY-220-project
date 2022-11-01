@@ -13,7 +13,7 @@
     Password Regex
 
 */
-import {validate_email, validate_password, email_err, psw_err, submit_err} from './validate.js';
+import { validate_email, validate_password, email_err, psw_err, submit_err } from './validate.js';
 
 $(() => {
     //VARIABLES

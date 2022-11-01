@@ -4,7 +4,7 @@
 //Description: This file contains the code for the messages page
 // Allowing the user to send messages to other users that have a mutual following relationship
 // Also allows the user to view their chats with other users and view the messages sent and received
-import { error_template_blank, chat_template, message_template} from "./template.js";
+import { error_template_blank, chat_template, message_template } from "./template.js";
 import { get_cookie } from "./cookie.js";
 
 $(() => {
@@ -25,10 +25,10 @@ $(() => {
                     "user_id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                     "return": "chats"
                 }),
-                success: function(resp, status){//succesful query
+                success: function (resp, status) {//succesful query
                     resolve(resp);
                 },
-                error: function(error){//error handling
+                error: function (error) {//error handling
                     reject(error);
                 }
             });
@@ -36,12 +36,12 @@ $(() => {
     }
     //populate the chats div with the users chats
     const populate_chats = (resp) => {
-        if(resp.status == "success" && resp.data.return.length > 0){
+        if (resp.status == "success" && resp.data.return.length > 0) {
             resp.data.return.forEach(chat => {
                 $("#chats").append(chat_template(chat));
             });
         }
-        else{
+        else {
             $("#chats").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
     }
@@ -63,10 +63,10 @@ $(() => {
                     "return": "chat",
                     "receiver_id": chat_id
                 }),
-                success: function(resp, status){//succesful query
+                success: function (resp, status) {//succesful query
                     resolve(resp);
                 },
-                error: function(error){//error handling
+                error: function (error) {//error handling
                     reject(error);
                 }
             });
@@ -79,12 +79,12 @@ $(() => {
         $("#chat_header").append(`<h3 id="${chat_id}"><i class="fa-regular fa-comments"></i> <a href="profile.html?id=${chat_id}">@${chat_name}</a></h3>`);
         //clear the messages div
         $("#chat_messages").empty();
-        if(resp.status === "success" && resp.data.return.length > 0){
+        if (resp.status === "success" && resp.data.return.length > 0) {
             resp.data.return.forEach(message => {
                 $("#chat_messages").prepend(message_template(message, chat_id));
             });
         }
-        else{
+        else {
             $("#chat_messages").append(error_template_blank("It's a still life over here. " + resp.data.message));
         }
     }
@@ -106,10 +106,10 @@ $(() => {
                     "receiver_id": chat_id,
                     "message": message
                 }),
-                success: function(resp, status){//succesful query
+                success: function (resp, status) {//succesful query
                     resolve(resp);
                 },
-                error: function(error){//error handling
+                error: function (error) {//error handling
                     reject(error);
                 }
             });
@@ -139,7 +139,7 @@ $(() => {
         $("#chats").empty();
         populate_chats(resp);
         //if the chat id is not equal to the current user id
-        if(chat_ != "-1" && chat_ != get_cookie("user_id", document.cookie.split(";"))){
+        if (chat_ != "-1" && chat_ != get_cookie("user_id", document.cookie.split(";"))) {
             //load the messages for that chat
             load_messages(chat_).then((resp) => {
                 populate_messages(resp, chat_, chat_n);
@@ -165,7 +165,7 @@ $(() => {
     })
 
     //load the users messages for a specific chat when a chat is clicked
-    $(document).on("click", ".chat", function(){
+    $(document).on("click", ".chat", function () {
         $("#error").hide();
         //get the chat id
         const chat_id = $(this).attr("id");
@@ -192,7 +192,7 @@ $(() => {
         }, 1000);
     });
     //send a message when the send button is clicked
-    $(document).on("click", "#chat_send", (e) =>{
+    $(document).on("click", "#chat_send", (e) => {
         e.preventDefault();
         $("#error").hide();
         //get the chat id
@@ -201,7 +201,7 @@ $(() => {
         let message = $("#chat_message").val();
         message = message.trim();
         //send the message if not empty
-        if(message != ""){
+        if (message != "") {
             send_message(message, chat_id).then((resp) => {
                 //load the users messages for the chat
                 load_messages(chat_id).then((resp) => {

@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: '-100px',
         threshold: 0.1
     }
-    
-    const callback = entries =>{
+
+    const callback = entries => {
         entries.forEach(entry => {
-            if(entry.isIntersecting){
+            if (entry.isIntersecting) {
                 entry.target.style.transform = 'translateX(0)';
                 entry.target.style.opacity = '1';
                 io.unobserve(entry.target);
@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
     const io = new IntersectionObserver(callback, options);
-    
+
     const features = document.querySelectorAll('.feature');
     features.forEach((el) => {
-      io.observe(el);
+        io.observe(el);
     });
 });

@@ -44,19 +44,14 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="e_type">Type *</label>
-                        <select class="form-control" id="e_type" name="e_type" required>
-                            <option value="Event" selected>Event</option>
-                            <option value="Solo Exhibition">Solo Exhibition</option>
-                            <option value="Collective Exhibition">Collective Exhibition</option>
-                            <option value="Temporary Exhibition">Temporary Exhibition</option>
-                            <option value="Online Exhibition">Online Exhibition</option>
-                            <option value="Viewing">Viewing</option>
-                            <option value="Class">Class</option>
-                            <option value="Performance">Performance</option>
-                            <option value="Play">Play</option>
-                            <option value="Competition">Competition</option>
-                            <option value="Festival">Festival</option>
-                            <option value="Other">Other</option>
+                        <select class="form-select" id="e_type" name="e_type" required>
+                            <option value="" selected disabled>Select an event type</option>
+                            <?php
+                                $types = json_decode(file_get_contents("json/event_types.json"), true);
+                                foreach ($types as $type) {
+                                    echo '<option value="'.$type.'" '. ($type == $types[0] ? "selected" : "") .'>'.$type.'</option>';
+                                }
+                            ?>
                         </select>
                     </div>
                     <div class="form-group mb-3">

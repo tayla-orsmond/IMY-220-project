@@ -5,7 +5,7 @@
 //Also allows the admin to view all events and delete events
 
 import { get_cookie } from "./cookie.js";
-import { event_template_admin, user_template_admin, gallery_template_admin, error_template_blank } from "./template.js";
+import { event_template_admin, user_template_admin, gallery_template_admin, error_template_blank, tag_template, category_template } from "./template.js";
 
 $(() => {
     //get all events
@@ -33,6 +33,7 @@ $(() => {
             }
         })
     }
+
     //populate events
     const populate_events = (resp) => {
         $("#events").empty();
@@ -40,10 +41,81 @@ $(() => {
             resp.data.return.forEach((event) => {
                 $("#events").append(event_template_admin(event));
             });
+
+            //populate tags and categories
+            $("#tags").html("");
+            $("#types").html("");
+            let categories = sort_event_categories(resp.data.return);
+            let tags = sort_event_tags(resp.data.return);
+            categories.forEach((category) => {
+                $("#types").append(category_template(category, categories.length));
+            });
+            tags.forEach((tag) => {
+                $("#tags").append(tag_template(tag));
+            });
         }
         else {
             $("#events").append("<p class='text-center'>No events to display</p>");
         }
+    }
+
+    //search through event descriptions and sort them by most popular hashtags
+    const sort_event_tags = (events) => {
+        //test each description for hashtags with regex
+        let tags = [];
+        events.forEach((event) => {
+            let tag = [...event.e_desc.matchAll(/#\w+/g)];
+            if (tag != null) {
+                tags = tags.concat(tag);
+            }
+        });
+        //sort tags by frequency
+        let tag_count = {};
+        tags.forEach((tag) => {
+            if (tag_count[tag] == null) {
+                tag_count[tag] = 1;
+            }
+            else {
+                tag_count[tag]++;
+            }
+        });
+        //sort tags by frequency
+        let sortable = [];
+        for (let tag in tag_count) {
+            sortable.push([tag, tag_count[tag]]);
+        }
+        sortable.sort(function (a, b) {
+            return b[1] - a[1];
+        });
+        return sortable;
+    }
+
+    //search through event categories and sort them by most popular
+    const sort_event_categories = (events) => {
+        //count categories
+        let categories = [];
+        events.forEach((event) => {
+            categories.push(event.e_type);
+        });
+        //sort categories by frequency
+        let category_count = {};
+        categories.forEach((category) => {
+            if (category_count[category] == null) {
+                category_count[category] = 1;
+            }
+            else {
+                category_count[category]++;
+            }
+        });
+        //sort categories by frequency
+        let sortable = [];
+        for (let category in category_count) {
+            sortable.push([category, category_count[category]]);
+        }
+        sortable.sort(function (a, b) {
+            return b[1] - a[1];
+        });
+        return sortable;
     }
 
     //load all users

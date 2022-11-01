@@ -54,9 +54,9 @@
             unset($_SESSION["signup_err"]);
         }
         ?>
-        <div class="d-flex justify-content-aroundborder">
+        <div class="d-lg-flex d-block justify-content-around border">
             <form action="php/signup-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
-                <div class="d-flex justify-content-between mb-3">
+                <div class="d-lg-flex col-12 flex-wrap justify-content-between mb-3">
                     <div class="form-floating me-3">
                         <input type="text" class="form-control border-0 border-bottom" id="username" name="username" placeholder="@jeantheswinger" required>
                         <label for="username">username</label>
@@ -85,7 +85,7 @@
                 <p class="text-primary">Already have an account? <a class="text-secondary" href="login.php">Log in</a>.</p>
                 <button type="submit" class="btn submit-btn align-self-end" name="signup" id="signup"><span class="h1">sign up.</span></button>
             </form>
-            <img src="https://images.unsplash.com/photo-1631383591182-aa24205c089a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80" class="img-fluid" alt="Image by Girl with red hat on Unsplash">
+            <img src="https://images.unsplash.com/photo-1631383591182-aa24205c089a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80" class="img-fluid col-12 col-lg-6" alt="Image by Girl with red hat on Unsplash">
         </div>
     </div>
     <?php

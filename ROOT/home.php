@@ -38,9 +38,9 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <nav class="d-flex justify-content-between align-items-center px-3">
+                <nav class="d-flex flex-column flex-wrap flex-lg-row justify-content-lg-between align-items-lg-center px-3">
                     <!--Nav-->
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs flex-column flex-wrap flex-md-row">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#" id="local"><span class="h5">local folios.</span></a>
                         </li>
@@ -53,7 +53,7 @@
                     </ul>
                     <form>
                         <!--Search-->
-                        <div class="input-group">
+                        <div class="input-group p-3 p-lg-0">
                             <input type="text" class="form-control" id="search-input" placeholder="Search worldwide">
                             <button type="submit" class="btn btn-outline-dark" id="search"><i class="fa fa-search"></i></button>
                         </div>
@@ -65,8 +65,8 @@
         </div>
         <div class="row p-3 border" id="event_area">
             <!--EVENT AREA-->
-            <div class="col-6 offset-3" id="error_area"></div>
-            <div class="col-4 primary-event-outer">
+            <div class="col-12 col-lg-6 offset-3" id="error_area"></div>
+            <div class="col-12 col-lg-4 primary-event-outer">
                 <p class="h3 text-light">Welcome Home</p>
                 <p class="text-light">Here you will find events from people you know and people all across the globe. Discover new events, review events and make new friends, all right here on this nifty little dash.</p>
                 <p class="h4 text-light">Featured Event:</p>
@@ -74,7 +74,7 @@
                 <div id="event_primary"></div>
             </div>
             <!--End Primary event-->
-            <div class="col-8 scroller">
+            <div class="col-12 col-lg-8 scroller">
                 <!--EVENT AREA OUTER (holder for event rows + scrollable container)-->
                 <div id="ea_1" class="align-items-center event-area-inner">
                     <!--EVENT AREA INNER 1 (where the 1st row of events are loaded-->

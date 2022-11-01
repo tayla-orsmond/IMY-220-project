@@ -86,7 +86,7 @@
             //echo out the event data
             echo '
                 <div class="row">
-                    <div class="col-8 p-3 d-flex flex-column">
+                    <div class="col-12 col-lg-8 p-3 d-flex flex-column">
                     <img src="media/uploads/events/' . $event["e_img"] . '" class="img-fluid w-100 event-img" alt="...">';
             if ($event["u_rid"] == $_SESSION['user_id'] || $_SESSION['user_admin'] == 1) {
                 echo '
@@ -155,8 +155,8 @@
 
             //if there are no reviews, display a message
             //echo out the reviews
-            echo '
-                    <div class="col-4">
+            echo '<hr class="d-lg-none"/>
+                    <div class="col-12 col-lg-4">
                         <div class="p-2 border">
                             <h3>Reviews and Ratings</h3>';
             if ((isset($_SESSION['user_id']) && $_SESSION['user_id'] != $event["u_rid"]) || $_SESSION['user_admin'] == 1) {

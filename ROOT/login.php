@@ -54,7 +54,7 @@
             unset($_SESSION["login_err"]);
         }
         ?>
-        <div class="d-flex justify-content-around border">
+        <div class="d-lg-flex d-block col-12 justify-content-around border">
             <form action="php/login-handler.php" method="post" class="d-flex flex-column flex-fill p-5">
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control border-0 border-bottom" id="email" name="email" placeholder="Jean-Honoré-Fragonard@gmail.com" required>
@@ -67,7 +67,7 @@
                 <p class="text-primary">Don't have an account? <a class="text-secondary" href="signup.php">Sign up</a>.</p>
                 <button type="submit" class="btn submit-btn align-self-end" name="login" id="login"><span class="h1">log in.</span></button>
             </form>
-            <img src="https://images.unsplash.com/photo-1604140193916-187755174ecf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=692&q=80" alt="..." class="img-fluid" />
+            <img src="https://images.unsplash.com/photo-1604140193916-187755174ecf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=692&q=80" alt="..." class="img-fluid col-12 col-lg-6" />
         </div>
     </div>
     <?php

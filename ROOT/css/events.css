@@ -137,3 +137,11 @@ div[class~="carousel-item"] img {
 #delete_review {
     font-size: 0.8rem;
 }
+
+@media screen and (max-width: 991px) {
+    .event-area-inner,
+    .user-area-inner {
+        grid-auto-columns: 100%;
+        gap: 0.5rem;
+    }
+}

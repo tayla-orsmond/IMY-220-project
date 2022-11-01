@@ -48,10 +48,10 @@
                 <p>It may take a few seconds for changes to reflect</p>
                 <hr />
             </div>
-            <div class="col-4">
+            <div class="col-6 col-lg-4 offset-3 offset-lg-0">
                 <img src="https://lh4.googleusercontent.com/tYeevzv-SPodmhPW2Q61Ej5Y5qsHEG72J38m5s85wcnVPvea_w8OuSC5hMdSKx4a15GtOMauytVLR3fk6XDCKtr3JTvipLQk8_OjbxQ2gM32UIGrbsdJKun08JbHSZlz-HTINSUt" alt="..." class="img-fluid">
             </div>
-            <div class="col-8 d-flex flex-column bg-light p-3">
+            <div class="col-12 col-lg-8 d-flex flex-column bg-light p-3">
                 <div class="col-12">
                     <h3>Most Popular Hashtags:</h3>
                     <div id="tags" class="d-flex flex-wrap justify-content-aorund gap-2">
@@ -62,14 +62,14 @@
                         <!-- Most popular event types will be displayed here -->
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <!--allow admins to write to the event_types json file
                         - add new event types
                         - delete event types
                         and write to this file in php
                     -->
                     <h3>Manage Event Types</h3>
-                    <div class="d-flex flex-column gap-2">
+                    <div class="d-flex flex-wrap flex-column gap-2">
                         <form action="" method="post" class="d-flex flex-row gap-2">
                             <input type="text" name="add_type" id="add_type" class="form-control" placeholder="New Event Type">
                             <button type="submit" id="add_type_btn" class="btn btn-dark" onClick="<?php 
@@ -122,7 +122,7 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="usersAccordionHeading" data-bs-parent="#usersAccordion">
                             <div class="accordion-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive table-sm">
                                     <table class="table table-striped table-hover">
                                         <caption>List of users</caption>
                                         <thead>
@@ -188,12 +188,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-8 p-3">
+            <div class="col-12 col-lg-8 p-3">
                 <h2 class="text-center">Galleries</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-8 p-3">
+            <div class="col-12 col-lg-8 p-3">
                 <div class="accordion" id="galleriesAccordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="galleriesAccordionHeading">
@@ -225,7 +225,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-lg-3">
                 <img src="https://payload.cargocollective.com/1/8/260231/13821093/Untitled-Session02916_kkedit-2-copy_912.jpg" alt="..." class="img-fluid">
             </div>
         </div>

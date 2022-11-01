@@ -80,10 +80,10 @@
                     <p class="list-description text-secondary">' . $list['l_desc'] . '</p>
                 </div>';
         ?>
-        <div class="d-flex flex-wrap border p-3 events-area-inner">
+        <div class="border d-lg-flex flex-lg-wrap p-3">
             <?php
             if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $list['u_rid'] || $_SESSION['user_admin'] == 1) {
-                echo '<div class="w-100 d-flex justify-content-end gap-3">
+                echo '<div class="w-100 d-flex justify-content-start justify-content-lg-end gap-3">
                                 <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#list_modal" id="edit_list">Edit gallery</div>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_list_modal">Delete Gallery</button>
                             </div>';
@@ -135,7 +135,7 @@
                         echo '
                                     <div>';
                         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $list['u_rid'] || $_SESSION['user_admin'] == 1) {
-                            echo '<span class="btn btn-dark align-self-start remove_event" id="remove_' . $event['e_id'] . '"><i class="fa fa-trash"></i></span>';
+                            echo '<span class="btn btn-dark mt-2 mt-lg-0 align-self-start remove_event" id="remove_' . $event['e_id'] . '"><i class="fa fa-trash"></i></span>';
                         }
                         echo '                                        
                             <div class="card event-card" id="' . $event['e_id'] . '">

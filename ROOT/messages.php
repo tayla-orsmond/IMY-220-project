@@ -35,14 +35,14 @@
     <div class="container p-5 container-box">
         <div id="error"></div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-lg-4">
                 <h2>Friends</h2>
                 <hr>
                 <div id="chats">
                     <!-- Chats will be displayed here -->
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-12 col-lg-8">
                 <div id="chat_header">
                     <!-- Chat header > user details will be displayed here -->
                     <?php if (isset($_GET['chat']) && $_GET['chat'] != $_SESSION['user_id']) {

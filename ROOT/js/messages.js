@@ -148,7 +148,6 @@ $(() => {
         $("#error").empty();
         $("#error").show();
         $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
-        console.log(error["responseText"]);
     }
     /**
      * 
@@ -182,8 +181,7 @@ $(() => {
                 error_handler(error);
             });
             read_messages(chat_).then((resp) => {
-                console.log(resp);
-                $(`#${chat_id} .unread-dot`).addClass("d-none");
+                $(`#${chat_} .unread-dot`).addClass("d-none");
             }).catch((error) => {
                 error_handler(error);
             });
@@ -223,7 +221,6 @@ $(() => {
             error_handler(error);
         });
         read_messages(chat_id).then((resp) => {
-            console.log(resp);
             $(`#${chat_id} .unread-dot`).addClass("d-none");
         }).catch((error) => {
             error_handler(error);

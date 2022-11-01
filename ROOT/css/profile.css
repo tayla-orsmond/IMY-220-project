@@ -32,3 +32,10 @@ img[class*="rounded-circle"] {
 #events_inner .event-card {
     flex-basis: 33%;
 }
+
+@media screen AND (max-width: 991px) {
+    #events_inner {
+        display: block;
+    }
+    
+}

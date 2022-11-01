@@ -95,7 +95,7 @@ div[class*="card"] {
     white-space: nowrap;
     scroll-behavior: smooth;
     overscroll-behavior-inline: contain;
-    scroll-snap-type: mandatory;
+    scroll-snap-type: x mandatory;
     scroll-snap-align: start;
 }
 

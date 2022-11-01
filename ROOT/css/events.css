@@ -5,11 +5,12 @@
  * 
  */
 /* EVENT CARDS */
-#event-area {
+#event_area {
     min-height: 30rem;
 }
 
-.event-area-inner {
+.event-area-inner,
+.user-area-inner {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 36%;
@@ -33,6 +34,30 @@
     color: var(--light);
     transform: scale(0.95);
     background-color: var(--dark);
+}
+
+/* USER CARDS */
+.user-card {
+    max-height: 12rem;
+    overflow-y: hidden;
+    transition: all 0.4s ease;
+}
+
+.user-card:hover {
+    transform: scale(0.95);
+    background-color: var(--dark);
+    color: var(--light) !important;
+}
+
+.user-card:hover a {
+    color: var(--light) !important;
+}
+
+.user-card img {
+    max-height: 4rem;
+    height: 4rem;
+    width: 4rem;
+    object-fit: cover;
 }
 
 /* PRIMARY EVENT CARD */
@@ -91,7 +116,8 @@ div[class~="carousel-item"] img {
 }
 
 /* NEW BADGE */
-.badge-new {
+.badge-new,
+.badge-admin {
     background-color: var(--accY) !important;
     color: var(--light) !important;
     font-size: 0.8rem;
@@ -99,7 +125,11 @@ div[class~="carousel-item"] img {
     border-radius: 0.5rem;
 }
 
-.review-comment{
+.badge-admin {
+    background-color: var(--accR) !important;
+}
+
+.review-comment {
     padding-bottom: 1rem;
     border-bottom: 0.1rem solid var(--dark);
     border-radius: 0.5rem;

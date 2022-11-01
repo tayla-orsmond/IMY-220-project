@@ -42,10 +42,13 @@
                     <!--Nav-->
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#" id="local"><span class="h5">your folios.</span></a>
+                            <a class="nav-link active" aria-current="page" href="#" id="local"><span class="h5">local folios.</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="#" id="global"><span class="h5">global folios.</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#" id="users"><span class="h5">people.</span></a>
                         </li>
                     </ul>
                     <form>
@@ -60,7 +63,7 @@
                 <!--End Nav-->
             </div>
         </div>
-        <div class="row p-3 border" id="event-area">
+        <div class="row p-3 border" id="event_area">
             <!--EVENT AREA-->
             <div class="col-6 offset-3" id="error_area"></div>
             <div class="col-4 primary-event-outer">
@@ -81,6 +84,7 @@
                 </div>
                 <!--END EA INNER 2-->
             </div>
+            <div class="col-12 user-area-inner scroller"></div>
             <!--END EA OUTER-->
         </div>
         <!--END EA-->

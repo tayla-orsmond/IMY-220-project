@@ -4,7 +4,7 @@
 //Description: This file contains js templates.
 
 //Event template
-export const event_template = ({e_img, e_name, e_location, e_rating, e_id}, index) => {
+export const event_template = ({ e_img, e_name, e_location, e_rating, e_id }, index) => {
     return `
     <div class="card event-card" id="${e_id}">
         <img src="media/uploads/events/${e_img}" class="card-img-top img-fluid" alt="...">
@@ -25,7 +25,7 @@ export const event_template = ({e_img, e_name, e_location, e_rating, e_id}, inde
     `;
 }
 //Primary event template
-export const primary_event_template = ({e_img, e_name, e_location, e_date, e_desc, e_rating, e_id}) => {
+export const primary_event_template = ({ e_img, e_name, e_location, e_date, e_desc, e_rating, e_id }) => {
     return `
     <div class="card text-bg-dark" id="event_primary">
         <img src="media/uploads/events/${e_img}" class="card-img" alt="...">
@@ -50,8 +50,30 @@ export const primary_event_template = ({e_img, e_name, e_location, e_date, e_des
     </div>
     `;
 }
+//User template
+export const user_template = ({ u_id, u_name, u_profile, u_display_name, u_bio, u_admin}) => {
+    return `
+    <div class="card user-card" id="${u_id}">
+        <div class="card-body">
+            <div class="d-flex justify-content-start align-items-start flex-wrap p-1">
+                <img src="media/uploads/profiles/${u_profile}" class="img-fluid rounded-circle m-2" alt="...">
+                <div>
+                    <h5 class="card-title text-truncate">${u_display_name}</h5>
+                    <p class="card-text">${u_admin ? `<span class="badge badge-admin">Admin</span>` : ``}</p>
+                </div>
+            </div>
+            <p class="card-text text-truncate">
+                <a href="profile.php?id=${u_id}">@${u_name}</a>
+                <p class="text-muted">${u_bio.trim() === "" ? "No Bio" : u_bio.trim()}</p>
+            </p>
+            <a href="profile.php?id=${u_id}" class="stretched-link"></a>
+        </div>
+    </div>
+    `;
+}
+
 //gallery template list item for a list group 
-export const gallery_template = ({l_name, l_id}) => {
+export const gallery_template = ({ l_name, l_id }) => {
     return `
     <li class="list-group-item my-2">
         <a href="gallery.php?id=${l_id}">${l_name}</a>
@@ -59,7 +81,7 @@ export const gallery_template = ({l_name, l_id}) => {
     `;
 }
 //follower template list item for a list group
-export const follower_template = ({u_fname, u_fid}) => {
+export const follower_template = ({ u_fname, u_fid }) => {
     return `
     <li class="list-group-item">
         <a href="profile.php?id=${u_fid}">@${u_fname}</a>
@@ -67,7 +89,7 @@ export const follower_template = ({u_fname, u_fid}) => {
     `;
 }
 //following template list item for a list group
-export const following_template = ({u_rname, u_rid}) => {
+export const following_template = ({ u_rname, u_rid }) => {
     return `
     <li class="list-group-item">
         <a href="profile.php?id=${u_rid}">@${u_rname}</a>
@@ -75,12 +97,12 @@ export const following_template = ({u_rname, u_rid}) => {
     `;
 }
 //review template
-export const review_template = ({u_rid, u_rname, r_name, r_comment, r_rating}) => {
+export const review_template = ({ u_rid, u_rname, r_name, r_comment, r_rating }) => {
     let stars = "";
-    for(var i = 0; i < r_rating; i++){
+    for (var i = 0; i < r_rating; i++) {
         stars += `<i class="fa fa-star fa-xl"></i>`;
     }
-    for(var i = 0; i < 5 - r_rating; i++){
+    for (var i = 0; i < 5 - r_rating; i++) {
         stars += `<i class="fa fa-star-o fa-xl"></i>`;
     }
     return `<div class="p-1 mt-2 review-box">
@@ -96,7 +118,7 @@ export const review_template = ({u_rid, u_rname, r_name, r_comment, r_rating}) =
     `;
 }
 //chat template
-export const chat_template = ({u_rid, u_rname}) => {
+export const chat_template = ({ u_rid, u_rname }) => {
     return `
     <div class="chat" id="${u_rid}">
         <div class="d-flex justify-content-between">
@@ -107,14 +129,14 @@ export const chat_template = ({u_rid, u_rname}) => {
     `;
 }
 //message template
-export const message_template = ({u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp}, reciever_id) => {
+export const message_template = ({ u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp }, reciever_id) => {
     //replace links with anchor tags
     //replace youtube links with embedded video
     c_message = c_message.replace(/(https?:\/\/www.youtube.com\/watch\?v=([^\s]+))/g, '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
     c_message = c_message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
-    
+
     //if the message is from the reciever
-    let align = u_rid == reciever_id ? "right offset-5" : "left";      
+    let align = u_rid == reciever_id ? "right offset-5" : "left";
     return `
     <div class="message-box col-6 ${u_sid} ${align}">
         <div class="bg-light p-3 rounded">
@@ -144,7 +166,7 @@ export const error_template_blank = (error) => {
 
 //event template for admin page
 //table row
-export const event_template_admin = ({e_id, e_name, u_rid, u_rname, e_location, e_date, e_time, e_img}) => {
+export const event_template_admin = ({ e_id, e_name, u_rid, u_rname, e_location, e_date, e_time, e_img }) => {
     return `
     <tr>
         <th scope="row">${e_id}</th>
@@ -167,7 +189,7 @@ export const event_template_admin = ({e_id, e_name, u_rid, u_rname, e_location, 
 
 //user template for admin page
 //table row
-export const user_template_admin = ({u_id, u_name, u_display_name, u_profile}) => {
+export const user_template_admin = ({ u_id, u_name, u_display_name, u_profile }) => {
     return `
     <tr>
         <th scope="row">${u_id}</th>
@@ -185,7 +207,7 @@ export const user_template_admin = ({u_id, u_name, u_display_name, u_profile}) =
 
 //list template for admin page
 //table row
-export const gallery_template_admin = ({l_id, u_rid, u_rname, l_name, l_desc}) => {
+export const gallery_template_admin = ({ l_id, u_rid, u_rname, l_name, l_desc }) => {
     return `
     <tr>
         <th scope="row">${l_id}</th>

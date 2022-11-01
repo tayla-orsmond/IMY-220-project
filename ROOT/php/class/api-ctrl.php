@@ -102,7 +102,7 @@
                 u_sid BIGINT not null,
                 FOREIGN KEY (u_sid) REFERENCES users(u_id) ON DELETE CASCADE,
                 c_message VARCHAR(1000) not null,
-                c_timestamp DATETIME not null.
+                c_timestamp DATETIME not null,
                 c_read BOOLEAN not null DEFAULT false
             );
         */
@@ -110,7 +110,7 @@
         public $inst;
         public $conn;
         //common errors
-        public $user_dne_err = "user does not exist";
+        public $user_dne_err = "User does not exist";
         public $no_events_err = "No events found";
         //response and resp error JSON objects
         public $curr_time; //curr time of request

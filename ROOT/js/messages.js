@@ -102,9 +102,37 @@ $(() => {
                 dataType: "json",
                 data: JSON.stringify({
                     "type": "chat",
+                    "chat": "send",
                     "user_id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                     "receiver_id": chat_id,
                     "message": message
+                }),
+                success: function (resp, status) {//succesful query
+                    resolve(resp);
+                },
+                error: function (error) {//error handling
+                    reject(error);
+                }
+            });
+        });
+    }
+    //read all messages in a chat
+    const read_messages = (chat_id) => {
+        return new Promise((resolve, reject) => {
+            //make the ajax call to read the messages
+            $.ajax({
+                url: api_url,
+                type: "POST",
+                accept: "application/json",
+                contentType: "application/json",
+                username: user_name,
+                password: api_key,
+                dataType: "json",
+                data: JSON.stringify({
+                    "type": "chat",
+                    "chat": "read",
+                    "user_id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
+                    "chat_id": chat_id
                 }),
                 success: function (resp, status) {//succesful query
                     resolve(resp);
@@ -120,6 +148,7 @@ $(() => {
         $("#error").empty();
         $("#error").show();
         $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
+        console.log(error["responseText"]);
     }
     /**
      * 
@@ -130,6 +159,7 @@ $(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const chat_ = urlParams.get('chat');
     const chat_n = urlParams.get('chatn');
+    let reload = null;
     //load the users chats
     //disable the send button
     $("#chat_send").prop("disabled", true);
@@ -145,10 +175,19 @@ $(() => {
                 populate_messages(resp, chat_, chat_n);
                 //enable the send button
                 $("#chat_send").prop("disabled", false);
+                //make that chat active
+                $(".chat").removeClass("active");
+                $(`#${chat_}`).addClass("active");
             }).catch((error) => {
                 error_handler(error);
             });
-            setInterval(() => {
+            read_messages(chat_).then((resp) => {
+                console.log(resp);
+                $(`#${chat_id} .unread-dot`).addClass("d-none");
+            }).catch((error) => {
+                error_handler(error);
+            });
+            reload = setInterval(() => {
                 //get the chat id
                 const chat_id = $("#chat_header h3").attr("id");
                 const chat_name = $("#chat_header h3").text().split("@")[1];
@@ -169,27 +208,40 @@ $(() => {
         $("#error").hide();
         //get the chat id
         const chat_id = $(this).attr("id");
-        const chat_name = $(this).text().split("@")[1];
+        const chat_name = $(this).data("name");
         //load the users messages for the chat
         load_messages(chat_id).then((resp) => {
             populate_messages(resp, chat_id, chat_name);
             //enable the send button
             $("#chat_send").prop("disabled", false);
+            //scroll to the bottom of the messages div
+            $("#chat_messages").scrollTop($("#chat_messages")[0].scrollHeight);
+            //make that chat active
+            $(".chat").removeClass("active");
+            $(`#${chat_id}`).addClass("active");
         }).catch((error) => {
             error_handler(error);
         });
-        clearInterval();
-        setInterval(() => {
-            //get the chat id
-            const chat_id = $("#chat_header h3").attr("id");
-            const chat_name = $("#chat_header h3").text().split("@")[1];
-            //load the users messages for the chat
-            load_messages(chat_id).then((resp) => {
-                populate_messages(resp, chat_id, chat_name);
-            }).catch((error) => {
-                error_handler(error);
-            })
-        }, 1000);
+        read_messages(chat_id).then((resp) => {
+            console.log(resp);
+            $(`#${chat_id} .unread-dot`).addClass("d-none");
+        }).catch((error) => {
+            error_handler(error);
+        });
+        //if no current interval is set
+        if (reload === null) {
+            reload = setInterval(() => {
+                //get the chat id
+                const chat_id = $("#chat_header h3").attr("id");
+                const chat_name = $("#chat_header h3").text().split("@")[1];
+                //load the users messages for the chat
+                load_messages(chat_id).then((resp) => {
+                    populate_messages(resp, chat_id, chat_name);
+                }).catch((error) => {
+                    error_handler(error);
+                })
+            }, 1000);
+        }
     });
     //send a message when the send button is clicked
     $(document).on("click", "#chat_send", (e) => {
@@ -206,6 +258,14 @@ $(() => {
                 //load the users messages for the chat
                 load_messages(chat_id).then((resp) => {
                     populate_messages(resp, chat_id, chat_name);
+                }).catch((error) => {
+                    error_handler(error);
+                });
+                load_chats().then((resp) => {
+                    $("#error").hide();
+                    //clear the chats div
+                    $("#chats").empty();
+                    populate_chats(resp);
                 }).catch((error) => {
                     error_handler(error);
                 });

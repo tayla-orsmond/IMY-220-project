@@ -17,6 +17,22 @@
     flex-direction: column;
 }
 
+.chat {
+    border-left: 0.1rem solid var(--dark);
+    border-bottom: 0.05rem solid var(--dark);
+    border-top: 0.05rem solid var(--dark);
+    border-radius: 0.5rem 0 0 0.5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.chat:hover {
+    border-left: 0.25rem solid var(--accB);
+}
+
+.active {
+    border-left: 0.25rem solid var(--accR);
+}
+
 /* CONTAINER */
 .container-box {
     min-height: 90vh;
@@ -39,4 +55,15 @@
 
 .right {
     text-align: right;
+}
+
+.unread {
+    background-color: var(--message-unread) !important;
+}
+
+.unread-dot {
+    background-color: var(--accR) !important;
+    min-width: 0.5rem;
+    min-height: 0.5rem;
+    border-radius: 100%;
 }

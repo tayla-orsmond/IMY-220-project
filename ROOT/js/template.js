@@ -51,7 +51,7 @@ export const primary_event_template = ({ e_img, e_name, e_location, e_date, e_de
     `;
 }
 //User template
-export const user_template = ({ u_id, u_name, u_profile, u_display_name, u_bio, u_admin}) => {
+export const user_template = ({ u_id, u_name, u_profile, u_display_name, u_bio, u_admin }) => {
     return `
     <div class="card user-card" id="${u_id}">
         <div class="card-body">
@@ -118,28 +118,36 @@ export const review_template = ({ u_rid, u_rname, r_name, r_comment, r_rating })
     `;
 }
 //chat template
-export const chat_template = ({ u_rid, u_rname }) => {
+export const chat_template = ({ u_rid, u_rname, u_profile, c_message, c_timestamp, c_unread}) => {
     return `
-    <div class="chat" id="${u_rid}">
-        <div class="d-flex justify-content-between">
-            <i class="fa-solid fa-earth-africa fa-xl"></i>
-            <p><a href="profile.php?id=${u_rid}">@${u_rname}</a></p>
+    <div class="chat" id="${u_rid}" data-name="${u_rname}">
+        <div class="d-flex justify-content-between align-items-center p-2">
+            <img src="media/uploads/profiles/${u_profile}" class="img-fluid rounded-circle" style="width:4rem; height:4rem; objectFit:cover;" alt="...">
+            <div class="right">
+                <div class="d-flex align-items-center justify-content-end">
+                    <a href="profile.php?id=${u_rid}">@${u_rname}</a>
+                    <span class="unread-dot mx-2 ${c_unread ? "" : "d-none"}"></span>
+                </div>
+                <span class="text-muted small">${c_message}</span>
+                <span class="text-muted small"> | ${new Date(c_timestamp).toLocaleTimeString()}</span>
+            </div>
         </div>
     </div>
     `;
 }
 //message template
-export const message_template = ({ u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp }, reciever_id) => {
+export const message_template = ({ u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp, c_unread }, reciever_id) => {
     //replace links with anchor tags
     //replace youtube links with embedded video
     c_message = c_message.replace(/(https?:\/\/www.youtube.com\/watch\?v=([^\s]+))/g, '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
     c_message = c_message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
 
     //if the message is from the reciever
+    let sent = u_rid == reciever_id;
     let align = u_rid == reciever_id ? "right offset-5" : "left";
     return `
     <div class="message-box col-6 ${u_sid} ${align}">
-        <div class="bg-light p-3 rounded">
+        <div class="bg-light p-3 rounded ${c_unread && sent ? "unread" : ""} ">
             <p>${c_message}</p>
         </div>
         <p class="text-muted ${align}">${new Date(c_timestamp).toLocaleTimeString()}</p>
@@ -221,4 +229,28 @@ export const gallery_template_admin = ({ l_id, u_rid, u_rname, l_name, l_desc })
         </td>
     </tr>
     `;
+}
+
+//tag template
+export const tag_template = tag => {
+    return `
+    <p>
+        <span class="badge badge-pill bg-secondary p-2">
+            <a href="home.php?search=${tag[0].substr(1, tag[0].length)}">${tag[0]}</a>
+        </span> 
+        <small>${tag[1]} posts</small>
+    </p>`;
+}
+
+//category template
+export const category_template = (category, number) => {
+    return `
+    <p>
+        <span class="badge badge-pill bg-primary p-2">
+            <a href="home.php?search=${category[0]}">${category[0]}</a>
+        </span> - <small>${category[1]} / ${number} posts</small><br/>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: ${category[1]/number * 100}%" aria-label="${category[0]}" aria-valuenow="${category[1]}" aria-valuemin="0" aria-valuemax="${number}"></div>
+        </div>
+    </p>`;
 }

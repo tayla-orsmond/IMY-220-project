@@ -102,7 +102,8 @@
                 u_sid BIGINT not null,
                 FOREIGN KEY (u_sid) REFERENCES users(u_id) ON DELETE CASCADE,
                 c_message VARCHAR(1000) not null,
-                c_timestamp DATETIME not null
+                c_timestamp DATETIME not null.
+                c_read BOOLEAN not null DEFAULT false
             );
         */
         //connection
@@ -188,6 +189,7 @@
                         [req] -> All parameters for adding reviews (name *, comment *, image *, rating*)
                     }
                     CHAT REQ{
+                        [req] "chat" : "send" (Chat type. Can be of type: send, read)
                         [req] "receiver_id" : "15" (User's u_id in the users database table)
                         [req] "message" : "Hello" (Message to send)
                     }
@@ -286,8 +288,15 @@
                     $this->rate($req);
                 }
             } elseif ($req["type"] === "chat") {
-                //CHAT REQ
-                $this->chat($req);
+                if(!isset($req["chat"])){
+                    $this->respond("error", null, "No chat type specified");
+                } elseif ($req["chat"] === "send") {
+                    $this->chat($req);
+                } elseif ($req["chat"] === "read") {
+                    $this->read($req);
+                } else {
+                    $this->respond("error", null, "Bad Request - Invalid chat type");
+                }
             } elseif ($req["type"] === "follow") {
                 if (!isset($req["follow"]) && !isset($req["user_name"]) && !isset($req["follow_id"]) && !isset($req["follow_name"])) {
                     $this->respond("error", null, "Bad Request - Required follow parameters missing or empty");
@@ -676,6 +685,7 @@
                     //get all chats for user
                     //remove duplicates (where user follows and is followed by same user)
                     $chats = array_map("unserialize", array_unique(array_map("serialize", $chats)));
+                
                     //map all u_fid to u_rid and all u_fname to u_rname
                     $chats = array_map(function ($chat) {
                         $chat["u_rid"] = $chat["u_fid"];
@@ -684,6 +694,57 @@
                         unset($chat["u_fname"]);
                         return $chat;
                     }, $chats);
+
+                    //remove any instances of user_id
+                    $chats = array_filter($chats, function ($chat) use ($user_id) {
+                        return $chat["u_rid"] != $user_id;
+                    });
+
+                    //get the last message for each chat
+                    foreach ($chats as $key => $chat) {
+                        $query = $this->conn->prepare('SELECT * FROM chats WHERE (u_rid = ? AND u_sid = ?) OR (u_rid = ? AND u_sid = ?) ORDER BY c_timestamp DESC LIMIT 1;');
+                        $query->execute(array($user_id, $chat["u_rid"], $chat["u_rid"], $user_id));
+                        $last_message = $query->fetch();
+                        if (!empty($last_message)) {
+                            $chats[$key]["c_message"] = $last_message["c_message"];
+                            $chats[$key]["c_timestamp"] = $last_message["c_timestamp"];
+                        } else {
+                            $chats[$key]["c_message"] = "";
+                            $chats[$key]["c_timestamp"] = "";
+                        }
+                        //check if user has unread messages
+                        $query = $this->conn->prepare('SELECT * FROM chats WHERE u_rid = ? AND u_sid = ? AND c_read = 0;');
+                        $query->execute(array($user_id, $chat["u_rid"]));
+                        $unread_messages = $query->fetchAll();
+                        if (!empty($unread_messages)) {
+                            $chats[$key]["c_unread"] = true;
+                        } else {
+                            $chats[$key]["c_unread"] = false;
+                        }
+                    }
+
+                    //get the profile picture for each chat from the users table
+                    $chats = array_map(function ($chat) {
+                        $chat_id = $chat["u_rid"];
+                        $query = $this->conn->prepare('SELECT u_profile FROM users WHERE u_id = ?;');
+                        //error handling
+                        try {
+                            $query->execute(array($chat_id));
+                            $profile = $query->fetch();
+                            if (!empty($profile)) {
+                                //get profile picture for chat
+                                $chat["u_profile"] = $profile["u_profile"];
+                            } else {
+                                $chat["u_profile"] = "profile.png";
+                            }
+                            $query = null;
+                        } catch (PDOException $e) {
+                            $this->respond("error", null,  $e->getMessage());
+                            $query = null;
+                        }
+                        return $chat;
+                    }, $chats);
+                    
                     $this->respond("success", $chats, "User's chats returned successfully");
                 } else {
                     $this->respond("error", null, "No chats");
@@ -1163,6 +1224,26 @@
                 $this->respond("error", null,  $e->getMessage());
                 $query = null;
                 return;
+            }
+        }
+        public function read($req)
+        {
+            //Description: Update all messages sent to user as read
+            //get parameters
+            if (!isset($req["chat_id"]) || empty($req["chat_id"])) {
+                $this->respond("error", null, "Invalid Read Request - Missing Parameters");
+                return;
+            }
+            //update all messages sent to user as read
+            $query = $this->conn->prepare('UPDATE `chats` SET `c_read`=1 WHERE u_rid=? AND c_id<=?;');
+            //error handling
+            try {
+                $query->execute(array($req["user_id"], $req["chat_id"]));
+                $this->respond("success", null, "Messages read successfully");
+                $query = null;
+            } catch (PDOException $e) {
+                $this->respond("error", null,  $e->getMessage());
+                $query = null;
             }
         }
         /*

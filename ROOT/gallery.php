@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/events.css">
     <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="css/profile.css">
 </head>
 
 <body>

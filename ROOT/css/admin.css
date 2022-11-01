@@ -1,0 +1,124 @@
+/* Tayla Orsmond u21467456 */
+/* 
+ * 
+ * Admin page styling
+ * 
+ */
+
+*[class*="bg-primary"] {
+    background-color: var(--accR) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+*[class*="bg-secondary"] {
+    background-color: var(--accB) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+*[class*="bg-primary"]:hover,
+*[class*="bg-secondary"]:hover {
+    transform: scale(1.1);
+}
+
+*[class*="bg-primary"] a:hover,
+*[class*="bg-secondary"] a:hover {
+    color: var(--light) !important;
+}
+
+.progress-bar {
+    background-color: var(--accR) !important;
+    opacity: 0.5;
+    animation: fill 1s ease-in-out;
+}
+
+@keyframes fill {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: initial + "%";
+    }
+}
+
+/* ACCORDIONS AND TABLES */
+*[class*="accordion"] {
+    border: none;
+    border-bottom: 0.01rem solid var(--dark);
+    border-radius: 0.5rem;
+}
+
+*[class*="accordion-header"] {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+*[class*="accordion-header"] button {
+    color: var(--dark) !important;
+    border-radius: 0.5rem;
+}
+
+*[class*="accordion-header"] button:hover {
+    background-color: var(--accB);
+    color: var(--light) !important;
+}
+
+*[class*="accordion-header"] button[aria-expanded="true"] {
+    background-color: var(--dark);
+    color: var(--accB) !important;
+    box-shadow: none;
+}
+
+*[class*="accordion-header"] button[aria-expanded="true"]:hover {
+    background-color: var(--dark);
+    color: var(--accB) !important;
+    box-shadow: none;
+}
+
+*[class*="accordion-header"] button:focus {
+    box-shadow: none !important;
+}
+
+*[class*="accordion-body"] {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+*[class*="accordion-body"] p {
+    color: var(--dark);
+}
+
+*[class*="accordion-body"] p a:hover {
+    color: var(--accB);
+}
+
+*[class*="table"] {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+*[class*="table"] thead {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+*[class*="table"] tbody {
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+*[class*="table"] tbody tr:nth-child(odd) {
+    background-color: var(--light) !important;
+}
+
+*[class*="table"] tbody tr:hover {
+    background-color: var(--dark) !important;
+    color: var(--light) !important;
+}
+
+*[class*="table"] tbody tr:hover * {
+    color: var(--light) !important;
+}
+
+*[class*="table"] tbody tr:hover a:hover {
+    color: var(--accB) !important;
+}

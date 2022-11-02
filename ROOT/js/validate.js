@@ -11,11 +11,11 @@
  * 
  */
 //globals
-let valid_name = $("#e_name") !== null;
-let valid_date = $("#e_date") !== null;
-let valid_time = $("#e_time") !== null;
-let valid_location = $("#e_location") !== null;
-let valid_image = $("#e_img_input") !== null;
+let valid_name = $("#e_name").val() !== null;
+let valid_date = $("#e_date").val() !== null;
+let valid_time = $("#e_time").val() !== null;
+let valid_location = $("#e_location").val() !== null;
+let valid_image = $("#e_img_input").val() !== null;
 //validate the event form
 //validate the name
 //the name must be between 3 and 50 characters
@@ -115,7 +115,7 @@ $("#e_img").on("drop", function (e) {
     e.stopPropagation();
     $("#e_img").removeClass("dragover");
     //make the div normal
-    $("#u_profile").css("opacity", "1");
+    $("#e_img").css("opacity", "1");
     $("#e_img_input").prop("files", e.originalEvent.dataTransfer.files);
     $("#e_img_input").trigger("change");
 });
@@ -192,8 +192,8 @@ $('#l_name').on('input', () => {
  * 
  */
 //globals
-let valid_u_display_name = true;
-let valid_u_profile = true;
+let valid_u_display_name = $('#u_display_name').val() !== null;
+let valid_u_profile = $("#u_profile_input").val() !== null;
 
 //validate the edit profile form
 $('#u_display_name').on('input', () => {
@@ -273,10 +273,10 @@ $("#u_profile_input").on("change", () => {
  * 
  */
 //globals
-let valid_r_name = $("#r_name") !== null;
-let valid_r_rating = $("#r_rating") !== null;
-let valid_r_comment = $("#r_comment") !== null;
-let valid_r_image = $("#r_img_input") !== null;
+let valid_r_name = $("#r_name").val() !== null;
+let valid_r_rating = $("#r_rating").val() !== null;
+let valid_r_comment = $("#r_comment").val() !== null;
+let valid_r_image = $("#r_img_input").val() !== null;
 
 //validate the review name
 $("#r_name").on("input", () => {

@@ -361,6 +361,13 @@ $(() => {
     }
     //edit the user's profile by sending a request to the api
     const edit_profile = () => {
+        //get the values from the form
+        let u_display_name = $("#u_display_name").val();
+        let u_bio = $("#u_bio").val().trim();
+        let u_pronouns = $("#u_pronouns").val();
+        let u_location = $("#u_location").val();
+        let u_age = $("#u_age").val();
+        let u_profile =  $("#u_profile_input").val().split("\\").pop();
         $.ajax({
             url: api_url,
             type: "POST",
@@ -374,24 +381,24 @@ $(() => {
                 "update": "user",
                 "user_id": get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
                 "username": get_cookie("user_name", document.cookie.split(";")) === "-1" ? null : get_cookie("user_name", document.cookie.split(";")),
-                "u_display_name": $("#u_display_name").val(),
-                "u_bio": $("#u_bio").val(),
-                "u_pronouns": $("#u_pronouns").val(),
-                "u_location": $("#u_location").val(),
-                "u_age": $("#u_age").val(),
-                "u_profile": $("#u_profile_input").val().split("\\").pop() === "" ?  $("#u_profile").text() : $("#u_profile_input").val().split("\\").pop(),
+                "u_display_name": u_display_name,
+                "u_bio": u_bio,
+                "u_pronouns": u_pronouns,
+                "u_location": u_location,
+                "u_age": u_age,
+                "u_profile": u_profile === "" ? $("u_profile").text() : u_profile,
             }),
             success: function (resp, status) {//succesful query
                 if (resp.status === "success") {
                     //submit the form to upload the profile picture
                     $("#edit_profile_form").submit();
                     //update the page with the new info
-                    $(".display-name").text($("#u_display_name").val());
-                    $(".bio").text($("#u_bio").val());
-                    $(".pronouns").text($("#u_pronouns").val());
-                    $(".location").text($("#u_location").val());
-                    $(".age").text($("#u_age").val());
-                    $(".profile-photo img").attr("src", "media/uploads/profiles/" + $("#u_profile").text());
+                    $(".display-name").text(u_display_name);
+                    $(".bio").text(u_bio);
+                    $(".pronouns").text(u_pronouns);
+                    $(".location").text(u_location);
+                    $(".age").text(u_age);
+                    $(".profile-photo img").attr("src", "media/uploads/profiles/" + u_profile);
                 }
                 else {
                     $("#edit_profile").modal("hide");

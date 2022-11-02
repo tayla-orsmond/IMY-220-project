@@ -174,12 +174,17 @@ $(() => {
      */
     //load the review details from the information we have on the page
     const populate_edit_review = () => {
-        //get the review details
-        $('#r_name').val($('.review-name').text());
-        $('#r_rating').val($('.review-rating').text());
-        $('#r_comment').val($('.review-comment').text());
-        $('#r_hidden_id').val(event_id);
-        $('#r_img').text($('.review-img').attr("src").split("/").pop());
+        //get the user id
+        let u_rid = get_cookie("user_id", document.cookie.split(";")) === "-1" ? null : get_cookie("user_id", document.cookie.split(";"));
+        if(u_rid !== "-1"){
+            //get the review details
+            $('#r_name').val($(`#r-${u_rid} .review-name`).text());
+            $('#r_rating').val($(`#r-${u_rid} .review-rating`).text());
+            $('#r_comment').val($(`#r-${u_rid} .review-comment`).text());
+            $('#r_hidden_id').val(event_id);
+            $('#r_img').text($(`#ri-${u_rid}`).attr("src").split("/").pop());
+            $('#r_img').css("background-image", `url(${$(`#ri-${u_rid}`).attr("src")})`);
+        }
     }
     //rate the event
     const rate_event = (max) => {
@@ -199,7 +204,7 @@ $(() => {
         let r_rating = $('#r_rating').val();
         let r_name = $('#r_name').val();
         let r_comment = $('#r_comment').val();
-        let r_img = $("#r_img_input").val().split("\\").pop();
+        let r_img = $("#r_img_input").val().split("\\").pop() !== "" ? $("#r_img_input").val().split("\\").pop() : $("#r_img").text();
         const review = {
             "r_rating": r_rating,
             "r_name": r_name,
@@ -225,7 +230,7 @@ $(() => {
                 "r_rating": r_rating,
                 "r_name": r_name,
                 "r_comment": r_comment,
-                "r_img": r_img === "" ? $("#r_img").text() : r_img,
+                "r_img": r_img,
             }),
             success: function (resp, status) {//succesful query
                 if (resp.status === "success") {

@@ -105,7 +105,7 @@ export const review_template = ({ u_rid, u_rname, r_name, r_comment, r_rating })
     for (var i = 0; i < 5 - r_rating; i++) {
         stars += `<i class="fa fa-star-o fa-xl"></i>`;
     }
-    return `<div class="p-1 mt-2 review-box">
+    return `<div class="p-1 mt-2 review-box" id="r-${u_rid}">
         <p class="h5 review-name">${r_name}</p>
         <div class="d-flex justify-content-between">
             <p><a href="profile.php?id=${u_rid}">@${u_rname}</a></p>

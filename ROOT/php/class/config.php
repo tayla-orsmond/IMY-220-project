@@ -9,7 +9,12 @@ ini_set('file_uploads', 'On');
 //set the max file size to 2MB
 ini_set('upload_max_filesize', '2M');
 
-session_start();
+try{
+    session_start();
+}
+catch(Exception $e){
+    echo 'Error: The server is currently down. Please try again later. <br/>' . $e->getMessage();
+}
 //globals
 $api_url = "http://imy.up.ac.za/IMY220/u21467456/api.php";
 // $api_url = "http://localhost/api.php";

@@ -288,7 +288,7 @@
                     $this->rate($req);
                 }
             } elseif ($req["type"] === "chat") {
-                if(!isset($req["chat"])){
+                if (!isset($req["chat"])) {
                     $this->respond("error", null, "No chat type specified");
                 } elseif ($req["chat"] === "send") {
                     $this->chat($req);
@@ -344,7 +344,7 @@
             //Error handling for server-side form validation done by signup-ctrl class which is used by signup-handler
 
             $name = $req["username"];
-            $display_name = isset($req["display_name"]) ? $req["display_name"] : "user" . rand(0, 9999);
+            $display_name = isset($req["display_name"]) ? $req["display_name"] : "User" . rand(0, 9999);
             $email = $req["email"];
             $psw = $req["password"];
             $age = isset($req["age"]) ? $req["age"] : 0;
@@ -685,7 +685,7 @@
                     //get all chats for user
                     //remove duplicates (where user follows and is followed by same user)
                     $chats = array_map("unserialize", array_unique(array_map("serialize", $chats)));
-                
+
                     //map all u_fid to u_rid and all u_fname to u_rname
                     $chats = array_map(function ($chat) {
                         $chat["u_rid"] = $chat["u_fid"];
@@ -744,7 +744,7 @@
                         }
                         return $chat;
                     }, $chats);
-                    
+
                     $this->respond("success", $chats, "User's chats returned successfully");
                 } else {
                     $this->respond("error", null, "No chats");
@@ -977,8 +977,14 @@
             //Description: Make SQL queries for updating a user, event or list (update in DB) if all validation passes
             $update = $req["update"];
             if ($update === "user") {
+                $req["u_display_name"] = $req["u_display_name"] ?? "User" . rand(0, 9999);
+                $req["u_profile"] = $req["u_profile"] ?? "profile.png";
+                $req["u_bio"] = $req["u_bio"] ?? "No bio";
+                $req["u_pronouns"] = $req["u_pronouns"] ?? "";
+                $req["u_location"] = $req["u_location"] ?? "";
+                $req["u_age"] = $req["u_age"] !== "" ? intval($req["u_age"]) : 0;
                 //update user
-                $query = $this->conn->prepare('UPDATE `users` SET `u_display_name`=?, `u_profile`=?, `u_bio`=?, `u_pronouns`=?, `u_location`=?, u_age=? WHERE u_id=?;');
+                $query = $this->conn->prepare('UPDATE `users` SET `u_display_name`=?, `u_profile`=?, `u_bio`=?, `u_pronouns`=?, `u_location`=?, `u_age`=? WHERE `u_id`=?;');
                 //error handling
                 try {
                     $query->execute(array($req["u_display_name"], $req["u_profile"], $req["u_bio"], $req["u_pronouns"], $req["u_location"], $req["u_age"], $req["user_id"]));
@@ -1009,7 +1015,7 @@
                 $query = null;
             } elseif ($update === "list") {
                 //update list
-                $query = $this->conn->prepare('UPDATE `lists` SET `l_name`=?, `l_desc`=?, `l_events`=? WHERE l_id=? AND u_rid=?;');
+                $query = $this->conn->prepare('UPDATE `lists` SET `l_name`=?, `l_desc`=?, `l_events`=? WHERE `l_id`=? AND `u_rid`=?;');
                 //error handling
                 try {
                     $list_array = array(
@@ -1244,6 +1250,78 @@
             } catch (PDOException $e) {
                 $this->respond("error", null,  $e->getMessage());
                 $query = null;
+            }
+        }
+        /*
+        
+            GET ALL - HANDLE GET ALL REQ
+            ===========================================================================================================================
+        
+        */
+        public function getAllUsers()
+        {
+            //Description: Get all users
+            $query = $this->conn->prepare('SELECT * FROM users;');
+            //error handling
+            try {
+                $query->execute();
+                $result = $query->fetchAll();
+                if (empty($result)) {
+                    $this->respond("error", null, "No users found");
+                    $query = null;
+                    return;
+                }
+                $this->respond("success", $result, "Successfully retrieved all users");
+                $query = null;
+                return;
+            } catch (PDOException $e) {
+                $this->respond("error", null,  $e->getMessage());
+                $query = null;
+                return;
+            }
+        }
+        public function getAllEvents()
+        {
+            //Description: Get all events
+            $query = $this->conn->prepare('SELECT * FROM events;');
+            //error handling
+            try {
+                $query->execute();
+                $result = $query->fetchAll();
+                if (empty($result)) {
+                    $this->respond("error", null, "No events found");
+                    $query = null;
+                    return;
+                }
+                $this->respond("success", $result, "Successfully retrieved all events");
+                $query = null;
+                return;
+            } catch (PDOException $e) {
+                $this->respond("error", null,  $e->getMessage());
+                $query = null;
+                return;
+            }
+        }
+        public function getAllReviews()
+        {
+            //Description: Get all reviews
+            $query = $this->conn->prepare('SELECT * FROM reviews;');
+            //error handling
+            try {
+                $query->execute();
+                $result = $query->fetchAll();
+                if (empty($result)) {
+                    $this->respond("error", null, "No reviews found");
+                    $query = null;
+                    return;
+                }
+                $this->respond("success", $result, "Successfully retrieved all reviews");
+                $query = null;
+                return;
+            } catch (PDOException $e) {
+                $this->respond("error", null,  $e->getMessage());
+                $query = null;
+                return;
             }
         }
         /*

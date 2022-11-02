@@ -38,5 +38,10 @@ img[class*="rounded-circle"] {
     #events_inner {
         display: block;
     }
+
+    .profile-photo img {
+        max-width: 10rem;
+        max-height: 10rem;
+    }
     
 }

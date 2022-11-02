@@ -31,7 +31,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: var(--main-font);
-    font-size: 16px;
     font-weight: 500;
     overflow-wrap: break-word;
 }
@@ -39,6 +38,7 @@
 /* BODY */
 body {
     overflow-x: hidden;
+    background-color: var(--light);
     color: var(--dark);
 }
 
@@ -339,10 +339,16 @@ svg[class*="checked"] {
         height: 10vh;
     }
 
+    header,
+    .navbar {
+        background-color: var(--light);
+    }
+
     /* NAV */
     .navbar-nav {
-        background-color: white;
+        background-color: var(--light);
         padding: 1rem;
+        margin: 0;
         border-radius: 0 0 1rem 1rem;
     }
 

@@ -108,7 +108,7 @@
                 echo '
                 <div class="row">
                     <div class="col-12"><h1>' . ($_SESSION['user_id'] == $user_id ? "my" : "art") . 'folio.</h1></div><!--Title-->
-                    <div class="col-9 p-3 p-lg-5 d-flex flex-wrap border"><!--Profile Header card -> show details of the user-->
+                    <div class="col-12 col-lg-9 p-3 p-lg-5 d-flex flex-wrap border"><!--Profile Header card -> show details of the user-->
                         <div class="flex-1 profile-photo">
                             <img src="media/uploads/profiles/' . $profile['u_profile'] . '" alt="..." class="img-fluid rounded-circle">
                         </div>
@@ -130,9 +130,9 @@
                             <p><i class="fa-regular fa-envelope"></i> <a href="mailto:' . $profile['u_email'] . '">' . $profile['u_email'] . '</a></p>
                         </div>
                     </div><!--End Profile Header card-->
-                    <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-4 gap-lg-3 p-1 p-s-2 my-5 p-lg-2 my-lg-0"><!--Actions (follow, DM, edit etc.) -->';
+                    <div class="col-12 col-lg-3 d-flex flex-row flex-lg-column align-items-start justify-content-end justify-content-lg-start gap-4 gap-lg-3 p-1 p-lg-2"><!--Actions (follow, DM, edit etc.) -->';
                 if ((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1) {
-                    echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-palette fa-xl"></i> <span class="d-lg-none">Edit Profile</span></a>';
+                    echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-palette fa-xl"></i> <span class="d-none d-md-inline">Edit Profile</span></a>';
                 }
                 if (isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) {
                     echo '<a href="messages.php?chat=' . $_SESSION['user_id'] . '&chatn=' . $profile['u_name'] . '"><i class="fas fa-inbox fa-xl"></i></a>';

@@ -169,6 +169,7 @@
     .feature {
         min-width: 100%;
         min-height: 100%;
+        flex-wrap: wrap;
         align-items: flex-end;
     }
 
@@ -191,7 +192,7 @@
     .feature p[class*="fw-bold"] {
         padding: 1rem;
         line-height: 1;
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
 }

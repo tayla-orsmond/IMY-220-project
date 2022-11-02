@@ -342,14 +342,13 @@ svg[class*="checked"] {
     header,
     .navbar {
         background-color: var(--light);
+        border-radius: 0 0 1rem 1rem;
     }
 
     /* NAV */
     .navbar-nav {
-        background-color: var(--light);
         padding: 1rem;
         margin: 0;
-        border-radius: 0 0 1rem 1rem;
     }
 
     .nav-item {

@@ -81,7 +81,11 @@
         if (empty($event)) {
             echo '
                 <h1 class="text-center">Event not found</h1> 
-                <p class="text-center">Maybe try another one?</p>';
+                <p class="text-center">Maybe try another one?</p>
+                <div class="d-flex flex-column align-items-center">
+                    <img src="https://th-thumbnailer.cdn-si-edu.com/FAKqirNoh8pPiBSf8iK8mgOkhcA=/1000x750/filters:no_upscale():focal(588x426:589x427)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/60/4f/604fad7f-b3a1-4d46-8f6e-546e2888659e/gettyimages-1243970412.jpg" alt="..." class="img-fluid">
+                    <a href="index.php" class="btn btn-primary">Go home</a>
+                </div>';
         } else {
             //echo out the event data
             echo '
@@ -170,7 +174,7 @@
                             </div>';
             } else {
                 for ($i = 0; $i < count($reviews) && $i < 4; $i++) {
-                    echo '  <div class="p-1 mt-2 review-box">
+                    echo '  <div class="p-1 mt-2 review-box" id="r-' . $reviews[$i]["u_rid"] . '">
                                 <p class="h5 review-name">' . $reviews[$i]["r_name"] . '</p>
                                 <div class="d-flex justify-content-between">
                                 <p><a href="profile.php?id=' . $reviews[$i]["u_rid"] . '">@' . $reviews[$i]["u_rname"] . '</a></p>
@@ -219,7 +223,7 @@
                 for ($i = 0; $i < count($reviews); $i++) {
                     echo '
                         <div class="carousel-item '. ($i == 0 ? "active" : "") .'">
-                            <img src="media/uploads/reviews/' . $reviews[$i]["r_img"] . '" class="d-block w-100" alt="...">
+                            <img id="ri-'. $reviews[$i]["u_rid"] .'" src="media/uploads/reviews/' . $reviews[$i]["r_img"] . '" class="d-block w-100" alt="...">
                         </div>';
                 }
                 echo '

@@ -132,7 +132,7 @@
                     </div><!--End Profile Header card-->
                     <div class="col-12 col-lg-3 d-flex flex-row flex-lg-column align-items-start justify-content-end justify-content-lg-start gap-4 gap-lg-3 p-1 p-lg-2"><!--Actions (follow, DM, edit etc.) -->';
                 if ((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1) {
-                    echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-palette fa-xl"></i> <span class="d-none d-md-inline">Edit Profile</span></a>';
+                    echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal" id="edit_profile_btn"><i class="fa-solid fa-palette fa-xl"></i> <span class="d-none d-md-inline">Edit Profile</span></a>';
                 }
                 if (isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) {
                     echo '<a href="messages.php?chat=' . $_SESSION['user_id'] . '&chatn=' . $profile['u_name'] . '"><i class="fas fa-inbox fa-xl"></i></a>';

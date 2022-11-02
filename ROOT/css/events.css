@@ -114,6 +114,16 @@ div[class~="carousel-item"] img {
     border-color: var(--dark) !important;
 }
 
+/* REVIEW STARS */
+.fa-star,
+.fa-star-o{
+    transition: all 0.4s ease;
+}
+
+.fa-star:hover,
+.fa-star-o:hover {
+    transform: scale(1.2);
+}
 /* NEW BADGE */
 .badge-new,
 .badge-admin {

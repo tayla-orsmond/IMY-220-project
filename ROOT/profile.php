@@ -115,7 +115,7 @@
                         <div class="flex-fill p-3 m-1">
                             <h2 class="display-name">' . $profile['u_display_name'] . '</h2>
                             <p class="pb-2 border-bottom">@<span id="username">' . $profile['u_name'] . '</span></p>
-                            <div class="d-flex justify-content-start gap-2 small text-secondary">';
+                            <div class="d-flex flex-wrap justify-content-start gap-2 small text-secondary">';
                 if ($profile['u_pronouns'] != "") {
                     echo '      <p class="pronouns">' . $profile['u_pronouns'] . '</p>';
                 }
@@ -130,9 +130,9 @@
                             <p><i class="fa-regular fa-envelope"></i> <a href="mailto:' . $profile['u_email'] . '">' . $profile['u_email'] . '</a></p>
                         </div>
                     </div><!--End Profile Header card-->
-                    <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-4 gap-lg-3 p-1 my-5 p-lg-2 my-lg-0"><!--Actions (follow, DM, edit etc.) -->';
+                    <div class="col-3 d-flex flex-column align-items-start justify-content-start gap-4 gap-lg-3 p-1 p-s-2 my-5 p-lg-2 my-lg-0"><!--Actions (follow, DM, edit etc.) -->';
                 if ((isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) || $_SESSION['user_admin'] == 1) {
-                    echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-palette fa-xl"></i> Edit Profile</a>';
+                    echo '<a href="" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><i class="fa-solid fa-palette fa-xl"></i> <span class="d-lg-none">Edit Profile</span></a>';
                 }
                 if (isset($_SESSION['user_id']) && $user_id == $_SESSION['user_id']) {
                     echo '<a href="messages.php?chat=' . $_SESSION['user_id'] . '&chatn=' . $profile['u_name'] . '"><i class="fas fa-inbox fa-xl"></i></a>';

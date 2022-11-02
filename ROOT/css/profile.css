@@ -21,6 +21,7 @@ img[class*="rounded-circle"] {
 .btn-secondary {
     color: var(--dark);
 }
+
 /* EVENT CARDS */
 #events_inner {
     display: flex;

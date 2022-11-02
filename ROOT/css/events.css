@@ -38,6 +38,7 @@
 .user-card {
     max-height: 12rem;
     overflow-y: hidden;
+    overflow-x: hidden;
     transition: all 0.4s ease;
 }
 

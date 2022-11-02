@@ -67,3 +67,9 @@
     min-height: 0.5rem;
     border-radius: 100%;
 }
+
+@media screen AND (max-width: 991px) {
+    .chat {
+        border: 0.1rem solid var(--dark);
+    }
+}

@@ -129,7 +129,7 @@ export const chat_template = ({ u_rid, u_rname, u_profile, c_message, c_timestam
                     <span class="unread-dot mx-2 ${c_unread ? "" : "d-none"}"></span>
                 </div>
                 <span class="text-muted small">${c_message}</span>
-                <span class="text-muted small"> | ${c_timestamp ? new Date(c_timestamp).toLocaleTimeString() : ""}</span>
+                <span class="text-muted small"> ${c_timestamp ? "| " + new Date(c_timestamp).toLocaleTimeString() : ""}</span>
             </div>
         </div>
     </div>

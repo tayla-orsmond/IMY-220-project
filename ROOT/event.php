@@ -99,8 +99,7 @@
                         <div class="btn btn-primary align-self-end mt-3" data-bs-toggle="modal" data-bs-target="#delete_event_modal" id="delete_event">Delete Event</div>
                     </div>';
             }
-            echo '  <div class="w-75">
-                        <p><a href="profile.php?id=' . $event["u_rid"] . '">@' . $event["u_rname"] . '</a></p>
+            echo '  <div class="w-100 w-lg-75">
                         <p>';
             for ($i = 0; $i < $event["e_rating"]; $i++) {
                 echo '      <i class="fa fa-star fa-xl"></i>';
@@ -108,23 +107,6 @@
             for ($i = 0; $i < 5 - $event["e_rating"]; $i++) {
                 echo '      <i class="fa fa-star-o fa-xl"></i>';
             }
-            echo '      </p>
-                        <h2 class="event-name">' . $event["e_name"] . '</h2>
-                        <p class="h4"><span class="event-location">' . $event["e_location"] . '</span> | <span class="event-date">' . date("D - d M Y", strtotime($event["e_date"])) . '</span></p>
-                        <p class="h5 event-time">' .  date("h:m", strtotime($event["e_date"]))  . '</p>
-                        <p class="p-2 bg-light event-type">' . $event["e_type"] . '</p>
-                        <p class="event-description d-none">' . $event["e_desc"] . '</p>
-                        <p>' .
-                            //search the event description for hashtags
-                            //if there are any, replace them with a link to the home page
-                            //with the hashtag as the search term / parameter in the url
-                            preg_replace('/#([^\s]+)/', '<a href="home.php?search=$1">#$1</a>', $event["e_desc"]);
-                            $event["e_desc"]
-                        . '</p>
-                        <div class="d-flex justify-content-start gap-1">';
-            echo '          <p class="mt-2"><a href="#" data-bs-toggle="modal" data-bs-target="#add_to_list_modal" id="add_event_to_list"> &gt; Add this event to a gallery</a></p>
-                        </div>
-                    </div>';
             //make a curl request to get the reviews for this event
             $body = array(
                 'type'   => 'info',
@@ -156,6 +138,40 @@
 
             //get the event details from the response
             $reviews = $result['data']['return'];
+
+            if(!empty($reviews)){
+                //find the review closest to the average rating of the event
+                $closest = null;
+                foreach($reviews as $review){
+                    if($closest == null){
+                        $closest = $review;
+                    }else{
+                        if(abs($review['r_rating'] - $event['e_rating']) < abs($closest['r_rating'] - $event['e_rating'])){
+                            $closest = $review;
+                        }
+                    }
+                }
+                echo '<p class="text-muted small ms-3">"'. $closest['r_comment'] .'" - <a href="profile.php?id='. $closest['u_rid'] .'">@'. $closest['u_rname'] .'</a></p>';
+            }
+            echo '      </p>
+                        <h2 class="event-name">' . $event["e_name"] . '</h2> 
+                        <p><a href="profile.php?id=' . $event["u_rid"] . '"> @' . $event["u_rname"] . '</a></p>
+                        <hr/>
+                        <p class="h5"><i class="fa-solid fa-location-dot fa-xs"></i> <span class="event-location">' . $event["e_location"] . '</span> | <i class="fa-solid fa-calendar-days fa-xs"></i> <span class="event-date">' . date("D - d M Y", strtotime($event["e_date"])) . '</span> | <i class="fa-solid fa-clock fa-xs"></i> <span class="event-time">' .  date("h:m", strtotime($event["e_date"]))  . '</span></p>
+                        <p class="h5 badge bg-primary event-type">' . $event["e_type"] . '</p>
+                        <p class="event-description d-none">' . $event["e_desc"] . '</p>
+                        <p class="p-5 border">' .
+                            //search the event description for hashtags
+                            //if there are any, replace them with a link to the home page
+                            //with the hashtag as the search term / parameter in the url
+                            preg_replace('/#([^\s]+)/', '<a href="home.php?search=$1">#$1</a>', $event["e_desc"]);
+                            $event["e_desc"]
+                        . '</p>
+                        <div class="d-flex justify-content-start gap-1">';
+            echo '          <p class="mt-2"><a href="#" data-bs-toggle="modal" data-bs-target="#add_to_list_modal" id="add_event_to_list"> &gt; Add this event to a gallery</a></p>
+                        </div>
+                    </div>';
+            
 
             //if there are no reviews, display a message
             //echo out the reviews

@@ -137,9 +137,10 @@ export const chat_template = ({ u_rid, u_rname, u_profile, c_message, c_timestam
 }
 //message template
 export const message_template = ({ u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp, c_unread }, reciever_id) => {
-    //replace links with anchor tags
-    //replace youtube links with embedded video
+    //replace links with anchor tags & replace youtube links with embedded video
     c_message = c_message.replace(/(https?:\/\/www.youtube.com\/watch\?v=([^\s]+))/g, '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+    //short version
+    c_message = c_message.replace(/(https?:\/\/youtu.be\/([^\s]+))/g, '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
     c_message = c_message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
 
     //if the message is from the reciever
@@ -147,7 +148,7 @@ export const message_template = ({ u_rid, u_rname, u_sid, u_sname, c_message, c_
     let align = u_rid == reciever_id ? "right offset-5" : "left";
     return `
     <div class="message-box col-6 ${u_sid} ${align}">
-        <div class="bg-light p-3 rounded ${c_unread && sent ? "unread" : ""} ">
+        <div class="bg-light p-3 rounded ${c_unread && !sent ? "unread" : ""} ">
             <p>${c_message}</p>
         </div>
         <p class="text-muted ${align}">${new Date(c_timestamp).toLocaleTimeString()}</p>

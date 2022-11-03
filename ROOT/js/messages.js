@@ -117,7 +117,7 @@ $(() => {
         });
     }
     //read all messages in a chat
-    const read_messages = (chat_id) => {
+    const read_messages = (sender_id) => {
         return new Promise((resolve, reject) => {
             //make the ajax call to read the messages
             $.ajax({
@@ -132,7 +132,7 @@ $(() => {
                     "type": "chat",
                     "chat": "read",
                     "user_id": get_cookie("user_id", document.cookie.split(";")) == "-1" ? null : get_cookie("user_id", document.cookie.split(";")),
-                    "chat_id": chat_id
+                    "sender_id": sender_id
                 }),
                 success: function (resp, status) {//succesful query
                     resolve(resp);

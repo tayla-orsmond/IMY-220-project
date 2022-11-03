@@ -713,7 +713,7 @@
                             $chats[$key]["c_timestamp"] = "";
                         }
                         //check if user has unread messages
-                        $query = $this->conn->prepare('SELECT * FROM chats WHERE u_rid = ? AND u_sid = ? AND c_read = 0;');
+                        $query = $this->conn->prepare('SELECT * FROM chats WHERE `u_rid`= ? AND `u_sid` = ? AND c_read = 0;');
                         $query->execute(array($user_id, $chat["u_rid"]));
                         $unread_messages = $query->fetchAll();
                         if (!empty($unread_messages)) {
@@ -1236,15 +1236,15 @@
         {
             //Description: Update all messages sent to user as read
             //get parameters
-            if (!isset($req["chat_id"]) || empty($req["chat_id"])) {
+            if (!isset($req["sender_id"]) || empty($req["sender_id"])) {
                 $this->respond("error", null, "Invalid Read Request - Missing Parameters");
                 return;
             }
             //update all messages sent to user as read
-            $query = $this->conn->prepare('UPDATE `chats` SET `c_read`=1 WHERE u_rid=? AND c_id<=?;');
+            $query = $this->conn->prepare('UPDATE `chats` SET `c_read`=1 WHERE `u_rid`=? AND `u_sid`=?;');
             //error handling
             try {
-                $query->execute(array($req["user_id"], $req["chat_id"]));
+                $query->execute(array($req["user_id"], $req["sender_id"]));
                 $this->respond("success", null, "Messages read successfully");
                 $query = null;
             } catch (PDOException $e) {

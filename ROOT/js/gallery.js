@@ -89,7 +89,7 @@ $(() => {
         e.preventDefault();
     });
     //when a remove_event button is clicked, remove the event with the corresponding id from the gallery
-    $('.events-area-inner').on('click', '.remove_event', (e) => {
+    $('.events-inner').on('click', '.remove_event', (e) => {
         //get the event id from the button
         const event_id = $(e.currentTarget).attr('id').split('_')[1];
         $(`#${event_id}`).remove();

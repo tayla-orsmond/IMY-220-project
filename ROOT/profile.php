@@ -95,7 +95,8 @@
             if (empty($profile) && !empty($result)) {
                 echo '
                 <h1 class="text-center">User not found</h1> 
-                <p class="text-center">' . $result["data"]["message"] . '</p>';
+                <p class="text-center">' . $result["data"]["message"] . '</p>
+                <img src="https://mymodernmet.com/wp/wp-content/uploads/2019/04/the-photography-show-2019-1.jpg" alt="..." class="img-fluid d-block mx-auto">';
             } elseif (empty($profile)) {
                 echo '
                 <h1 class="text-center">User not found</h1> 

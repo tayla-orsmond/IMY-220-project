@@ -100,7 +100,7 @@
                     </div>';
             }
             echo '  <div class="w-100 w-lg-75">
-                        <p>';
+                        <p class="mt-2">';
             for ($i = 0; $i < $event["e_rating"]; $i++) {
                 echo '      <i class="fa fa-star fa-xl"></i>';
             }

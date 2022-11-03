@@ -49,7 +49,7 @@
         <div class="features w-100 d-flex flex-column">
             <div class="feature d-flex">
                 <p class="fw-bold">Create your own folio</p>
-                <img src="https://i.etsystatic.com/24634016/c/2645/2102/0/203/il/56f6d0/2581895112/il_680x540.2581895112_w7md.jpg" alt="..." class="img-fluid" />
+                <img src="media/img/david.png" alt="..." class="img-fluid" />
             </div>
             <div class="feature d-flex">
                 <img src="https://images.unsplash.com/photo-1632127258100-f8ae7c6c58c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" SameSite="None" alt="Image by Diane Picchiottino on Unsplash" class="img-fluid" />

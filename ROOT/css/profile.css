@@ -34,6 +34,22 @@ img[class*="rounded-circle"] {
     flex-basis: 33%;
 }
 
+/* GALLERY ITEMS */
+.list-group-item {
+    background-color: transparent;
+    border: none;
+    border-right: 0.1rem solid var(--dark);
+    border-bottom: 0.05rem solid var(--dark);
+    border-top: 0.05rem solid var(--dark);
+    border-radius: 0.5rem 0 0 0.5rem;
+    color: var(--dark);
+    transition: all 0.4s ease;
+}
+
+.list-group-item:hover {
+    border-right: 0.25rem solid var(--accB);
+}
+
 @media screen AND (max-width: 991px) {
     #events_inner {
         display: block;

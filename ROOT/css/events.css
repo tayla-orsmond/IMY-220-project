@@ -5,6 +5,33 @@
  * 
  */
 /* EVENT CARDS */
+.card,
+*[class~="card"] {
+    background-color: transparent !important;
+    border: none !important;
+    color: var(--dark) !important;
+    transition: all 0.4s ease;
+}
+
+#event_primary:hover,
+.card:hover,
+.event-card:hover,
+.user-card:hover,
+*[class~="card"]:hover {
+    color: var(--light) !important;
+    transform: scale(0.95);
+    border: none;
+    background-color: var(--dark) !important;
+}
+
+#event_primary:hover a,
+.card:hover a,
+.event-card:hover a,
+.user-card:hover a,
+*[class~="card"]:hover a {
+    color: var(--light) !important;
+}
+
 #event_area {
     min-height: 20rem;
 }
@@ -16,22 +43,10 @@
     gap: 1rem;
 }
 
-.event-card {
-    color: var(--dark);
-    transition: all 0.4s ease;
-}
-
 .event-card .card-img-top {
     height: 15rem;
     object-fit: cover;
     object-position: center;
-}
-
-#event_primary:hover,
-.event-card:hover {
-    color: var(--light);
-    transform: scale(0.95);
-    background-color: var(--dark);
 }
 
 /* USER CARDS */
@@ -40,16 +55,6 @@
     overflow-y: hidden;
     overflow-x: hidden;
     transition: all 0.4s ease;
-}
-
-.user-card:hover {
-    transform: scale(0.95);
-    background-color: var(--dark);
-    color: var(--light) !important;
-}
-
-.user-card:hover a {
-    color: var(--light) !important;
 }
 
 .user-card img {
@@ -81,7 +86,7 @@
 
 #event_primary div[class*="card-header"] {
     border: none;
-    background-color: transparent;
+    background-color: transparent !important;
     color: var(--accR) !important;
 }
 

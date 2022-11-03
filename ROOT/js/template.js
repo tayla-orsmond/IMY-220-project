@@ -279,3 +279,13 @@ export const category_template = (category, number) => {
         </div>
     </p>`;
 }
+
+//loading process
+export const loading = () => {
+    $('.loading').show();
+}
+
+//loaded
+export const loaded = () => {
+    $('.loading').hide(1250);
+}

@@ -9,6 +9,9 @@ require_once 'class/config.php';
         if user is not logged in - show sign up and log in page
      -->
 <header>
+    <div class="loading">
+        <p><i class="fa-solid fa-images fa-flip fa-2xl" style="--fa-animation-duration: 2s;"></i><p>
+    </div>
     <nav class="navbar navbar-expand-lg p-4 m-0 w-100">
         <div class="container-fluid">
             <a class="navbar-brand h1 ms-2" href="index.php">artfolio.</a>
@@ -61,6 +64,12 @@ require_once 'class/config.php';
 
                 ?>
             </div>
+            <script type="module">
+                import { loading, loaded } from './js/template.js';
+                //before page loads
+                loading();
+                document.addEventListener('DOMContentLoaded', loaded());
+            </script>
         </div>
     </nav>
 </header>

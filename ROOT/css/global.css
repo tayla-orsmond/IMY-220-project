@@ -394,6 +394,23 @@ svg[class*="checked"] {
     background-color: var(--accY) !important;
 }
 
+/* LOADING */
+.loading {
+    position: fixed;
+    z-index: 999;
+    min-width: 100vw;
+    min-height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--dark);
+    color: var(--light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen AND (max-width: 991px) {
 
     /* SPACER  */

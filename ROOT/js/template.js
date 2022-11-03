@@ -118,7 +118,7 @@ export const review_template = ({ u_rid, u_rname, r_name, r_comment, r_rating })
     `;
 }
 //chat template
-export const chat_template = ({ u_rid, u_rname, u_profile, c_message, c_timestamp, c_unread}) => {
+export const chat_template = ({ u_rid, u_rname, u_profile, c_message, c_timestamp, c_unread }) => {
     return `
     <div class="chat" id="${u_rid}" data-name="${u_rname}">
         <div class="d-flex justify-content-between align-items-center p-2">
@@ -135,21 +135,45 @@ export const chat_template = ({ u_rid, u_rname, u_profile, c_message, c_timestam
     </div>
     `;
 }
+
 //message template
-export const message_template = ({ u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp, c_unread }, reciever_id) => {
-    //replace links with anchor tags & replace youtube links with embedded video
-    c_message = c_message.replace(/(https?:\/\/www.youtube.com\/watch\?v=([^\s]+))/g, '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
-    //short version
-    c_message = c_message.replace(/(https?:\/\/youtu.be\/([^\s]+))/g, '<iframe width="100%" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
-    c_message = c_message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
+export const message_template = ({ u_rid, u_rname, u_sid, u_sname, c_message, c_timestamp, c_read }, reciever_id) => {
+    const url = /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?/g //regex for youtube url
+    //replace youtube url with iframe
+    if(c_message.match(url)){
+        let videos = c_message.match(url);
+        videos.forEach(video => {
+            let video_id = video.match(url)[5];
+            c_message = c_message.replaceAll(video, `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${video_id}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`);
+        });
+    }
+    
+    //replace any image url with image
+    const img_url = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g
+    if(c_message.match(img_url)){
+        let images = c_message.match(img_url);
+        images.forEach(image => {
+            c_message = c_message.replaceAll(image, `<img src="${image}" class="img-fluid" alt="...">`);
+        });
+    }
+
+    //replace any url with link that is not being used for youtube or image (i.e., not between < and >)
+    const link_url = /(?<!<)(http(s?):)([/|.|\w|\s|-])*(?=>)/g
+    if(c_message.match(link_url)){
+        let links = c_message.match(link_url);
+        links.forEach(link => {
+            c_message = c_message.replaceAll(link, `<a href="${link}" target="_blank">${link}</a>`);
+        });
+    }
 
     //if the message is from the reciever
-    let sent = u_rid == reciever_id;
-    let align = u_rid == reciever_id ? "right offset-5" : "left";
+    let sent = u_rid === parseInt(reciever_id);
+    let align = u_rid === parseInt(reciever_id) ? "right offset-5" : "left";
     return `
     <div class="message-box col-6 ${u_sid} ${align}">
-        <div class="bg-light p-3 rounded ${c_unread && !sent ? "unread" : ""} ">
+        <div class="bg-light p-3 rounded">
             <p>${c_message}</p>
+            <span class="text-muted small mt-1">${c_read ? '<i class="fa-solid fa-check-double"></i>' : '<i class="fa-solid fa-check"></i>'}</span>
         </div>
         <p class="text-muted ${align}">${new Date(c_timestamp).toLocaleTimeString()}</p>
     </div>
@@ -251,7 +275,7 @@ export const category_template = (category, number) => {
             <a href="home.php?search=${category[0]}">${category[0]}</a>
         </span> - <small>${category[1]} / ${number} posts</small><br/>
         <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: ${category[1]/number * 100}%" aria-label="${category[0]}" aria-valuenow="${category[1]}" aria-valuemin="0" aria-valuemax="${number}"></div>
+            <div class="progress-bar" role="progressbar" style="width: ${category[1] / number * 100}%" aria-label="${category[0]}" aria-valuenow="${category[1]}" aria-valuemin="0" aria-valuemax="${number}"></div>
         </div>
     </p>`;
 }

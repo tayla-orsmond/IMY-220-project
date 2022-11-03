@@ -36,6 +36,9 @@ $(() => {
     }
     //populate the chats div with the users chats
     const populate_chats = (resp) => {
+        //clear the chats div
+        $("#chats").empty();
+        //if the user has no chats
         if (resp.status == "success" && resp.data.return.length > 0) {
             resp.data.return.forEach(chat => {
                 $("#chats").append(chat_template(chat));
@@ -149,6 +152,28 @@ $(() => {
         $("#error").show();
         $("#error").append(error_template_blank("An unexpected error occured. Please try again later."));
     }
+
+    const set_reload = () => {
+        if (reload === null) {
+            reload = setInterval(() => {
+                //get the chat id
+                const chat_id = $("#chat_header h3").attr("id");
+                const chat_name = $("#chat_header h3").text().split("@")[1];
+                //load the users messages for the chat
+                load_messages(chat_id).then((resp) => {
+                    populate_messages(resp, chat_id, chat_name);
+                }).catch((error) => {
+                    error_handler(error);
+                })
+                //load more chats
+                load_chats().then((resp) => {
+                    populate_chats(resp);
+                }).catch((error) => {
+                    error_handler(error);
+                })
+            }, 1500);
+        }
+    }
     /**
      * 
      * EVENT HANDLERS
@@ -185,17 +210,7 @@ $(() => {
             }).catch((error) => {
                 error_handler(error);
             });
-            reload = setInterval(() => {
-                //get the chat id
-                const chat_id = $("#chat_header h3").attr("id");
-                const chat_name = $("#chat_header h3").text().split("@")[1];
-                //load the users messages for the chat
-                load_messages(chat_id).then((resp) => {
-                    populate_messages(resp, chat_id, chat_name);
-                }).catch((error) => {
-                    error_handler(error);
-                })
-            }, 1000);
+            set_reload();
         }
     }).catch((error) => {
         error_handler(error);
@@ -227,17 +242,7 @@ $(() => {
         });
         //if no current interval is set
         if (reload === null) {
-            reload = setInterval(() => {
-                //get the chat id
-                const chat_id = $("#chat_header h3").attr("id");
-                const chat_name = $("#chat_header h3").text().split("@")[1];
-                //load the users messages for the chat
-                load_messages(chat_id).then((resp) => {
-                    populate_messages(resp, chat_id, chat_name);
-                }).catch((error) => {
-                    error_handler(error);
-                })
-            }, 1000);
+            set_reload();
         }
     });
     //send a message when the send button is clicked

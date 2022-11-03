@@ -41,6 +41,8 @@
                     <div class="form-group mb-3">
                         <label for="e_location">Location *</label>
                         <input type="text" class="form-control" id="e_location" name="e_location" placeholder="Rue Laffitte, Paris, France" required>
+                        <span class="map-location" id="map"></span>
+                        <button type="button" class="btn btn-primary mt-2" id="e_location_btn">Use My Location</button>
                     </div>
                     <div class="form-group mb-3">
                         <label for="e_type">Type *</label>
@@ -347,3 +349,4 @@
 
 
 <script src="js/validate.js" type="module"></script>
+<script src="js/location.js" type="module"></script>

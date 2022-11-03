@@ -29,7 +29,7 @@ $(() => {
         const list_desc = $('#l_desc').val();
         //make an array of all the event card id's on the page (all the events in the gallery)
         const event_ids = [];
-        $('.event-card').each(function () {
+        $('.events-inner .event-card').each(function () {
             event_ids.push($(this).attr('id'));
         });
         const l_events = event_ids.join(',');

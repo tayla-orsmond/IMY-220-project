@@ -169,87 +169,29 @@
                         array_push($locations, $event['e_location']);
                     }
                 }
-                echo '</div><hr/>
+            }
+            echo '</div><hr/>
                     <h3> Recommended for You: </h3>
-                    <div class="border event-area-inner scroller">';
-                $recommend_count = 0;
-                if ($hashtags != null) {
-                    //sort the hashtags array by frequency
-                    $hashtags = array_count_values($hashtags[1]);
-                    arsort($hashtags);
-                    //search the database for events with the most common hashtags
-                    $i = 0;
-                    foreach ($hashtags as $hashtag => $count) {
-                        if ($i < 10) {
-                            //get the event details from the database
-                            //this is a curl post request to the api
+                    <div class="col-12 border scroller">
+                        <div class="event-area-inner">';
+            $recommend_count = 0;
+            if ($hashtags != null) {
+                //sort the hashtags array by frequency
+                $hashtags = array_count_values($hashtags[1]);
+                arsort($hashtags);
+                //search the database for events with the most common hashtags
+                $i = 0;
+                foreach ($hashtags as $hashtag => $count) {
+                    if ($i < 10) {
+                        //get the event details from the database
+                        //this is a curl post request to the api
 
-                            //set post body (JSON data)
-                            $body = array(
-                                'type'   => 'info',
-                                'user_id' => $_SESSION['user_id'],
-                                'return'  => 'search',
-                                'search'  => $hashtag,
-                            );
-
-                            //make post request to API using curl
-                            $curl = curl_init();
-                            curl_setopt_array($curl, array(
-                                CURLOPT_URL => $api_url,
-                                CURLOPT_POST => TRUE,
-                                CURLOPT_RETURNTRANSFER => TRUE,
-                                CURLOPT_HTTPHEADER => $api_headers,
-                                CURLOPT_POSTFIELDS => json_encode($body),
-                                CURLOPT_USERPWD => $api_key,
-                            ));
-                            //Send the request
-                            $r = curl_exec($curl);
-
-                            if (!$r) { //some kind of error occurred
-                                echo "Error: " . curl_error($curl);
-                            }
-
-                            $result = json_decode($r, true);
-
-                            //close the request
-                            curl_close($curl);
-
-                            //get the event details from the response
-                            $events = $result['data']['return'];
-                            //display the event details (assuming the event is not already in the list)
-                            if ($events != null) {
-                                foreach ($events as $event) {
-                                    if (!in_array($event['e_id'], $event_ids)) {
-                                        echo '
-                                            <div>
-                                                <div class="card event-card" id="' . $event['e_id'] . '">
-                                                    <img src="media/uploads/events/' . $event['e_img'] . '" class="card-img-top img-fluid" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title text-truncate">' . $event['e_name'] . '</h5>
-                                                        <p class="card-text text-truncate">' . $event['e_location'] . '</p>
-                                                        <small class="card-text text-muted">' . $event['e_date'] . '</small>
-                                                        <a href="event.php?id=' . $event['e_id'] . '" class="stretched-link"></a>
-                                                    </div>
-                                                </div>
-                                            </div>';
-                                        $recommend_count++;
-                                        $i++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } elseif ($locations != null && $recommend_count < 15) {
-                    //if there are no hashtags, recommend events based on location
-                    //get the event details from the database
-                    //this is a curl post request to the api
-                    foreach ($locations as $location) {
                         //set post body (JSON data)
                         $body = array(
                             'type'   => 'info',
                             'user_id' => $_SESSION['user_id'],
                             'return'  => 'search',
-                            'search'  => $location,
+                            'search'  => $hashtag,
                         );
 
                         //make post request to API using curl
@@ -297,16 +239,18 @@
                             }
                         }
                     }
-                } elseif ($recommend_count < 15) {
-                    //if there are no hashtags or locations, recommend any event that is not already in the list
-                    //get the event details from the database
-                    //this is a curl post request to the api
+                }
+            } elseif ($locations != null && $recommend_count < 15) {
+                //if there are no hashtags, recommend events based on location
+                //get the event details from the database
+                //this is a curl post request to the api
+                foreach ($locations as $location) {
                     //set post body (JSON data)
                     $body = array(
                         'type'   => 'info',
                         'user_id' => $_SESSION['user_id'],
-                        'return'  => 'events',
-                        'scope'  => 'global',
+                        'return'  => 'search',
+                        'search'  => $location,
                     );
 
                     //make post request to API using curl
@@ -326,58 +270,115 @@
                         echo "Error: " . curl_error($curl);
                     }
 
-                    $result = null;
-                    try {
-                        $result = json_decode($r, true);
-                    } catch (Exception $e) {
-                        $result = null;
-                    }
+                    $result = json_decode($r, true);
+
                     //close the request
                     curl_close($curl);
 
                     //get the event details from the response
-                    $events = null;
-                    if ($result != null) {
-                        $events = $result['data']['return'];
-                    } else {
-                        $events = null;
-                    }
-
+                    $events = $result['data']['return'];
                     //display the event details (assuming the event is not already in the list)
                     if ($events != null) {
-                        $e = 0;
                         foreach ($events as $event) {
-                            if ($e < 10) {
-                                if (!in_array($event['e_id'], $event_ids)) {
-                                    echo '
-                                        <div>
-                                            <div class="card event-card" id="' . $event['e_id'] . '">
-                                                <img src="media/uploads/events/' . $event['e_img'] . '" class="card-img-top img-fluid" alt="...">
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-truncate">' . $event['e_name'] . '</h5>
-                                                    <p class="card-text text-truncate">' . $event['e_location'] . '</p>
-                                                    <small class="card-text text-muted">' . $event['e_date'] . '</small>
-                                                    <a href="event.php?id=' . $event['e_id'] . '" class="stretched-link"></a>
-                                                </div>
+                            if (!in_array($event['e_id'], $event_ids)) {
+                                echo '
+                                    <div>
+                                        <div class="card event-card" id="' . $event['e_id'] . '">
+                                            <img src="media/uploads/events/' . $event['e_img'] . '" class="card-img-top img-fluid" alt="...">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-truncate">' . $event['e_name'] . '</h5>
+                                                <p class="card-text text-truncate">' . $event['e_location'] . '</p>
+                                                <small class="card-text text-muted">' . $event['e_date'] . '</small>
+                                                <a href="event.php?id=' . $event['e_id'] . '" class="stretched-link"></a>
                                             </div>
-                                        </div>';
-                                }
+                                        </div>
+                                    </div>';
+                                $recommend_count++;
                             }
-                            $e++;
                         }
                     }
                 }
-                if ($recommend_count === 0) {
-                    echo '<p class="w-100 p-3 text-center text-muted">No events to recommend</p>';
+            } elseif ($recommend_count < 15) {
+                //if there are no hashtags or locations, recommend any event that is not already in the list
+                //get the event details from the database
+                //this is a curl post request to the api
+                //set post body (JSON data)
+                $body = array(
+                    'type'   => 'info',
+                    'user_id' => $_SESSION['user_id'],
+                    'return'  => 'events',
+                    'scope'  => 'global',
+                    'id' => $_SESSION['user_id']
+                );
+
+                //make post request to API using curl
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => $api_url,
+                    CURLOPT_POST => TRUE,
+                    CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_HTTPHEADER => $api_headers,
+                    CURLOPT_POSTFIELDS => json_encode($body),
+                    CURLOPT_USERPWD => $api_key,
+                ));
+                //Send the request
+                $r = curl_exec($curl);
+
+                if (!$r) { //some kind of error occurred
+                    echo "Error: " . curl_error($curl);
+                }
+
+                $result = null;
+                try {
+                    $result = json_decode($r, true);
+                } catch (Exception $e) {
+                    $result = null;
+                }
+                //close the request
+                curl_close($curl);
+
+                //get the event details from the response
+                $events = null;
+                if ($result != null) {
+                    $events = $result['data']['return'];
+                } else {
+                    $events = null;
+                }
+
+                //display the event details (assuming the event is not already in the list)
+                if ($events != null) {
+                    $e = 0;
+                    foreach ($events as $event) {
+                        if (!in_array($event['e_id'], $event_ids) || empty($event_ids)) {
+                            echo '
+                                <div>
+                                    <div class="card event-card" id="' . $event['e_id'] . '">
+                                        <img src="media/uploads/events/' . $event['e_img'] . '" class="card-img-top img-fluid" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate">' . $event['e_name'] . '</h5>
+                                            <p class="card-text text-truncate">' . $event['e_location'] . '</p>
+                                            <small class="card-text text-muted">' . $event['e_date'] . '</small>
+                                            <a href="event.php?id=' . $event['e_id'] . '" class="stretched-link"></a>
+                                        </div>
+                                    </div>
+                                </div>';
+                            $recommend_count++;
+                        }
+                    }
                 }
             }
+            if ($recommend_count === 0) {
+                echo '<p class="w-100 p-3 text-center text-muted">No events to recommend</p>';
+            }
         }
-            ?>
+        ?>
             </div>
+        </div>
     </div>
     <?php
     require_once 'php/footer.php';
     ?>
+    <script src="js/scroll.js"></script>
     <script src="js/gallery.js" type="module"></script>
 </body>
 

@@ -124,6 +124,12 @@ div[class~="carousel-item"] img {
 .fa-star-o:hover {
     transform: scale(1.2);
 }
+
+/* BORDER */
+.border {
+    border: 0.05rem solid var(--dark) !important;
+    border-radius: 0.5rem;
+}
 /* NEW BADGE */
 .badge-new,
 .badge-admin {

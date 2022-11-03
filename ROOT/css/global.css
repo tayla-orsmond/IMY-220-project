@@ -214,7 +214,7 @@ header a:not(.btn):hover::before {
 
 .navbar-toggler:focus,
 .navbar-toggler:hover {
-   box-shadow: var(--accB) 0.2rem 0.2rem;
+    box-shadow: var(--accB) 0.2rem 0.2rem;
 }
 
 /* BUTTONS */
@@ -276,6 +276,17 @@ div[class~="border"] {
     border-radius: 0.6rem;
 }
 
+/* BG PRIMARY + SECONDARY */
+*[class*="bg-primary"] {
+    background-color: var(--accR) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+*[class*="bg-secondary"] {
+    background-color: var(--accB) !important;
+    transition: all 0.3s ease-in-out;
+}
+
 /* BG DARK */
 *[class*="bg-dark"] {
     background-color: var(--dark);
@@ -307,7 +318,7 @@ svg[class*="text-secondary"] {
 em[class*="text-secondary"],
 div[class*="text-secondary"],
 svg[class*="text-primary"] {
-    color: var(--accB) !important;  
+    color: var(--accB) !important;
 }
 
 *[class*="text-dark"] {
@@ -334,6 +345,7 @@ svg[class*="checked"] {
 }
 
 @media screen AND (max-width: 991px) {
+
     /* SPACER  */
     .spacer {
         height: 10vh;

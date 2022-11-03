@@ -4,17 +4,6 @@
  * Admin page styling
  * 
  */
-
-*[class*="bg-primary"] {
-    background-color: var(--accR) !important;
-    transition: all 0.3s ease-in-out;
-}
-
-*[class*="bg-secondary"] {
-    background-color: var(--accB) !important;
-    transition: all 0.3s ease-in-out;
-}
-
 *[class*="bg-primary"]:hover,
 *[class*="bg-secondary"]:hover {
     transform: scale(1.1);

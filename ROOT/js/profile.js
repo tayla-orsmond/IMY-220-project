@@ -173,7 +173,7 @@ $(() => {
                 }
                 else {
                     //append an error message
-                    $("#event_form").append(error_template_blank(resp.data.message));
+                    $("#event_form").append(error_template_blank("An unexpected error occurred. Please make sure all fields are filled out correctly."));
                 }
             },
             error: function (xhr, status, error) {//error handling

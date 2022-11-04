@@ -942,8 +942,30 @@
                 //error handling
                 try {
                     $query->execute(array($review_id, $user_id));
-                    $this->respond("success", null, "Review deleted successfully");
-                    $query = null;
+                    //update the rating of the event
+                    $query = $this->conn->prepare('SELECT ROUND(AVG(r_rating)) as avg_rating FROM reviews WHERE e_rid=?;');
+                    //error handling
+                    try {
+                        $query->execute(array($review_id));
+                        $result = $query->fetchAll();
+                        $avg_rating = $result["avg_rating"];
+                        if ($avg_rating == null) {
+                            $avg_rating = 0;
+                        }
+                        $query = $this->conn->prepare('UPDATE events SET e_rating = ? WHERE e_id = ?;');
+                        //error handling
+                        try {
+                            $query->execute(array($avg_rating, $review_id));
+                            $this->respond("success", null, "Review deleted successfully");
+                            $query = null;
+                        } catch (PDOException $e) {
+                            $this->respond("error", null,  $e->getMessage());
+                            $query = null;
+                        }
+                    } catch (PDOException $e) {
+                        $this->respond("error", null,  $e->getMessage());
+                        $query = null;
+                    }
                 } catch (PDOException $e) {
                     $this->respond("error", null,  $e->getMessage());
                     $query = null;

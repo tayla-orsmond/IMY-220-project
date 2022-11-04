@@ -3,6 +3,8 @@
 // Path: js\template.js
 //Description: This file contains js templates.
 
+import { get_cookie } from "./cookie.js";
+
 //Event template
 export const event_template = ({ e_img, e_name, e_location, e_rating, e_id }, index) => {
     return `
@@ -105,6 +107,11 @@ export const review_template = ({ u_rid, u_rname, r_name, r_comment, r_rating })
     for (var i = 0; i < 5 - r_rating; i++) {
         stars += `<i class="fa fa-star-o fa-xl"></i>`;
     }
+    let edit = "";
+    if (u_rid == get_cookie("user_id", document.cookie.split(";"))) {
+        edit = `<div class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#review_modal" id="edit_review">Edit Review</div>
+        <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_review_modal" id="delete_review_btn" data-rid="${u_rid}">Delete Review</div>`;
+    }
     return `<div class="p-1 mt-2 review-box" id="r-${u_rid}">
         <p class="h5 review-name">${r_name}</p>
         <div class="d-flex justify-content-between">
@@ -113,8 +120,7 @@ export const review_template = ({ u_rid, u_rname, r_name, r_comment, r_rating })
             <span class="d-none review-rating">${r_rating}</span></div>
         </div>
         <p class="review-comment">${r_comment}</p>
-        <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#review_modal" id="edit_review">Edit Review</div>
-        <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_review_modal" id="delete_review">Delete Review</div>
+        ${edit}
     </div>
     `;
 }

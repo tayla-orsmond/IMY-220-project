@@ -2,19 +2,16 @@
 //Tayla Orsmond u21467456
 error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', 'tmp/php-error.log');
 //allow file uploads
 ini_set('file_uploads', 'On');
 //set the max file size to 2MB
 ini_set('upload_max_filesize', '2M');
 
-try{
-    session_start();
-}
-catch(Exception $e){
-    echo 'Error: The server is currently down. Please try again later. <br/>' . $e->getMessage() . "<br/>";
-}
+session_start();
 //globals
 $api_url = "http://imy.up.ac.za/IMY220/u21467456/api.php";
 // $api_url = "http://localhost/api.php";

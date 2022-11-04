@@ -247,6 +247,7 @@ $(() => {
     }
     //populate the view reviews modal with all of the reviews for the event
     const populate_view_reviews = () => {
+        $('#view_reviews_modal #reviews').empty();
         //make the ajax call
         $.ajax({
             url: api_url,

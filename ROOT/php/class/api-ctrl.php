@@ -41,7 +41,7 @@
                 u_rname VARCHAR(255) not null,
                 FOREIGN KEY (u_rname) REFERENCES users(u_name) ON DELETE CASCADE,
                 e_name VARCHAR(255) not null,
-                e_desc VARCHAR(500) DEFAULT "No description",
+                e_desc VARCHAR(1000) DEFAULT "No description",
                 e_date DATE not null,
                 e_time TIME not null,
                 e_location VARCHAR(255) not null,

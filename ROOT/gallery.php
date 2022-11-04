@@ -175,6 +175,7 @@
                     <div class="col-12 border scroller">
                         <div class="event-area-inner">';
             $recommend_count = 0;
+            $recommended_events = array();
             if ($hashtags != null) {
                 //sort the hashtags array by frequency
                 $hashtags = array_count_values($hashtags[1]);
@@ -221,7 +222,7 @@
                         //display the event details (assuming the event is not already in the list)
                         if ($events != null) {
                             foreach ($events as $event) {
-                                if (!in_array($event['e_id'], $event_ids)) {
+                                if (!in_array($event['e_id'], $event_ids) && !in_array($event['e_id'], $recommended_events)) {
                                     echo '
                                         <div>
                                             <div class="card event-card" id="' . $event['e_id'] . '">
@@ -235,12 +236,14 @@
                                             </div>
                                         </div>';
                                     $recommend_count++;
+                                    array_push($recommended_events, $event['e_id']);
                                 }
                             }
                         }
                     }
                 }
-            } elseif ($locations != null && $recommend_count < 15) {
+            }
+            if ($locations != null && $recommend_count < 15) {
                 //if there are no hashtags, recommend events based on location
                 //get the event details from the database
                 //this is a curl post request to the api
@@ -280,7 +283,7 @@
                     //display the event details (assuming the event is not already in the list)
                     if ($events != null) {
                         foreach ($events as $event) {
-                            if (!in_array($event['e_id'], $event_ids)) {
+                            if (!in_array($event['e_id'], $event_ids) && !in_array($event['e_id'], $recommended_events)) {
                                 echo '
                                     <div>
                                         <div class="card event-card" id="' . $event['e_id'] . '">
@@ -294,11 +297,13 @@
                                         </div>
                                     </div>';
                                 $recommend_count++;
+                                array_push($recommended_events, $event['e_id']);
                             }
                         }
                     }
                 }
-            } elseif ($recommend_count < 15) {
+            }
+            if ($recommend_count < 15) {
                 //if there are no hashtags or locations, recommend any event that is not already in the list
                 //get the event details from the database
                 //this is a curl post request to the api
@@ -349,7 +354,7 @@
                 if ($events != null) {
                     $e = 0;
                     foreach ($events as $event) {
-                        if (!in_array($event['e_id'], $event_ids) || empty($event_ids)) {
+                        if (!in_array($event['e_id'], $event_ids) || empty($event_ids) && !in_array($event['e_id'], $recommended_events)) {
                             echo '
                                 <div>
                                     <div class="card event-card" id="' . $event['e_id'] . '">
@@ -363,6 +368,7 @@
                                     </div>
                                 </div>';
                             $recommend_count++;
+                            array_push($recommended_events, $event['e_id']);
                         }
                     }
                 }
@@ -372,8 +378,8 @@
             }
         }
         ?>
-            </div>
-        </div>
+    </div>
+    </div>
     </div>
     <?php
     require_once 'php/footer.php';

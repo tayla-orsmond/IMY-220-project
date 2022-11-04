@@ -13,7 +13,7 @@ try{
     session_start();
 }
 catch(Exception $e){
-    echo 'Error: The server is currently down. Please try again later. <br/>' . $e->getMessage();
+    echo 'Error: The server is currently down. Please try again later. <br/>' . $e->getMessage() . "<br/>";
 }
 //globals
 $api_url = "http://imy.up.ac.za/IMY220/u21467456/api.php";
@@ -57,7 +57,7 @@ class DBH
             //return database connection
             $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbname;charset=$this->charset", $this->username, $this->password, $this->options);
         } catch (PDOException $e) {
-            echo "Error Connecting to Database: " . $e->getMessage() . "<br/>";
+            echo "Error Connecting to Database: <br>" . $e->getMessage() . "<br/>";
             die();
         }
     }

@@ -62,7 +62,7 @@
         $r = curl_exec($curl);
 
         if (!$r) { //some kind of error occurred
-            echo "Error: " . curl_error($curl);
+            // echo "Error: " . curl_error($curl);
         }
         try {
             $result = json_decode($r, true);
@@ -128,7 +128,7 @@
             $r = curl_exec($curl);
 
             if (!$r) { //some kind of error occurred
-                echo "Error: " . curl_error($curl);
+                // echo "Error: " . curl_error($curl);
             }
 
             $result = json_decode($r, true);

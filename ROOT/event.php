@@ -73,6 +73,7 @@
         //close the request
         curl_close($curl);
 
+        $event = null;
         if (!empty($result)) {
             //get the event details from the response
             $event = $result['data']['return'];
@@ -131,13 +132,21 @@
                 // echo "Error: " . curl_error($curl);
             }
 
-            $result = json_decode($r, true);
-
+            $result = null;
+            try {
+                $result = json_decode($r, true);
+            } catch (Exception $e) {
+                $result = null;
+            }
+            
             //close the request
             curl_close($curl);
 
             //get the event details from the response
-            $reviews = $result['data']['return'];
+            $reviews = null;
+            if (!empty($result)) {
+                $reviews = $result['data']['return'];
+            }
 
             if(!empty($reviews)){
                 //find the review closest to the average rating of the event

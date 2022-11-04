@@ -161,8 +161,12 @@
                     // echo "Error: " . curl_error($curl);
                 }
 
-                $result = json_decode($r, true);
-
+                $result = null;
+                try {
+                    $result = json_decode($r, true);
+                } catch (Exception $e) {
+                    $result = null;
+                }
                 //close the request
                 curl_close($curl);
 
@@ -195,10 +199,16 @@
                     // echo "Error: " . curl_error($curl);
                 }
 
-                $result = json_decode($r, true);
+                $result = null;
+                try {
+                    $result = json_decode($r, true);
+                } catch (Exception $e) {
+                    $result = null;
+                }
 
                 //close the request
                 curl_close($curl);
+                
                 if (!empty($result) && $result['status'] == "success") {
                     $following = $result['data']['return'];
                 } else {

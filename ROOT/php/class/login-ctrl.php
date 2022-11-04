@@ -112,7 +112,18 @@ class LoginCtrl
         );
 
         $this->api->getUser($req);
-        $result = json_decode($this->api->getResponse(), true);
+        try {
+            $result = json_decode($this->api->getResponse(), true);
+
+        } catch (Exception $e) {
+            $result = array(
+                "status" => "error",
+                "data" => array(
+                    "message" => "Signup Failed, " . $e->getMessage()
+                )
+            );
+        }
+        
         //check if login was successful
         if ($result["status"] === "error") {
             $_SESSION["login_err"] = $error[4] . ' ' . $result["data"]["message"];

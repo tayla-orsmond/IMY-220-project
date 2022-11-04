@@ -22,18 +22,20 @@ function removeUnused($path, $type)
         $image = "r_img";
     }
     $res = json_decode($api->getResponse(), true);
-    $files = glob($path . '*'); // get all file names
-    foreach ($files as $file) { // iterate files
-        if (is_file($file)) {
-            $found = false;
-            foreach ($res['data']['return'] as $r) {
-                if ($r[$image] === explode("/", $file)[3]) {
-                    $found = true;
-                    break;
+    if ($res != null && $res["status"] === "success") {
+        $files = glob($path . '*'); // get all file names
+        foreach ($files as $file) { // iterate files
+            if (is_file($file)) {
+                $found = false;
+                foreach ($res['data']['return'] as $r) {
+                    if ($r[$image] === explode("/", $file)[3]) {
+                        $found = true;
+                        break;
+                    }
                 }
-            }
-            if (!$found) {
-                unlink($file); // delete file
+                if (!$found) {
+                    unlink($file); // delete file
+                }
             }
         }
     }

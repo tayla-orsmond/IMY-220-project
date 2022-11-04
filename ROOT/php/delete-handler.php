@@ -19,7 +19,7 @@ if (isset($_POST['delete_profile'])) {
     $api = new API();
     $api->delete($req);
     $result = json_decode($api->getResponse(), true);
-    if ($result['status'] == "success") {
+    if ($result != null && $result['status'] == "success") {
         if ($_SESSION['user_id'] == $_POST['p_id']) {
             header("Location: ../logout.php");
         } else {

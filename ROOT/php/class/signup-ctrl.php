@@ -149,8 +149,16 @@ class SignupCtrl
             "display_name" => $this->display_name
         );
         $this->api->setUser($req);
-        $result = json_decode($this->api->getResponse(), true);
-
+        try {
+            $result = json_decode($this->api->getResponse(), true);
+        } catch (Exception $e) {
+            $result = array(
+                "status" => "error",
+                "data" => array(
+                    "message" => "Signup Failed, " . $e->getMessage()
+                )
+            );
+        }
         //check if signup was successful
         if ($result["status"] === "error") {
             $_SESSION["signup_err"] = $error[6] . " " . $result["data"]["message"];

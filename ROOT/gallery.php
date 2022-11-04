@@ -137,13 +137,22 @@
                         // echo "Error: " . curl_error($curl);
                     }
 
-                    $result = json_decode($r, true);
+                    $result = null;
+                    try {
+                        $result = json_decode($r, true);
+                    } catch (Exception $e) {
+                        $result = null;
+                    }
 
                     //close the request
                     curl_close($curl);
 
                     //get the event details from the response
-                    $event = $result['data']['return'];
+                    $event = null;
+                    if ($result != null) {
+                        $event = $result['data']['return'];
+                    }
+
                     //display the event details
                     if ($event != null) {
                         echo '
@@ -212,13 +221,22 @@
                             // echo "Error: " . curl_error($curl);
                         }
 
-                        $result = json_decode($r, true);
+                        $result = null;
+                        try {
+                            $result = json_decode($r, true);
+                        } catch (Exception $e) {
+                            $result = null;
+                        }
 
                         //close the request
                         curl_close($curl);
 
                         //get the event details from the response
-                        $events = $result['data']['return'];
+                        $events = null;
+                        if ($result != null) {
+                            $events = $result['data']['return'];
+                        }
+
                         //display the event details (assuming the event is not already in the list)
                         if ($events != null) {
                             foreach ($events as $event) {
@@ -273,13 +291,20 @@
                         // echo "Error: " . curl_error($curl);
                     }
 
-                    $result = json_decode($r, true);
-
+                    $result = null;
+                    try {
+                        $result = json_decode($r, true);
+                    } catch (Exception $e) {
+                        $result = null;
+                    }
                     //close the request
                     curl_close($curl);
 
                     //get the event details from the response
-                    $events = $result['data']['return'];
+                    $events = null;
+                    if ($result != null) {
+                        $events = $result['data']['return'];
+                    }
                     //display the event details (assuming the event is not already in the list)
                     if ($events != null) {
                         foreach ($events as $event) {
@@ -346,8 +371,6 @@
                 $events = null;
                 if ($result != null) {
                     $events = $result['data']['return'];
-                } else {
-                    $events = null;
                 }
 
                 //display the event details (assuming the event is not already in the list)

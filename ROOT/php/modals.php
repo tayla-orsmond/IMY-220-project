@@ -131,7 +131,7 @@
                 <h5 class="modal-title" id="add_to_list_modal_label">Add to a Gallery</h5>
             </div>
             <div class="modal-body">
-                <form id="add_to_list_form" method="post" action="../event.php?id=<?= $_GET['id'] ?>">
+                <form id="add_to_list_form" method="post" action="event.php?id=<?= $_GET['id'] ?>">
                     <div class="form-group mb-3">
                         <label for="l_id">Galleries</label>
                         <select class="form-select" id="l_id" name="l_id" required>

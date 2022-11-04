@@ -173,7 +173,7 @@ $(() => {
                 }
                 else {
                     //append an error message
-                    $("#event_form").append(error_template(resp.data.message));
+                    $("#event_form").append(error_template_blank(resp.data.message));
                 }
             },
             error: function (xhr, status, error) {//error handling
@@ -215,7 +215,7 @@ $(() => {
                 }
                 else {
                     //append an error message
-                    $("#gallery_form").append(error_template(resp.data.message));
+                    $("#gallery_form").append(error_template_blank(resp.data.message));
                 }
             },
             error: function (xhr, status, error) {//error handling

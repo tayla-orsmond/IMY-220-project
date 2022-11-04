@@ -114,6 +114,7 @@ export const review_template = ({ u_rid, u_rname, r_name, r_comment, r_rating })
         </div>
         <p class="review-comment">${r_comment}</p>
         <div class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#review_modal" id="edit_review">Edit Review</div>
+        <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_review_modal" id="delete_review">Delete Review</div>
     </div>
     `;
 }

@@ -341,4 +341,9 @@ $(() => {
     $('#view_reviews').on('click', () => {
         populate_view_reviews();
     });
+    //when the delete_review button is clicked, delete the review
+    $('#delete_review_btn').on('click', function(e) {
+        $('#delete_review_form').append(`<input type="hidden" name="r_user_id" value="${$(this).data("rid")}">`);
+        $('#delete_review_modal').modal('show');
+    });
 });

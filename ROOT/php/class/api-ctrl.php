@@ -914,10 +914,10 @@
             $user_id = $req["user_id"];
             if ($delete == "event") {
                 $event_id = $req["event_id"];
-                $query = $this->conn->prepare('DELETE FROM events WHERE e_id = ? AND u_rid = ?;');
+                $query = $this->conn->prepare('DELETE FROM events WHERE e_id = ?;');
                 //error handling
                 try {
-                    $query->execute(array($event_id, $user_id));
+                    $query->execute(array($event_id));
                     $this->respond("success", null, "Event deleted successfully");
                     $query = null;
                 } catch (PDOException $e) {
@@ -926,10 +926,10 @@
                 }
             } elseif ($delete == "list") {
                 $list_id = $req["list_id"];
-                $query = $this->conn->prepare('DELETE FROM lists WHERE l_id = ? AND u_rid = ?;');
+                $query = $this->conn->prepare('DELETE FROM lists WHERE l_id = ?;');
                 //error handling
                 try {
-                    $query->execute(array($list_id, $user_id));
+                    $query->execute(array($list_id));
                     $this->respond("success", null, "List deleted successfully");
                     $query = null;
                 } catch (PDOException $e) {

@@ -221,7 +221,7 @@
                     }
                     if ($reviews[$i]["u_rid"] == $_SESSION['user_id'] || $_SESSION['user_admin'] == 1 || $event["u_rid"] == $_SESSION['user_id']) {
                         echo '
-                            <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_review_modal" id="delete_review">Delete Review</div>';
+                            <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete_review_modal" id="delete_review_btn" data-rid="'. $reviews[$i]["u_rid"] .'">Delete Review</div>';
                     }
                     echo '</div>';
                 }

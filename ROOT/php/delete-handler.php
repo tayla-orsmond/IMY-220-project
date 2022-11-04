@@ -47,7 +47,7 @@ if (isset($_POST['delete_review'])) {
     $req = array(
         "type" => "delete",
         "delete" => "review",
-        "user_id" => $_SESSION['user_id'],
+        "user_id" => $_POST['r_user_id'],
         "event_id" => $_POST['e_rid']
     );
     $api = new API();

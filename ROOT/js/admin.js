@@ -149,7 +149,9 @@ $(() => {
         $("#users").empty();
         if (resp.status === "success" && resp.data.return.length > 0) {
             resp.data.return.forEach((user) => {
-                $("#users").append(user_template_admin(user));
+                if(user.u_id != get_cookie("user_id", document.cookie.split(";"))){
+                    $("#users").append(user_template_admin(user));
+                }
             });
         }
         else {

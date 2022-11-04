@@ -203,7 +203,7 @@ export const event_template_admin = ({ e_id, e_name, u_rid, u_rname, e_location,
     return `
     <tr>
         <th scope="row">${e_id}</th>
-        <td><img src="${e_img}" class="img-fluid rounded" alt="..."></td>
+        <td><img src="media/uploads/events/${e_img}" class="img-fluid icon" alt="..."></td>
         <td class="text-truncate">
             <a href="event.php?id=${e_id}">${e_name}</a>
         </td>
@@ -226,7 +226,7 @@ export const user_template_admin = ({ u_id, u_name, u_display_name, u_profile })
     return `
     <tr>
         <th scope="row">${u_id}</th>
-        <td><img src="${u_profile}" class="img-fluid rounded" alt="..."></td>
+        <td><img src="media/uploads/profiles/${u_profile}" class="img-fluid icon" alt="..."></td>
         <td class="text-truncate">
             <a href="profile.php?id=${u_id}">@${u_name}</a>
         </td>

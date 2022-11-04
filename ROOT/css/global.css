@@ -161,6 +161,13 @@ div[class*="card"] {
     background-attachment: fixed;
 }
 
+.icon {
+    object-fit: cover;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+}
+
 /* BUTTONS AND LINKS */
 a {
     font-family: var(--main-font);

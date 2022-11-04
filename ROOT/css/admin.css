@@ -69,6 +69,7 @@
 
 *[class*="accordion-body"] {
     border: none;
+    background-color: var(--light) !important;
     border-radius: 0.5rem;
 }
 

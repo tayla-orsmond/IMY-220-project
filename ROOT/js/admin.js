@@ -47,11 +47,15 @@ $(() => {
             $("#types").html("");
             let categories = sort_event_categories(resp.data.return);
             let tags = sort_event_tags(resp.data.return);
-            categories.forEach((category) => {
-                $("#types").append(category_template(category, categories.length));
+            categories.forEach((category, index) => {
+                if (index < 5) {
+                    $("#types").append(category_template(category, resp.data.return.length));
+                }
             });
-            tags.forEach((tag) => {
-                $("#tags").append(tag_template(tag));
+            tags.forEach((tag, index) => {
+                if (index < 10) {
+                    $("#tags").append(tag_template(tag));
+                }
             });
         }
         else {

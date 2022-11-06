@@ -1,9 +1,9 @@
-# artfolio.
+# artfolio. 🎨
 IMY 220 | Events Website | 2022
 ## About:
-This is a website for my second-year BIS Multimedia module, IMY-220. The goal was to create an events social-media site (think tripAdvisor + Instagram) for uploading and viewing users' events, revieing events, following and messaging users - with a theme of your choice. The theme for this site is art and pop-culture based events, *artfolio*.
+This is a website for my second-year BIS Multimedia module, IMY-220. The goal was to create an events social-media site (think tripAdvisor + Instagram) for uploading and viewing users' events, revieing events & following and messaging users with a theme of your choice. The theme for this site is art and pop-culture based events, *artfolio*.
 
-I decided to go for a modern, contemporary, "neo-pop" feel, with some historical art pieces thrown in for the feeling of "modernizing old art". The site is fully responsive. The site is also fully functional, and can be used to upload/view/review events, follow users, and message users.
+I decided to go for a modern, contemporary, "neo-pop" feel, with some historical art pieces thrown in for the feeling of "modernizing old art". The site is fully responsive & fully functional according to our spec, and can be used to upload/view/review events, follow users, and message users.
 
 ## Built with:
 <div>
@@ -30,6 +30,6 @@ git clone
 ```sh
 CREATE DATABASE u21467456;
 ```
-3. Import the database from the `artfolio.sql` file
+3. Import the database from the `u21467456.sql` file
 4. Update the database connection details in `config.php`
 5. Run the site on a local server

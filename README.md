@@ -1,11 +1,11 @@
 # artfolio. 🎨
 IMY 220 | Events Website | 2022
-## About:
+## 🖌️ About:
 This is a website for my second-year BIS Multimedia module, IMY-220. The goal was to create an events social-media site (think tripAdvisor + Instagram) for uploading and viewing users' events, revieing events & following and messaging users with a theme of your choice. The theme for this site is art and pop-culture based events, *artfolio*.
 
 I decided to go for a modern, contemporary, "neo-pop" feel, with some historical art pieces thrown in for the feeling of "modernizing old art". The site is fully responsive & fully functional according to our spec, and can be used to upload/view/review events, follow users, and message users.
 
-## Built with:
+## 🏛️ Built with:
 <div>
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML5" />
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white" alt="CSS3" />
@@ -18,10 +18,10 @@ I decided to go for a modern, contemporary, "neo-pop" feel, with some historical
 <img src="https://img.shields.io/badge/Google%20Fonts-4285F4?style=flat&logo=google-fonts&logoColor=white" alt="Google Fonts" />
 </div>
 
-## Design:
+## 🖍️ Design:
 The figma file with the initial wireframe can be found [here](https://www.figma.com/file/1SBDWTFeEkoRS0gfMbMbp4/IMY-220-Events-Website?node-id=0%3A1)
 
-## Installation:
+## 🖼️ Installation:
 1. Clone the repo
 ```sh
 git clone

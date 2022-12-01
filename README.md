@@ -22,14 +22,4 @@ I decided to go for a modern, contemporary, "neo-pop" feel, with some historical
 The figma file with the initial wireframe can be found [here](https://www.figma.com/file/1SBDWTFeEkoRS0gfMbMbp4/IMY-220-Events-Website?node-id=0%3A1)
 
 ## 🖼️ Installation:
-1. Clone the repo
-```sh
-git clone
-```
-2. Create a database in MySQL (this project has been configured with my student number)
-```sh
-CREATE DATABASE u21467456;
-```
-3. Import the database from the `u21467456.sql` file
-4. Update the database connection details in `config.php`
-5. Run the site on a local server
+

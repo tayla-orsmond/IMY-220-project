@@ -8,4 +8,6 @@
 *.jpeg
 *.zip
 *.xlsx
+*.sql
 tmp/
+Completed/

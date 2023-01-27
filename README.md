@@ -1,35 +1,81 @@
-# artfolio.
-IMY 220 | Events Website | 2022
-## About:
-This is a website for my second-year BIS Multimedia module, IMY-220. The goal was to create an events social-media site (think tripAdvisor + Instagram) for uploading and viewing users' events, revieing events, following and messaging users - with a theme of your choice. The theme for this site is art and pop-culture based events, *artfolio*.
+# artfolio. 🎨
+
+<span style="color:grey">Semester End Project | IMY 220 | 2022</span>
+
+## Navigation
+
+- [About](#about-📖)
+- [Built with](#built-with-🛠️)
+- [Features](#features-📋)
+- [Design](#design-🖼️)
+
+---
+
+## About 📖
+
+This is a website for my second-year BIS Multimedia module, IMY-220. The goal was to create an **events social-media site** (think tripAdvisor + Instagram) for uploading and viewing users' events, revieing events, following and messaging users - with a theme of your choice. The theme for this site is art and pop-culture based events, *artfolio*.
 
 I decided to go for a modern, contemporary, "neo-pop" feel, with some historical art pieces thrown in for the feeling of "modernizing old art". The site is fully responsive. The site is also fully functional, and can be used to upload/view/review events, follow users, and message users.
 
-## Built with:
-<div>
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML5" />
-<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white" alt="CSS3" />
-<img src="https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E" alt="JavaScript" />
-<img src="https://img.shields.io/badge/jQuery-0769AD?style=flat&logo=jquery&logoColor=white" alt="jQuery" />
-<img src="https://img.shields.io/badge/PHP-777BB4?style=flat&logo=php&logoColor=white" alt="PHP" />
-<img src="https://img.shields.io/badge/MySQL-00000F?style=flat&logo=mysql&logoColor=white" alt="MySQL" />
-<img src="https://img.shields.io/badge/Bootstrap-563D7C?style=flat&logo=bootstrap&logoColor=white" alt="Bootstrap" />
-<img src="https://img.shields.io/badge/Font%20Awesome-339AF0?style=flat&logo=font-awesome&logoColor=white" alt="Font Awesome" />
-<img src="https://img.shields.io/badge/Google%20Fonts-4285F4?style=flat&logo=google-fonts&logoColor=white" alt="Google Fonts" />
-</div>
+---
 
-## Design:
+## Built with 🛠️
+
+![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3)
+![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=flat-square&logo=javascript)
+![PHP](https://img.shields.io/badge/-PHP-black?style=flat-square&logo=php)
+![MySQL](https://img.shields.io/badge/-MySQL-black?style=flat-square&logo=mysql)
+![Bootstrap](https://img.shields.io/badge/-Bootstrap-563D7C?style=flat-square&logo=bootstrap)
+![jQuery](https://img.shields.io/badge/-jQuery-0769AD?style=flat-square&logo=jquery)
+![Font Awesome](https://img.shields.io/badge/-Font%20Awesome-339AF0?style=flat-square&logo=font-awesome)
+![Google Fonts](https://img.shields.io/badge/-Google%20Fonts-4285F4?style=flat-square&logo=google-fonts)
+
+---
+
+## Features 📋
+
+- User registration
+- User login
+- User profile:
+    - User profile editing
+    - User profile deletion
+    - User profile image upload
+    - View user's events (from profile page)
+    - View user's reviews (from profile page)
+    - View user's followers (from profile page)
+    - View user's following (from profile page)
+- User's Home page:
+    - Local feed of events (from users you follow)
+    - Global feed of events (from all users)
+    - Search for events / users by name, hashtag, location, keyword, etc.
+- Events:
+    - Add events
+    - Edit events
+    - Delete events
+    - View events
+- Reviews:
+    - Add reviews
+    - Edit reviews
+    - Delete reviews
+    - View reviews
+- Interaction:
+    - Follow users
+    - Unfollow users
+    - Message users
+    - View messages
+    - Notifications for unread messages
+- Admins:
+    - Admin accounts can be created from the database
+    - Admin dashboard
+    - Admin user management (view, edit, delete)
+    - Admin event management (view, edit, delete)
+    - Admin review management (view, edit, delete)
+    - Admin event category management (create, view, edit, delete)
+    - Admin event tag management (create, view, edit, delete)
+
+---
+
+## Design 🖼️
 The figma file with the initial wireframe can be found [here](https://www.figma.com/file/1SBDWTFeEkoRS0gfMbMbp4/IMY-220-Events-Website?node-id=0%3A1)
 
-## Installation:
-1. Clone the repo
-```sh
-git clone
-```
-2. Create a database in MySQL (this project has been configured with my student number)
-```sh
-CREATE DATABASE u21467456;
-```
-3. Import the database from the `artfolio.sql` file
-4. Update the database connection details in `config.php`
-5. Run the site on a local server
